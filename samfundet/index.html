@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<link rel="icon" type="image/png" href="icon.png">
+		<title>Under Construction</title>
+		<style type="text/css">
+			html,body {
+				background-color: white;
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			.row {
+				padding: 30px;
+				margin: auto;
+				vertical-align: center;
+				background-color: #eeeeee;
+			}
+			.container {
+				height: 100%;
+    			padding: 0;
+    			margin: 0;
+    			display: -webkit-box;
+    			display: -moz-box;
+    			display: -ms-flexbox;
+    			display: -webkit-flex;
+				display: flex;
+				flex-direction: column;
+   				align-items: center;
+				justify-content: center;
+			}
+			#magical {
+				color: transparent;
+			}
+			h2 {
+				color: #a03033;
+			}
+			p {
+				color: #555;
+			}
+			.item {
+				text-align: center;
+				font-family: sans-serif;
+			}
+			a {
+				color: #444;
+			}
+			::selection {
+				color: #555555;
+				background: none;
+			}
+			#myCanvas {
+				position: fixed;
+				bottom: 0;
+				left: 0;
+			}
+			header {
+				position: fixed;
+				top:0;
+				width: 100%;
+				background-color: #111;
+				display: flex;
+				flex-direction: row;
+			}
+			header h2, header div p {
+				color: white;
+				font-family: "futura-pt","lato",sans-serif;
+			}
+			header h2 {
+				margin-left: 30px;
+			}
+			#header-links {
+				display: flex;
+				flex-direction: row;
+				float: right;
+			}
+
+
+		</style>
+	</head>
+	<body class="container">
+		<header>
+			<h2 id="header-title">Example Header</h2>
+			<div id="header-links">
+				<p class="header-link">page 1</p>
+				<p class="header-link">page 2</p>
+				<p class="header-link">page 3</p>
+			</div>
+		</header>
+		<div class="row">
+			<p class="item"><img height="80" width="80" src="construction.png"></p>
+			<h2 class="item">Under Construction</h2>
+			<p class="item">This site is under construction, please contact <a href="mailto:me@stokkers.no">my_name@some.domain.com</a> for more information</p>
+			<div class="item" id="magical">Magical hidden text with invisible rainbows and stuff</div>
+		</div>
+		<footer>
+			
+		</footer>
+	</body>
+	<canvas id="myCanvas"></canvas>
+	<script type="text/javascript">
+
+		var ctx;
+
+		window.addEventListener('DOMContentLoaded', function() {
+			var c=document.getElementById("myCanvas");
+			ctx=c.getContext("2d");
+
+
+			for (var i = -2; i<13;i++) {
+				make_rect(i);
+			}
+		});
+
+		function make_rect(i) {
+			ctx.beginPath();
+			var l = i*20
+			var r = i*10
+			ctx.moveTo(0+l,40+r);
+			ctx.lineTo(40+l,20+r);
+			ctx.lineTo(60+l,30+r);
+			ctx.lineTo(20+l,50+r);
+			ctx.lineTo(0+l,40+r);
+			if (i % 2 == 0) {
+				ctx.fillStyle="#222222";
+			}
+			else {
+				ctx.fillStyle="#a03033";
+			}
+			ctx.fill();
+		}
+	</script>
+</html>
