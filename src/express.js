@@ -3,12 +3,9 @@
 var express = require('express');
 
 var app = express();
-//app.set('', "app.js", '')
 
 app.get('/test', function(req,res){
-	
-	res.send("")
-
+	res.send("Hello world!")
 })
 
 app.listen(3000, function(){
