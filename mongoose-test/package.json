@@ -13,6 +13,7 @@
     "mongoose": "~4.6.1",
     "express": "~4.14.0",
     "body-parser": "~1.15.2",
-    "swig": "~1.4.2"
+    "swig": "~1.4.2",
+    "shortid": "~2.2.6"
   }
 }

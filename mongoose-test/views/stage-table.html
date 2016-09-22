@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% if title %}{{ title }}{% endif %}</title>
+</head>
+<body>
+	{% if stages %}
+	{% for stage in stages %}
+	<div class="stage-container">
+		<h3><a href="/stage/{{ stage._id }}">{{ stage.name }}</a></h3>
+		<p>Pris: {{ stage.price }}</p>
+		<p>Kapasitet: {{ stage.capacity }}</p>
+	</div>
+	{% endfor %}
+	{% endif %}
+</body>
+</html>
