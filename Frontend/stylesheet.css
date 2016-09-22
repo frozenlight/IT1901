@@ -1,0 +1,116 @@
+
+#tableex{
+    border: 1px solid;
+    height: 500px;
+    width: 800px;
+}
+
+
+#heading a{
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+#heading a:visited{
+    color: white;
+}
+
+#heading{
+    position: fixed;
+    height: 50px;
+    background-color: #333;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    border-bottom: 2px solid black;
+    z-index: 1;
+}
+
+#login{
+    float: right;
+}
+#samfbook{
+    width: 250px;
+    font-size: 20px
+    
+}
+
+.headlink{
+    display: inline-block;
+    position:relative;
+    background-color: #333;
+    height:100%;
+    width: 70px;
+    text-align:center;
+    color: white;
+    padding: 15px
+}
+
+.headlink:hover{
+    background-color: black;
+}
+
+#content{
+    position: relative;
+    display: inline block;
+    width 100%;
+    margin-left: 25%;
+    
+}
+#body{
+    margin-top: 50px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    
+    
+}
+#navbar{
+    color: white;
+    display: block;
+    margin-right: 70px;
+    position:fixed;
+    min-height: 100%;
+    width: 20%;
+    background-color: #333;
+    
+}
+#menu{
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.navlink{
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid grey;
+    border-bottom: 0.01px solid grey;
+}
+.navlink:hover{
+    background-color: black;
+    border-color: black;
+}
+.navlink a{
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.navlink a:visited{
+    color: white;
+}
+
+
+
+body,html{
+    margin:0px;
+    padding:0px;
+    height:100%;
+}
