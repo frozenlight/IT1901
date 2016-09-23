@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Frontpage</title>
+</head>
+<body>
+	{% for page in pages %}
+	<h2><a href="/{{ page }}">{{ page }}</a></h2>
+	{% endfor %}
+</body>
+</html>

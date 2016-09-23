@@ -33,7 +33,6 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
   extended: true
 }));
 
-
 // Set swig to be the standard template engine for express
 // swig gets its' views from the ./views/ folder
 var swig = new swig.Swig();
@@ -44,7 +43,11 @@ app.set('view engine', 'html');
 var router = express.Router();
 
 router.use(function(req,res,next){
-	console.log('Something is happening.');
+	// write request data to console for easier debugging
+	var request_text = 'Request: '+req.protocol+'://'+req.hostname+'@'+req.ip+req.path;
+	console.log(request_text);
+
+	// Ensure the jump to next
 	next()
 })
 
@@ -56,7 +59,13 @@ app.use('/', router);
 ////////////////////////////////////////////////////////////
 
 router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+	//console.log(mongoose.models)
+	var pages = [
+		'bands',
+		'concerts',
+		'stages',
+	]
+    res.render('frontpage', {pages:pages}); 
 });
 
 // Routing functions for /stages/
@@ -87,7 +96,168 @@ router.route('/stages')
 		});
 	});
 
-router.route('/form')
+router.route('/stage/:stage_id')
+
+	.get(function(req,res){
+
+		Stage.findById(req.params.stage_id, function(err,stage) {
+			if (err) {res.send(err)}
+			if (stage) {
+				res.json(stage);
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+// Routing functions for /stages/
+router.route('/stages/create')
+
+	// POST function for /stages/
+	.post(function(req,res){
+		// On POST-recieve, create a Stage Object with body params from form
+
+		Stage.create({
+    		name:req.body.name,
+    		capacity:req.body.capacity,
+    		price:req.body.price,
+    	})
+
+		// Add model other variables for created Stage model
+		// ......
+
+		//Send JSON message back to client
+		res.json({message:'Stage created!'})
+	})
+
+	.get(function(req,res){
+		res.render('stage-form',{});
+	});
+
+// Routing functions for /bands/
+router.route('/bands')
+
+	// GET Function for /bands/
+	.get(function(req,res){
+
+		// Search database for ALL stage objects
+		Band.find(function(err, bands){
+			if (err){ res.send(err); }
+
+			// Render found objects with swig and send to client 
+			console.log(JSON.stringify(bands))
+			res.render('band-table', {bands:bands,title:'List of bands'});
+		});
+	});
+
+router.route('/band/:band_id')
+
+	.get(function(req,res){
+
+		Band.findById(req.params.band_id, function(err,band) {
+			if (err) {res.send(err)}
+			if (band) {
+				res.json(band);
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+// Routing functions for /bands/
+router.route('/bands/create')
+
+	// POST function for /bands/
+	.post(function(req,res){
+		// On POST-recieve, create a Band Object with body params from form
+
+		Band.create({
+    		name:req.body.name,
+    		members:req.body.members.replaceAll(' ','').split(','),
+    	})
+
+		// Add model other variables for created Band model
+		// ......
+
+		//Send JSON message back to client
+		res.json({message:'Band created!'})
+	})
+
+	.get(function(req,res){
+		res.render('band-form',{});
+	});
+
+// Routing functions for /concerts/
+router.route('/concerts')
+
+	// POST function for /concerts/
+	.post(function(res,req){
+		// On POST-recieve, create a Concert Object
+		Concert.create()
+
+		// Add model variables for created Concert model
+		// ......
+
+		//Send JSON message back to client
+		res.json({message:'Concert created!'})
+	})
+
+	// GET Function for /concerts/
+	.get(function(req,res){
+
+		// Search database for ALL Concert objects
+		Concert.find(function(err, concerts){
+			if (err){ res.send(err); }
+
+			// Render found objects with swig and send to client
+			console.log(JSON.stringify(concerts))
+			res.render('concert-table', {concerts:concerts,title:'List of concerts'});
+		});
+	});
+
+router.route('/concert/:concert_id')
+
+	.get(function(req,res){
+
+		Concert.findById(req.params.concert_id, function(err,concert) {
+			if (err) {res.send(err)}
+			console.log(concert)
+			if (concert) {
+				res.json(concert);
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+// Routing functions for /concerts/
+router.route('/concerts/create')
+
+	// POST function for /concerts/
+	.post(function(req,res){
+		// On POST-recieve, create a Concert Object with body params from form
+		Concert.create({
+			name:req.body.name,
+			date:req.body.date,
+			genres:req.body.genres.replaceAll(' ','').split(','),
+		})
+
+		// Add model other variables for created Concert model
+		// ......
+
+		//Send JSON message back to client
+		res.json({message:'Concert created!'})
+	})
+
+	.get(function(req,res){
+		res.render('concert-form',{});
+	});
+
+//no longer used router for creating a model from the web page
+/*router.route('/form')
 
 	.post(function(req, res) {
 
@@ -108,17 +278,7 @@ router.route('/form')
     .get(function(req,res){
 		res.sendFile(__dirname + '/templates/form.html')
 	})
-
-router.route('/stage/:stage_id')
-
-	.get(function(req,res){
-
-		Stage.findById(req.params.stage_id, function(err,stage) {
-			if (err) {res.send(err)}
-
-			res.json(stage);
-		})
-	})
+*/
 
 ////////////////////////////////////////////////////////////
 // Run Express server
@@ -156,3 +316,8 @@ router.route('/stages')
 		res.render();
 	})
 */
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};

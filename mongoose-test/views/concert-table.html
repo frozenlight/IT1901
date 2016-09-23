@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% if title %}{{ title }}{% endif %}</title>
+</head>
+<body>
+	{% if concerts %}
+	{% for concert in concerts %}
+	<div class="concert-container">
+		<h3><a href="/concert/{{ concert._id }}">{{ concert.name }}</a></h3>
+		{% for genre in concert.genres %}
+		<p>Genre: {{ genre }}</p>
+		{% endfor %}
+		<p>Dato: {{ concert.date }}</p>
+	</div>
+	{% endfor %}
+	{% endif %}
+</body>
+</html>
