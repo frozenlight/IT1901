@@ -8,11 +8,12 @@ var express = require('express');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var swig = require('swig');
+var https = require('https');
 
 // Import models for mongoose
-var Stage = require('./models/Stage.js')
-var Concert = require('./models/Concert.js')
-var Band = require('./models/Band.js')
+var Stage = require('./models/Stage.js');
+var Concert = require('./models/Concert.js');
+var Band = require('./models/Band.js');
 
 
 
@@ -287,8 +288,6 @@ app.listen(port, function(){
 	console.log('Express server running at port ' + port);
 })
 
-
-
 ////////////////////////////////////////////////////////////
 // Prototypes
 ////////////////////////////////////////////////////////////
@@ -298,3 +297,40 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
 };
+
+
+
+////////////////////////////////////////////////////////////
+// API request
+////////////////////////////////////////////////////////////
+
+// Spotify API artist search
+
+function spotify_get_artist_id(name){
+
+	var path = ['/v1/search?q=','&type=artist&limit=1'];
+
+	var options = {
+		host: 'api.spotify.com',
+		path: path.join(name),
+		port: 443,
+		json: true,
+	}
+
+	var req = https.request(options, function(res) {
+  		console.log(res.statusCode);
+  		res.on('data', function(d) {
+    		process.stdout.write(d);
+  		});
+	});
+	req.end();
+
+	req.on('error', function(e) {
+  		console.error(e);
+	});
+	return req.artists[0].id
+}
+
+function spotify_get_artist(id){
+
+}
