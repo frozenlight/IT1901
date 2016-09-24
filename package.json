@@ -1,14 +1,19 @@
 {
-  "name": "testproject",
-  "version": "1.0.0",
-  "description": "",
+  "name": "mongoose-test",
+  "version": "0.0.0",
+  "description": "Testing out the mongoose mongoDB restful API",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "henrik",
-  "license": "ISC",
+  "author": "Ole Anders Stokker (frozenlight)",
+  "license": "BSD-2-Clause",
   "dependencies": {
-    "mongodb": "^2.2.10"
+    "mongodb": "~2.2.10",
+    "mongoose": "~4.6.1",
+    "express": "~4.14.0",
+    "body-parser": "~1.15.2",
+    "swig": "~1.4.2",
+    "shortid": "~2.2.6"
   }
 }

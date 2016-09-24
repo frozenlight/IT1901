@@ -14,9 +14,7 @@ var Stage = require('./models/Stage.js')
 var Concert = require('./models/Concert.js')
 var Band = require('./models/Band.js')
 
-// Use native Node promises
-// Method deprecated!!
-// mongoose.Promise = global.Promise;
+
 
 ////////////////////////////////////////////////////////////
 // Initial setup for modules
@@ -53,6 +51,8 @@ router.use(function(req,res,next){
 
 app.use('/', router);
 
+
+
 ////////////////////////////////////////////////////////////
 // Start of main body
 // Express routing functions
@@ -68,7 +68,12 @@ router.get('/', function(req, res) {
     res.render('frontpage', {pages:pages}); 
 });
 
+
+
+////////////////////////////////////////////////////////////
 // Routing functions for /stages/
+////////////////////////////////////////////////////////////
+
 router.route('/stages')
 
 	// POST function for /stages/
@@ -111,31 +116,37 @@ router.route('/stage/:stage_id')
 		})
 	})
 
-// Routing functions for /stages/
+// Routing functions for /stages/create/
 router.route('/stages/create')
 
-	// POST function for /stages/
+	// POST function for /stages/create/
 	.post(function(req,res){
 		// On POST-recieve, create a Stage Object with body params from form
 
-		Stage.create({
+		var stage = new Stage({
     		name:req.body.name,
     		capacity:req.body.capacity,
     		price:req.body.price,
     	})
+    	stage.save()
 
 		// Add model other variables for created Stage model
 		// ......
 
-		//Send JSON message back to client
-		res.json({message:'Stage created!'})
+		// Send redirect to newly created stage object
+		res.redirect('/stage/' + stage._id)
 	})
 
 	.get(function(req,res){
 		res.render('stage-form',{});
 	});
 
+
+
+////////////////////////////////////////////////////////////
 // Routing functions for /bands/
+////////////////////////////////////////////////////////////
+
 router.route('/bands')
 
 	// GET Function for /bands/
@@ -166,30 +177,36 @@ router.route('/band/:band_id')
 		})
 	})
 
-// Routing functions for /bands/
+// Routing functions for /bands/create/
 router.route('/bands/create')
 
-	// POST function for /bands/
+	// POST function for /bands/create/
 	.post(function(req,res){
 		// On POST-recieve, create a Band Object with body params from form
 
-		Band.create({
+		var band = new Band({
     		name:req.body.name,
     		members:req.body.members.replaceAll(' ','').split(','),
     	})
+    	band.save()
 
 		// Add model other variables for created Band model
 		// ......
 
 		//Send JSON message back to client
-		res.json({message:'Band created!'})
+		res.redirect('/band/' + band._id)
 	})
 
 	.get(function(req,res){
 		res.render('band-form',{});
 	});
 
+
+
+////////////////////////////////////////////////////////////
 // Routing functions for /concerts/
+////////////////////////////////////////////////////////////
+
 router.route('/concerts')
 
 	// POST function for /concerts/
@@ -233,52 +250,31 @@ router.route('/concert/:concert_id')
 		})
 	})
 
-// Routing functions for /concerts/
+// Routing functions for /concerts/create/
 router.route('/concerts/create')
 
-	// POST function for /concerts/
+	// POST function for /concerts/create/
 	.post(function(req,res){
 		// On POST-recieve, create a Concert Object with body params from form
-		Concert.create({
+		var concert = new Concert({
 			name:req.body.name,
 			date:req.body.date,
 			genres:req.body.genres.replaceAll(' ','').split(','),
 		})
+		concert.save()
 
 		// Add model other variables for created Concert model
 		// ......
 
-		//Send JSON message back to client
-		res.json({message:'Concert created!'})
+		// Send redirect to concert object that was just created
+		res.redirect('/concert/' + concert._id)
 	})
 
 	.get(function(req,res){
 		res.render('concert-form',{});
 	});
 
-//no longer used router for creating a model from the web page
-/*router.route('/form')
 
-	.post(function(req, res) {
-
-		console.log(req.body.name);
-
-    	var name = req.body.name,
-        	price = req.body.price,
-        	capacity = req.body.capacity
-
-    	console.log(name + ' | ' + price + ' | ' + capacity);
-
-    	Stage.create({
-    		name:name,
-    		capacity:capacity,
-    		price:price,
-    	})
-    })
-    .get(function(req,res){
-		res.sendFile(__dirname + '/templates/form.html')
-	})
-*/
 
 ////////////////////////////////////////////////////////////
 // Run Express server
@@ -291,32 +287,13 @@ app.listen(port, function(){
 	console.log('Express server running at port ' + port);
 })
 
-// Template for Express Route
-/*
-router.route('/stages')
 
-	.post(function(res,req){
 
-		res.render();
-	})
+////////////////////////////////////////////////////////////
+// Prototypes
+////////////////////////////////////////////////////////////
 
-	.get(function(req,res){
-
-		res.render();
-
-	});
-
-	.delete(function(res,req){
-
-		res.render();
-	})
-
-	.(function(res,req){
-
-		res.render();
-	})
-*/
-
+// String function for replacing all instances of a substring with another string. Applies for all string objects.
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
