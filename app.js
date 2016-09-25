@@ -9,6 +9,19 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var swig = require('swig');
 var https = require('https');
+var request = require('request');
+//var admin = require('node-django-admin');
+//var mongooseadmin = require('mongooseadmin');
+//var formage = require('formage');
+/*var admin = require('formage-admin').init(app, express,require('./models'),{
+    title: title || 'Formage Example',
+    default_section: 'Main',
+    admin_users_gui: true
+});*/
+//var mongo_express = require('mongo-express/lib/middleware')
+//var mongo_express_config = require('./mongo_express_config')
+//require('coffee-script/register')
+//penguin = require('penguin')
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -49,9 +62,24 @@ router.use(function(req,res,next){
 	// Ensure the jump to next
 	next()
 })
-
+//app.use(app.router);
 app.use('/', router);
 
+//admin.config(app, mongoose, '/admin');
+//app.use('/admin',mongooseadmin({title:"Adminpanel"}));
+/*formage.init(app, express, mongoose.models, {
+    title: 'Admin',
+    root: '/admin',
+    default_section: 'main',
+    username: 'admin',
+    password: 'admin',
+    admin_users_gui: true
+});*/
+//app.use('/mongo_express', mongo_express(mongo_express_config))
+
+//for penguin
+//admin = new penguin.Admin()
+//admin.setupApp(app)
 
 
 ////////////////////////////////////////////////////////////
@@ -79,8 +107,8 @@ router.route('/stages')
 
 	// POST function for /stages/
 	.post(function(res,req){
-		// On POST-recieve, create a Stage Object
-		Stage.create()
+		// On POST-recieve,
+		
 
 		// Add model variables for created Stage model
 		// ......
@@ -170,7 +198,44 @@ router.route('/band/:band_id')
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
 			if (band) {
-				res.json(band);
+
+				res.render('band-page',band);
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+router.route('/band/:band_id/edit')
+
+	.post(function(req,res) {
+
+		Band.findById(req.params.band_id, function(err,band) {
+			if (err) {res.send(err)}
+			if (band) {
+				Object.keys(req.body).forEach(function(key,index) {
+					if (req.body[key] != ''){
+						band[key] = req.body[key]
+					}
+				});
+
+
+				res.redirect('/band/' + band._id)
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+	.get(function(req,res){
+
+		Band.findById(req.params.band_id, function(err,band) {
+			if (err) {res.send(err)}
+			if (band) {
+
+				res.render('band-edit',band);
 			}
 			else {
 				res.sendStatus(404);
@@ -189,8 +254,19 @@ router.route('/bands/create')
     		name:req.body.name,
     		members:req.body.members.replaceAll(' ','').split(','),
     	})
-    	band.save()
 
+    	//var spotify_data = spotify_get_artist(spotify_get_artist_id(band.name));
+    	//console.log(spotify_get_artist_id(band.name))
+
+    	//band.spotify_followers = spotify_data.followers.total.toString();
+    	//band.spotify_genres = spotify_data.genres;
+    	//band.spotify_popularity = spotify_data.popularity.toString();
+    	//band.spotify_images = spotify_data.images;
+    	//band.spotify_id = spotify_data.id;
+    	//band.spotify_name = spotify_data.name;
+    	
+    	band.save()
+		
 		// Add model other variables for created Band model
 		// ......
 
@@ -260,6 +336,7 @@ router.route('/concerts/create')
 		var concert = new Concert({
 			name:req.body.name,
 			date:req.body.date,
+			time:req.body.time,
 			genres:req.body.genres.replaceAll(' ','').split(','),
 		})
 		concert.save()
@@ -308,19 +385,36 @@ String.prototype.replaceAll = function(search, replacement) {
 
 function spotify_get_artist_id(name){
 
-	var path = ['/v1/search?q=','&type=artist&limit=1'];
-
+	var path = ['https://api.spotify.com/v1/search?q=','&type=artist&limit=1'];
+	var r
 	var options = {
 		host: 'api.spotify.com',
-		path: path.join(name),
+		path: path.join(name.replaceAll(' ','+')),
 		port: 443,
 		json: true,
 	}
 
-	var req = https.request(options, function(res) {
-  		console.log(res.statusCode);
+	return request(path.join(name.replaceAll(' ','+')), function (error, response, body) {
+    	//Check for error
+    	if(error){
+        	return console.log('Error:', error);
+    	}
+
+    	//Check for right status code
+    	if(response.statusCode !== 200){
+        	return console.log('Invalid Status Code Returned:', response.statusCode);
+    	}
+
+    	//All is good. Print the body
+    	console.log(JSON.parse(body)); // Show the HTML for the Modulus homepage.
+    	return JSON.parse(body).artist.items[0].id
+	});
+
+	/*var req = https.request(options, function(res) {
+  		console.log('request status: '+res.statusCode);
   		res.on('data', function(d) {
-    		process.stdout.write(d);
+    		r = JSON.parse(d)
+    		//console.log('Getting ID: '+JSON.stringify(r))
   		});
 	});
 	req.end();
@@ -328,9 +422,46 @@ function spotify_get_artist_id(name){
 	req.on('error', function(e) {
   		console.error(e);
 	});
-	return req.artists[0].id
+	return r.artists.items[0].id*/
 }
 
 function spotify_get_artist(id){
+	var path = 'https://api.spotify.com/v1/artists/'
+	var r
+	var options = {
+		host: 'api.spotify.com',
+		path: path + id,
+		port: 443,
+		json: true,
+	}
+	return request(path + id, function (error, response, body) {
+    	//Check for error
+    	if(error){
+        	return console.log('Error:', error);
+    	}
 
+    	//Check for right status code
+    	if(response.statusCode !== 200){
+        	return console.log('Invalid Status Code Returned:', response.statusCode);
+    	}
+
+    	//All is good. Print the body
+    	console.log(JSON.parse(body)); // Show the HTML for the Modulus homepage.
+    	return JSON.parse(body)
+	});
+
+	/*var req = https.request(options, function(res) {
+  		console.log('request status data: '+res.statusCode);
+  		return res.on('data', function(d) {
+  			r = JSON.parse(d)
+  			//console.log('Getting Artist: '+JSON.stringify(r))
+  			return r
+  		});
+	});
+	req.end();
+
+	req.on('error', function(e) {
+  		console.error(e);
+	});
+	return r*/
 }

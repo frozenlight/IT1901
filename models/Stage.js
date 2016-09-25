@@ -7,7 +7,7 @@ var StageSchema = new mongoose.Schema({
 	name: String,
 	price: String,
 	capacity: String,
-	concerts: Array,
+	concerts: [String],
 });
 
 module.exports = mongoose.model('Stage', StageSchema);

@@ -8,10 +8,13 @@
 	{% for concert in concerts %}
 	<div class="concert-container">
 		<h3><a href="/concert/{{ concert._id }}">{{ concert.name }}</a></h3>
+		<p>Genre:
 		{% for genre in concert.genres %}
-		<p>Genre: {{ genre }}</p>
+			{{ genre }}
 		{% endfor %}
+		</p>
 		<p>Dato: {{ concert.date }}</p>
+		<p>Tid: {{ concert.time }}</p>
 	</div>
 	{% endfor %}
 	{% endif %}
