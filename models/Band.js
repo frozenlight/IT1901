@@ -7,7 +7,11 @@ var BandSchema = new mongoose.Schema({
 	name:String,
 	concerts:[String], // maybe declare type of array? e.g. [String] as array of strings
 	members:[String],
+	description: String,
 	genre: String,
+	popRate: Number,
+	prevConcerts:[String],
+	albumSales:[String],
 
 	spotify_id:String,
 	spotify_name:String,

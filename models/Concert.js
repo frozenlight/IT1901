@@ -7,7 +7,9 @@ var ConcertSchema = new mongoose.Schema({
 	name: String,
 	genre: String,
 	bands: [String],
-	date: String,
+	stage: String,
+	audSize: Number,
+ 	date: String,
 	time: String,
 });
 

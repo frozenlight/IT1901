@@ -240,6 +240,9 @@ router.route('/bands/create')
     		name:req.body.name,
     		members:req.body.members.replaceAll(' ','').split(','),
     		description: req.body.description,
+    		popRate: req.body.popRate,
+			prevConcerts:req.body.prevConcerts.replaceAll(' ','').split(','),
+			albumSales:req.body.albumSales.replaceAll(' ','').split(','),
     	})
 
 		// Kinda dead code, needs to be rewritten with nodeJS and callbacks in mind
