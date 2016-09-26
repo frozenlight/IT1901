@@ -1,0 +1,161 @@
+
+#tableex{
+    border: 1px solid;
+    height: 500px;
+    width: 800px;
+}
+
+
+#heading a{
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+#heading a:visited{
+    color: white;
+}
+
+#heading{
+    position: fixed;
+    height: 50px;
+    background-color: black;
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    border-bottom: 2px solid black;
+    z-index: 1;
+}
+
+#login{
+    float: right;
+}
+#samfbook{
+    width: 250px;
+    font-size: 20px
+    
+}
+
+.headlink{
+    display: inline-block;
+    position:relative;
+    background-color: black;
+    height:100%;
+    width: 70px;
+    text-align:center;
+    color: white;
+    padding: 15px
+}
+
+.headlink:hover{
+    
+}
+
+#content{
+    position: relative;
+    display: inline block;
+    width 100%;
+    margin-left: 25%;
+    
+}
+#body{
+    margin-top: 50px;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    
+    
+}
+#navbar{
+    color: white;
+    display: block;
+    margin-right: 70px;
+    position:fixed;
+    min-height: 100%;
+    width: 20%;
+    background-color: #333;
+    
+}
+#booksys{
+    font-size: 20px;
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.navlink{
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid grey;
+    border-bottom: 0.01px solid grey;
+}
+.navlink:hover{
+    background-color: black;
+    border-color: black;
+}
+.navlink a{
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.navlink a:visited{
+    color: white;
+}
+
+.contentBg{
+    background-color: #eeeeee;
+}
+
+.contentBg h2 {
+    color: #a03033;
+    margin-left: 25px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.contentBg a{
+    text-decoration: none;
+    color: #555;
+}
+
+.contentBg a:visited{
+    color: #555;
+}
+
+.contentBg ul {
+    padding: 0;
+}
+
+.contentBg ul li{
+    list-style-type: none;
+    text-indent: 25px;
+    margin-left: 0;
+    right: 0;
+}
+
+.contentBg li:nth-child(odd){
+    background-color: #dddddd;
+}
+
+#logo{
+    max-height: 100%;
+    max-width: 100%;
+}
+
+body,html{
+    margin:0px;
+    padding:0px;
+    height:100%;
+    font-family: "futura-pt", "Lato", sans-serif;
+}
+
+
+/* fargenotater: riktig rød: #a03033,    grå: #eeeeee  */
+

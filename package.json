@@ -1,14 +1,20 @@
 {
-  "name": "testproject",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "mongoose-test",
+  "version": "0.0.1",
+  "description": "Building a server for Project 1 (IT1901)",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "henrik",
-  "license": "ISC",
+  "author": "Ole Anders Stokker (frozenlight)",
+  "license": "BSD-2-Clause",
   "dependencies": {
-    "mongodb": "^2.2.10"
+    "body-parser": "~1.15.2",
+    "express": "~4.14.0",
+    "mongodb": "~2.2.10",
+    "mongoose": "~4.6.1",
+    "request": "^2.75.0",
+    "shortid": "~2.2.6",
+    "swig": "~1.4.2"
   }
 }
