@@ -21,99 +21,26 @@
 			</thead>
 
 			<tbody>
+				{% for concert in concerts %}
 				<tr>
-					<td>01.10.2016</td>
-					<td>22:00</td>
-					<td>Tuba Tuba</td>
-					<td>Funk</td>
-					<td>Klubben</td>
-					<td>150</td>
+					<td>{{ concert.date }}</td>
+					<td>{{ concert.time }}</td>
+					<td>
+						<ul>
+							{% for band in concert.bands %}
+							<li> {{ band }} </li>
+							{% endfor %}
+						<ul>
+					</td>
+					<td>{{concert.genre}}</td>
+					<td>{{concert.stage}}</td>
+					<td>{{concert.audSize}}</td>
 				</tr>
-
-				<tr>
-					<td>02.10.2016</td>
-					<td>22:00</td>
-					<td>Saxofon Saxofon</td>
-					<td>Rock</td>
-					<td>Knaus</td>
-					<td>100</td>
-				</tr>
-				
-				<tr>
-					<td>03.10.2016</td>
-					<td>21:00</td>
-					<td>Klarinett Klarinett</td>
-					<td>Jazz</td>
-					<td>Edgar</td>
-					<td>70</td>
-				</tr>
-				
-				<tr>
-					<td>04.10.2016</td>
-					<td>21:00</td>
-					<td>Trompet Trompet</td>
-					<td>Klassisk</td>
-					<td>Klubben</td>
-					<td>60</td>
-				</tr>
-
-				<tr>
-					<td>05.10.2016</td>
-					<td>20:00</td>
-					<td>Fløyte Fløyte</td>
-					<td>Indie</td>
-					<td>Storsalen</td>
-					<td>300</td>
-				</tr>
-
-				<tr>
-					<td>06.10.2016</td>
-					<td>20:00</td>
-					<td>Tromme Tromme</td>
-					<td>Pop</td>
-					<td>Strossa</td>
-					<td>80</td>
-				</tr>
-
-				<tr>
-					<td>07.10.2016</td>
-					<td>21:00</td>
-					<td>Gitar Gitar</td>
-					<td>EDM</td>
-					<td>Storsalen</td>
-					<td>250</td>
-				</tr>
-
-				<tr>
-					<td>08.10.2016</td>
-					<td>21:00</td>
-					<td>Bass Bass</td>
-					<td>House</td>
-					<td>Strossa</td>
-					<td>20</td>
-				</tr>
-
-				<tr>
-					<td>09.10.2016</td>
-					<td>22:00</td>
-					<td>Fiolin Fiolin</td>
-					<td>Elektro-pop</td>
-					<td>Klubben</td>
-					<td>90</td>
-				</tr>
-
-				<tr>
-					<td>10.10.2016</td>
-					<td>22:00</td>
-					<td>Obo Obo</td>
-					<td>Punk</td>
-					<td>Knaus</td>
-					<td>105</td>
-				</tr>
-
+				{% endfor %}
 			</tbody>
 		</table>
 	  </div>
 	</div>
+<p>Create more objects <a href="/concerts/create">here</a></p>
 </body>
 </html>

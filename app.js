@@ -10,6 +10,7 @@ var bodyParser = require('body-parser');
 var swig = require('swig');
 var https = require('https');
 var request = require('request');
+var path = require('path');
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -53,6 +54,8 @@ router.use(function(req,res,next){
 
 app.use('/', router);
 
+//Setup for using public directory with stylesheet, images, etc.
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 ////////////////////////////////////////////////////////////
@@ -67,7 +70,7 @@ router.get('/', function(req, res) {
 		'concerts',
 		'stages',
 	]
-    res.render('frontpage', {pages:pages}); 
+    res.render('index2', {pages:pages}); 
 });
 
 
@@ -160,7 +163,7 @@ router.route('/bands')
 
 			// Render found objects with swig and send to client 
 			console.log(JSON.stringify(bands))
-			res.render('band-table', {bands:bands,title:'List of bands'});
+			res.render('bandliste', {bands:bands,title:'List of bands'});
 		});
 	});
 
@@ -174,7 +177,7 @@ router.route('/band/:band_id')
 			if (err) {res.send(err)}
 			if (band) {
 
-				res.render('band-page',band);
+				res.render('bandinfo',band);
 			}
 			else {
 				res.sendStatus(404);
@@ -236,6 +239,7 @@ router.route('/bands/create')
 		var band = new Band({
     		name:req.body.name,
     		members:req.body.members.replaceAll(' ','').split(','),
+    		description: req.body.description,
     	})
 
 		// Kinda dead code, needs to be rewritten with nodeJS and callbacks in mind
@@ -279,7 +283,7 @@ router.route('/concerts')
 
 			// Render found objects with swig and send to client
 			console.log(JSON.stringify(concerts))
-			res.render('concert-table', {concerts:concerts,title:'List of concerts'});
+			res.render('konserttabell', {concerts:concerts,title:'List of concerts'});
 		});
 	});
 
@@ -307,9 +311,13 @@ router.route('/concerts/create')
 		// On POST-recieve, create a Concert Object with body params from form
 		var concert = new Concert({
 			name:req.body.name,
+			bands: req.body.bands.replaceAll(' ','').split(','),
+			genre: req.body.genre,
+			stage: req.body.stage,
+			audSize: req.body.audSize,
 			date:req.body.date,
 			time:req.body.time,
-			genres:req.body.genres.replaceAll(' ','').split(','),
+			//genres:req.body.genres.replaceAll(' ','').split(','),
 		})
 		concert.save()
 

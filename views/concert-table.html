@@ -9,10 +9,18 @@
 	<div class="concert-container">
 		<h3><a href="/concert/{{ concert._id }}">{{ concert.name }}</a></h3>
 		<p>Genre:
-		{% for genre in concert.genres %}
+		{{ concert.genre }}
+		<!--{% for genre in concert.genres %}
 			{{ genre }}
-		{% endfor %}
+		{% endfor %} -->
 		</p>
+		<p>Band:
+		{% for band in concert.bands %}
+			{{ band }} ,
+			{% endfor %}
+		</p>
+		<p>Scene: {{ concert.stage }} </p>
+		<p>Publikumstall: {{ concert.audSize }} </p>
 		<p>Dato: {{ concert.date }}</p>
 		<p>Tid: {{ concert.time }}</p>
 	</div>
