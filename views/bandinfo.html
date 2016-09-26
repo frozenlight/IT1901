@@ -77,19 +77,21 @@
 		<div class="boxRight">
 			<div id="strommetjenester">
 				<h3>Tall fra Spotify</h3>
-				<p>Popularitetsrating: 73</p>
+				<p>Popularitetsrate: {{popRate}}</p>
 			</div>	
 			<div id="tidligereKonserter">
 				<h3>Tidligere konserter i Norge</h3>
 				<ul>
-					<li>Blabla</li>
-					<li>Blabla</li>
+					{% for concert in prevConcerts %}
+					<li>{{concert}}</li>
+					{% endfor %}
 				</ul>	
 			</div>
 			<div id="albumsalg">
 				<h3>Salgstall for album</h3>
-				<p>Album: 7429</p>
-				<p>Album2: 21421</p>
+				{%for album in albumSales%}
+				<li>{{album}}</li>
+				{% endfor %}
 			</div>
 		</div>
 	</div>
