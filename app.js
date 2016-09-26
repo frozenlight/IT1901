@@ -10,18 +10,6 @@ var bodyParser = require('body-parser');
 var swig = require('swig');
 var https = require('https');
 var request = require('request');
-//var admin = require('node-django-admin');
-//var mongooseadmin = require('mongooseadmin');
-//var formage = require('formage');
-/*var admin = require('formage-admin').init(app, express,require('./models'),{
-    title: title || 'Formage Example',
-    default_section: 'Main',
-    admin_users_gui: true
-});*/
-//var mongo_express = require('mongo-express/lib/middleware')
-//var mongo_express_config = require('./mongo_express_config')
-//require('coffee-script/register')
-//penguin = require('penguin')
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -62,24 +50,9 @@ router.use(function(req,res,next){
 	// Ensure the jump to next
 	next()
 })
-//app.use(app.router);
+
 app.use('/', router);
 
-//admin.config(app, mongoose, '/admin');
-//app.use('/admin',mongooseadmin({title:"Adminpanel"}));
-/*formage.init(app, express, mongoose.models, {
-    title: 'Admin',
-    root: '/admin',
-    default_section: 'main',
-    username: 'admin',
-    password: 'admin',
-    admin_users_gui: true
-});*/
-//app.use('/mongo_express', mongo_express(mongo_express_config))
-
-//for penguin
-//admin = new penguin.Admin()
-//admin.setupApp(app)
 
 
 ////////////////////////////////////////////////////////////
@@ -191,10 +164,12 @@ router.route('/bands')
 		});
 	});
 
+// Routing function for an individual band object
 router.route('/band/:band_id')
 
 	.get(function(req,res){
 
+		// Find object by its' id and render page to user, if not found send 404
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
 			if (band) {
@@ -207,30 +182,38 @@ router.route('/band/:band_id')
 		})
 	})
 
+// Routing function for an individual objects edit page
 router.route('/band/:band_id/edit')
 
+	// POST function for this route, on recieve edited object via form
 	.post(function(req,res) {
 
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
 			if (band) {
+
+				// iterate over keys in recieved form, and if anything is edited, change information in object in database
 				Object.keys(req.body).forEach(function(key,index) {
 					if (req.body[key] != ''){
 						band[key] = req.body[key]
 					}
 				});
 
-
+				// After edit, redirect to objects' page again
 				res.redirect('/band/' + band._id)
 			}
 			else {
+				// if for some reason the edited object is not found, send 404
 				res.sendStatus(404);
 			}
 		})
 	})
 
+	// GET function for this route
 	.get(function(req,res){
 
+		// Find object in database by id and render edit page for object type if found.
+		// If not found, send 404
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
 			if (band) {
@@ -255,6 +238,8 @@ router.route('/bands/create')
     		members:req.body.members.replaceAll(' ','').split(','),
     	})
 
+		// Kinda dead code, needs to be rewritten with nodeJS and callbacks in mind
+
     	//var spotify_data = spotify_get_artist(spotify_get_artist_id(band.name));
     	//console.log(spotify_get_artist_id(band.name))
 
@@ -264,16 +249,15 @@ router.route('/bands/create')
     	//band.spotify_images = spotify_data.images;
     	//band.spotify_id = spotify_data.id;
     	//band.spotify_name = spotify_data.name;
-    	
-    	band.save()
-		
-		// Add model other variables for created Band model
-		// ......
 
-		//Send JSON message back to client
+    	// Save objeect after variable edits
+    	band.save()
+
+		// Redirect to band page after creation
 		res.redirect('/band/' + band._id)
 	})
 
+	// GET function for this route, render form for creating this object type
 	.get(function(req,res){
 		res.render('band-form',{});
 	});
@@ -285,18 +269,6 @@ router.route('/bands/create')
 ////////////////////////////////////////////////////////////
 
 router.route('/concerts')
-
-	// POST function for /concerts/
-	.post(function(res,req){
-		// On POST-recieve, create a Concert Object
-		Concert.create()
-
-		// Add model variables for created Concert model
-		// ......
-
-		//Send JSON message back to client
-		res.json({message:'Concert created!'})
-	})
 
 	// GET Function for /concerts/
 	.get(function(req,res){
@@ -385,16 +357,13 @@ String.prototype.replaceAll = function(search, replacement) {
 
 function spotify_get_artist_id(name){
 
+	// Spotify API URL for getting artist by name-search
+	// Name is put between the two strings in the array på String.join(name)
+	// All spaces in name need to be replaced with '+'
 	var path = ['https://api.spotify.com/v1/search?q=','&type=artist&limit=1'];
-	var r
-	var options = {
-		host: 'api.spotify.com',
-		path: path.join(name.replaceAll(' ','+')),
-		port: 443,
-		json: true,
-	}
 
-	return request(path.join(name.replaceAll(' ','+')), function (error, response, body) {
+	// Function needs to be severly reworked to work with node via callback
+	request(path.join(name.replaceAll(' ','+')), function (error, response, body) {
     	//Check for error
     	if(error){
         	return console.log('Error:', error);
@@ -409,32 +378,15 @@ function spotify_get_artist_id(name){
     	console.log(JSON.parse(body)); // Show the HTML for the Modulus homepage.
     	return JSON.parse(body).artist.items[0].id
 	});
-
-	/*var req = https.request(options, function(res) {
-  		console.log('request status: '+res.statusCode);
-  		res.on('data', function(d) {
-    		r = JSON.parse(d)
-    		//console.log('Getting ID: '+JSON.stringify(r))
-  		});
-	});
-	req.end();
-
-	req.on('error', function(e) {
-  		console.error(e);
-	});
-	return r.artists.items[0].id*/
 }
 
 function spotify_get_artist(id){
+
+	// Spotify API URL for getting artist by ID
 	var path = 'https://api.spotify.com/v1/artists/'
-	var r
-	var options = {
-		host: 'api.spotify.com',
-		path: path + id,
-		port: 443,
-		json: true,
-	}
-	return request(path + id, function (error, response, body) {
+
+	// Function needs to be severly reworked to work with node via callback
+	request(path + id, function (error, response, body) {
     	//Check for error
     	if(error){
         	return console.log('Error:', error);
@@ -449,19 +401,4 @@ function spotify_get_artist(id){
     	console.log(JSON.parse(body)); // Show the HTML for the Modulus homepage.
     	return JSON.parse(body)
 	});
-
-	/*var req = https.request(options, function(res) {
-  		console.log('request status data: '+res.statusCode);
-  		return res.on('data', function(d) {
-  			r = JSON.parse(d)
-  			//console.log('Getting Artist: '+JSON.stringify(r))
-  			return r
-  		});
-	});
-	req.end();
-
-	req.on('error', function(e) {
-  		console.error(e);
-	});
-	return r*/
 }
