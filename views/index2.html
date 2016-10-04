@@ -8,8 +8,10 @@
   <body>
     
     <div id="heading">
+        {% block heading %}
         <div class="headlink" id="samfbook"><a href=""><img id="logo" src="images/samfundet_logo_invers.gif"></a></div>
         <div class="headlink" id="login"><a href="">Logg inn</a></div>
+        {% endblock %}
     </div>
     
       
@@ -23,17 +25,8 @@
             <div class="navlink"><a href="">Rigging</a></div>
         </div>    
         <div id="content">
-            
-    
-            
-            
-            
-            <h1>Bookingssystem</h1>
-            <div id="tableex">
-                <iframe src="" width="800" height="500" name="_iframe"></iframe>
-            </div>
-            
-            
+         {% block content %}
+         {% endblock %}
         </div>
     </div>
     
