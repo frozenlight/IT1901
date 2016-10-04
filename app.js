@@ -163,7 +163,7 @@ router.route('/bands')
 
 			// Render found objects with swig and send to client 
 			console.log(JSON.stringify(bands))
-			res.render('bandliste', {bands:bands,title:'List of bands'});
+			res.render('bandlistetest', {bands:bands,title:'List of bands'});
 		});
 	});
 
