@@ -42,7 +42,7 @@
     position:relative;
     background-color: black;
     height:100%;
-    width: 70px;
+    width: 100px;
     text-align:center;
     color: white;
     padding: 15px
@@ -95,6 +95,17 @@
     border-top: 1px solid grey;
 }
 
+#navbar a{
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+#navbar a:visited{
+    text-decoration: none;
+    color: white;
+}
+
 .navlink:last-child{
     border-bottom: 1px solid grey;
 }
@@ -102,50 +113,9 @@
     background-color: black;
     border-color: black;
 }
-.navlink a{
-    text-align: center;
-    text-decoration: none;
-    color: white;
-}
 
-.navlink a:visited{
-    color: white;
-}
 
-.contentBg{
-    background-color: #eeeeee;
-}
 
-.contentBg h2 {
-    color: #a03033;
-    margin-left: 25px;
-    margin-bottom: 0;
-    text-align: left;
-}
-
-.contentBg a{
-    text-decoration: none;
-    color: #555;
-}
-
-.contentBg a:visited{
-    color: #555;
-}
-
-.contentBg ul {
-    padding: 0;
-}
-
-.contentBg ul li{
-    list-style-type: none;
-    text-indent: 25px;
-    margin-left: 0;
-    right: 0;
-}
-
-.contentBg li:nth-child(odd){
-    background-color: #dddddd;
-}
 
 #logo{
     max-height: 100%;
