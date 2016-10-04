@@ -236,32 +236,32 @@ router.route('/bands/create')
 	.post(function(req,res){
 		// On POST-recieve, create a Band Object with body params from form
 
-		var band = new Band({
-    		name:req.body.name,
-    		members:req.body.members.replaceAll(' ','').split(','),
-    		description: req.body.description,
-    		popRate: req.body.popRate,
-			prevConcerts:req.body.prevConcerts.replaceAll(' ','').split(','),
-			albumSales:req.body.albumSales.replaceAll(' ','').split(','),
-    	})
+		Band.find({name:req.body.name}, function(err,old_band){
+			if (err) {res.send(err)}
+			if (old_band.name != undefined) {res.send("BAND NAME ALREADY EXISTS, ABORTING" + old_band.name)}
+			else{
+				var name = req.body.name;
 
-		// Kinda dead code, needs to be rewritten with nodeJS and callbacks in mind
+				var band = new Band({
+    				name:req.body.name,
+    				members:req.body.members.split(','),
+    				description: req.body.description,
+    				previous_concerts:req.body.previous_concerts.replaceAll(' ','').split(','),
+					album_sales:req.body.album_sales.replaceAll(' ','').split(','),
 
-    	//var spotify_data = spotify_get_artist(spotify_get_artist_id(band.name));
-    	//console.log(spotify_get_artist_id(band.name))
+					spotify_id: req.body.spotify_id,
+					spotify_followers: req.body.spotify_followers,
+					spotify_genres: req.body.spotify_genres.split(','),
+					spotify_popularity: req.body.spotify_popularity,
+					spotify_image: req.body.spotify_image,
+    			})
 
-    	//band.spotify_followers = spotify_data.followers.total.toString();
-    	//band.spotify_genres = spotify_data.genres;
-    	//band.spotify_popularity = spotify_data.popularity.toString();
-    	//band.spotify_images = spotify_data.images;
-    	//band.spotify_id = spotify_data.id;
-    	//band.spotify_name = spotify_data.name;
+				band.save()
 
-    	// Save objeect after variable edits
-    	band.save()
-
-		// Redirect to band page after creation
-		res.redirect('/band/' + band._id)
+				// Redirect to band page after creation
+				res.redirect('/band/' + band._id)
+			}
+		})
 	})
 
 	// GET function for this route, render form for creating this object type
