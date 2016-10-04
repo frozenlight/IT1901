@@ -1,44 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<!-- <link type="text/css" rel="stylesheet" href="css/stylesheet.css"></link>  -->
-	<style type="text/css">
-		.contentBg{
-		    background-color: #eeeeee;
-		}
-
-		.contentBg h2 {
-		    color: #a03033;
-		    margin-left: 25px;
-		    margin-bottom: 0;
-		    text-align: left;
-		}
-
-		.contentBg a{
-		    text-decoration: none;
-		    color: #555;
-		}
-
-		.contentBg a:visited{
-		    color: #555;
-		}
-
-		.contentBg ul {
-		    padding: 0;
-		}
-
-		.contentBg ul li{
-		    list-style-type: none;
-		    text-indent: 25px;
-		    margin-left: 0;
-		    right: 0;
-		}
-
-		.contentBg li:nth-child(odd){
-		    background-color: #dddddd;
-		}
-	</style>
-</head>
+{% extends "index2.html" %}
+{% block content %}
 <body class="contentBg">
 	<div>
 		<h2>Liste over band</h2>
@@ -50,7 +11,6 @@
 			{% endif %}
 		</ul>
 	</div>
-
 	<p>Create more objects <a href="/bands/create">here</a></p>
 </body>
-</html>
+{% endblock %}
