@@ -2,13 +2,28 @@
 {% block content %}
 	<div>
 		<h2>Liste over band</h2>
-		<ul>
+		<table id="tabell" data-toggle="table" data-classes="table table-hover results" data-striped="true" data-sort-name="Date" data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-4" data-field="Band" data-sortable="true">Beskrivelse</th>
+					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
+				</tr>
+					
+			</thead>
+			<tbody>
 			{% if bands %}
 			{% for band in bands %}
-				<li><a href="/band/{{ band._id }}">{{band.name}}</a></li>
+				<tr>
+					<td><a href="/band/{{ band._id}}">{{band}}</a></td>
+					<td style="display:none;"></td>
+					<td>{{band.name}}</td>
+					<td>{{band.genre}}</td>
+				</tr>
 			{% endfor %}
 			{% endif %}
-		</ul>
+			</tbody>
+		</table>
 	</div>
 	<p>Create more objects <a href="/bands/create">here</a></p>
 {% endblock %}
