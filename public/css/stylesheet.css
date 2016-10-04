@@ -89,11 +89,14 @@
     font-size: 14px;
     display: inline-block;
     width: 100%;
-    height: 30px;
+    height: 40px;
     text-align: center;
     padding-top: 10px;
     border-top: 1px solid grey;
-    border-bottom: 0.01px solid grey;
+}
+
+.navlink:last-child{
+    border-bottom: 1px solid grey;
 }
 .navlink:hover{
     background-color: black;
