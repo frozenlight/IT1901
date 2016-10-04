@@ -15,7 +15,7 @@
 			height: 100%;
 			position: absolute;
 			top: 25px;
-			left: 25px;
+			left: 0px;
 
 		}
 
@@ -65,9 +65,11 @@
 			</div>
 			<div id="albumsalg">
 				<h3>Salgstall for album</h3>
-				{%for album in album_sales%}
-				<li>{{album}}</li>
-				{% endfor %}
+				<ul>
+					{%for album in album_sales%}
+					<li>{{album}}</li>
+					{% endfor %}
+				</ul>
 			</div>
 		</div>
 	</div>
