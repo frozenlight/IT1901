@@ -197,7 +197,7 @@ router.route('/band/:band_id/edit')
 
 				// iterate over keys in recieved form, and if anything is edited, change information in object in database
 				Object.keys(req.body).forEach(function(key,index) {
-					if ([key]in band && req.body[key] != ''){
+					if ([key]in band && req.body[key] != '' && req.body[key] != '_id'){
 						if(band[key].constructor === Array){
 							band[key] = req.body[key].split(',');
 						}
