@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="nb">
-<head>
-	<meta charset="UTF-8" />
-	<link rel="stylesheet" type="text/css" href="css/tablestyle.css" />
+{% extends "index2.html" %}
+{% block head %}
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 	<title>Konserttabell</title>
 	<script src="script/sorttable.js"></script>
-</head>
-<body>
+{% endblock %}
+{% block content %}
 	<div id="table-wrapper">
 	  <div id="table-scroll">
 		<table class="sortable">
@@ -42,6 +41,5 @@
 		</table>
 	  </div>
 	</div>
-<p>Create more objects <a href="/concerts/create">here</a></p>
-</body>
-</html>
+	<p>Create more objects <a href="/concerts/create">here</a></p>
+{% endblock %}
