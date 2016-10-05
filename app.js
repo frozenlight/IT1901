@@ -340,7 +340,11 @@ router.route('/concert/:concert_id/edit')
 				concert.save(function(err){
 					if(err){res.send(err)}
 					else{
-						res.redirect('/concert/' + req.params.band_id)
+						//res.redirect('/concert/' + req.params.concert_id)
+
+						//There is no dedicated concert page, therefore redirecting to the table
+						res.redirect('/concerts');
+
 					}
 				})
 			}
@@ -381,15 +385,30 @@ router.route('/concerts/create')
 			audSize: req.body.audSize,
 			date:req.body.date,
 			time:req.body.time,
+
+			bandIDs:null,
 			//genres:req.body.genres.replaceAll(' ','').split(','),
 		})
+
+		//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
+		/*concert.bands.forEach(function(band){
+			Band.find({name:band}, function(err,old_band){
+			if (err) {res.send(err)}
+			if (old_band.name != undefined) {
+				bandIDs.push(old_band._id);
+			}
+		})*/
+
 		concert.save()
 
 		// Add model other variables for created Concert model
 		// ......
 
 		// Send redirect to concert object that was just created
-		res.redirect('/concert/' + concert._id)
+		//res.redirect('/concert/' + concert._id)
+
+		//There is no dedicated concert page, therefore redirecting to the table
+		res.redirect('/concerts');
 	})
 
 	.get(function(req,res){

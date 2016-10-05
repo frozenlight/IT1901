@@ -11,6 +11,8 @@ var ConcertSchema = new mongoose.Schema({
 	audSize: Number,
  	date: String,
 	time: String,
+
+	bandIDs: [String] //Will contain the database ID's for the bands, if they exist
 });
 
 module.exports = mongoose.model('Concert', ConcertSchema);
