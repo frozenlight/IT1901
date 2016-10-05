@@ -42,6 +42,13 @@
 					<td>{{concert.genre}}</td>
 					<td>{{concert.stage}}</td>
 					<td>{{concert.audSize}}</td>
+					<td>
+						<ul>
+							{% for bandID in concert.bandIDs%}
+							<li> {{ bandID }} </li>
+							{% endfor %}
+						</ul>
+					</td>
 					<td><a href='/concert/{{ concert._id }}/edit'>Endre her</a></td>
 				</tr>
 				{% endfor %}
