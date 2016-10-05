@@ -11,12 +11,13 @@
 		<table id="tabell" class="sortable" data-toggle="table" data-classes="table table-hover results" data-striped="true" data-sort-name="Date" data-sort-order="asc">
 			<thead>
 				<tr>
-					<th class="col-xs-7" data-field="Date" data-sortable="true">Dato</th>
-					<th class="col-xs-5" data-field="Time" data-sortable="true">Tid</th>
+					<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+					<th class="col-xs-1" data-field="Time" data-sortable="true">Tid</th>
 					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
 					<th class="col-xs-8" data-field="Scene" data-sortable="true">Scene</th>
-					<th class="col-xs-8" data-field="Publikumstall" data-sortable="true">Publikumstall</th>
+					<th class="col-xs-7" data-field="Publikumstall" data-sortable="true">Publikumstall</th>
+					<th class="col-xs-4" data-field="Rediger" data-sortable="false"></th>
 				</tr>
 					
 			</thead>
@@ -35,6 +36,7 @@
 					<td>{{concert.genre}}</td>
 					<td>{{concert.stage}}</td>
 					<td>{{concert.audSize}}</td>
+					<td><a href='/concerts/{{ id }}/edit'>Endre her</a></td>
 				</tr>
 				{% endfor %}
 			</tbody>
