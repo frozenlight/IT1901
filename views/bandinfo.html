@@ -34,11 +34,12 @@
 	</header>
 	<div class="box">	
 		<div class="boxLeft">
+			<a href='/band/{{ id }}/edit'>Endre her</a>
 			<div id="sjanger">
 				<h3>Sjanger</h3>
 				<p>
 					{% for genre in spotify_genres %}
-					{{genre}}
+					{{genre}},
 					{% endfor %}
 				</p>
 			</div>

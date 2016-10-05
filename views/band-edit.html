@@ -1,31 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Band page</title>
-</head>
-<body>
-	<div class="band-container">
-		<h3>{{ name }}</h3>
-		<p>Medlemmer : 
-		{% for member in members %}
-			{{ member }}
-		{% endfor %}
-		</p>
-		<div class="spotify-data">
-			<p>spotify_name: {{ spotify_name }}</p>
-			<p>spotify_id: {{ spotify_id }}</p>
-			<p>spotify_followers: {{ spotify_followers }}</p>
-			<p>spotify_popularity: {{ spotify_popularity }}/100</p>
-			{% for image in spotify_images %}
-			<a href="{{ image.url }}" width="60" height="60"></a>
-			{% endfor %}
-			<p>spotify_sjangre: 
-			{% for genre in genres %}
-				{{ genre }}, 
-			{% endfor %}
-		</p>
-		</div>
+{% extends "index2.html" %}
 
-	</div>
-</body>
-</html>
+{% block content %}
+<img height="0" width="0" src="/noimage" id="artist_image"></img>
+<button id="spotify_search_button">SEARCH</button>
+<h3>{{ name }}</h3>
+<form method="post" action="/bands/create">
+	<p>Navn: </p>
+    <input id="spotify_search_field" type="text" name="name">
+    <p>Sjangre: </p>
+    <input type="text" name="spotify_genres" id="spotify_genres">
+    <p>Medlemmer (skill medlemmer med komma ',')</p>
+    <input type="text" name="members">
+    <p>Beskrivelse: </p>
+    <input type="text" name="description">
+    <p>Bilde: </p>
+    <input type="text" name="spotify_image" id="spotify_image">
+ 	<p>Popularitetsrate: </p>
+    <input type="number" name="spotify_popularity" id="spotify_popularity">
+    <p>Tidligere konserter i Norge: (skill konserter med komma ',')</p>
+    <input type="text" name="previous_concerts">
+    <p>Salgstall for ulike album (skriv på formen "albumNavn":"salgstall" , skill med komma ',')</p>
+    <input type="text" name="album_sales">
+    <p>Spotify ID: </p>
+    <input type="text" name="spotify_id" id="spotify_id">
+    <p>#følgere på spotify: </p>
+    <input type="text" name="spotify_followers" id="spotify_followers">
+    <p></p>
+    <input type="submit" value="submit">
+</form>
+
+{% endblock %}

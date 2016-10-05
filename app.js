@@ -190,20 +190,29 @@ router.route('/band/:band_id/edit')
 
 	// POST function for this route, on recieve edited object via form
 	.post(function(req,res) {
-
+		
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
 			if (band) {
 
 				// iterate over keys in recieved form, and if anything is edited, change information in object in database
 				Object.keys(req.body).forEach(function(key,index) {
-					if (req.body[key] != ''){
-						band[key] = req.body[key]
+					if ([key]in band && req.body[key] != ''){
+						if(band[key].constructor === Array){
+							band[key] = req.body[key].split(',');
+						}
+						else{
+							band[key] = req.body[key];
+						}
 					}
 				});
-
-				// After edit, redirect to objects' page again
-				res.redirect('/band/' + band._id)
+				// After edit, save and redirect to objects' page again, else send error
+				band.save(function(err){
+					if(err){res.send(err)}
+					else{
+						res.redirect('/band/' + req.params.band_id)
+					}
+				})
 			}
 			else {
 				// if for some reason the edited object is not found, send 404
