@@ -3,7 +3,7 @@
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 	<title>Konserttabell</title>
-	<script src="script/sorttable.js"></script>
+	<script src="/script/sorttable.js"></script>
 {% endblock %}
 {% block content %}
 	<div id="table-wrapper">
@@ -43,3 +43,39 @@
 	</div>
 	<p>Create more objects <a href="/concerts/create">here</a></p>
 {% endblock %}
+
+	<div>
+		<h2>Liste over band</h2>
+		<table id="tabell" data-toggle="table" data-classes="table table-hover results" data-striped="true" data-sort-name="Date" data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-7" data-field="Date" data-sortable="true">Dato</th>
+					<th class="col-xs-5" data-field="Time" data-sortable="true">Tid</th>
+					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
+					<th class="col-xs-8" data-field="Scene" data-sortable="true">Scene</th>
+					<th class="col-xs-8" data-field="Publikumstall" data-sortable="true">Publikumstall</th>
+				</tr>
+					
+			</thead>
+			<tbody>
+				{% for concert in concerts %}
+				<tr>
+					<td>{{ concert.date }}</td>
+					<td>{{ concert.time }}</td>
+					<td>
+						<ul>
+							{% for band in concert.bands %}
+							<li> {{ band }} </li>
+							{% endfor %}
+						<ul>
+					</td>
+					<td>{{concert.genre}}</td>
+					<td>{{concert.stage}}</td>
+					<td>{{concert.audSize}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+	<p>Create more objects <a href="/bands/create">here</a></p>
