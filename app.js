@@ -197,8 +197,8 @@ router.route('/band/:band_id/edit')
 
 				// iterate over keys in recieved form, and if anything is edited, change information in object in database
 				Object.keys(req.body).forEach(function(key,index) {
-					if ([key]in band && req.body[key] != '' && req.body[key] != '_id'){
-						if(band[key].constructor === Array){
+					if ([key] in band && req.body[key] != ''){
+						if(typeof band[key] != "undefined" && band[key].constructor === Array){
 							band[key] = req.body[key].split(',');
 						}
 						else{
@@ -308,6 +308,58 @@ router.route('/concert/:concert_id')
 			console.log(concert)
 			if (concert) {
 				res.json(concert);
+			}
+			else {
+				res.sendStatus(404);
+			}
+		})
+	})
+
+//Routing function for editing concert
+router.route('/concert/:concert_id/edit')
+	
+	// POST function for this route, on recieve edited object via form
+	.post(function(req,res) {
+		
+		Concert.findById(req.params.concert_id, function(err,concert) {
+			if (err) {res.send(err)}
+			if (concert) {
+
+				// iterate over keys in recieved form, and if anything is edited, change information in object in database
+				Object.keys(req.body).forEach(function(key,index) {
+					if ([key]in concert && req.body[key] != ''){
+						if(typeof concert[key] != "undefined" && concert[key].constructor === Array){
+							concert[key] = req.body[key].split(',');
+						}
+						else{
+							concert[key] = req.body[key];
+						}
+					}
+				});
+				// After edit, save and redirect to objects' page again, else send error
+				concert.save(function(err){
+					if(err){res.send(err)}
+					else{
+						res.redirect('/concert/' + req.params.band_id)
+					}
+				})
+			}
+			else {
+				// if for some reason the edited object is not found, send 404
+				res.sendStatus(404);
+			}
+		})
+	})
+
+
+
+	// Find object in database by id and render edit page for object type if found.
+	// If not found, send 404
+	.get(function(req,res){
+		Concert.findById(req.params.concert_id, function(err,concert){
+			if (err) {res.send(err)}
+			if (concert) {
+				res.render('concert-edit', concert);
 			}
 			else {
 				res.sendStatus(404);
