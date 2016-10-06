@@ -23,6 +23,7 @@ var db = require('./config/database.js');
 var Stage = require('./models/Stage.js');
 var Concert = require('./models/Concert.js');
 var Band = require('./models/Band.js');
+var Booking = require('./models/Booking.js');
 
 
 
@@ -429,7 +430,6 @@ router.route('/concert/:concert_id/edit')
 		Concert.findById(req.params.concert_id, function(err,concert){
 			if (err) {res.send(err)}
 			if (concert) {
-				console.log(concert.date)
 				res.render('concert-edit', concert);
 			}
 			else {
