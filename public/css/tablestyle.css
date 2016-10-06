@@ -8,11 +8,11 @@ p {
 
 th{
 	text-align: center;
-	font-size: 2rem;
 }
 
 .container{
 	position: relative;
+	width: 100%;
 }
 
 #scenedrop .btn{
