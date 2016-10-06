@@ -11,6 +11,12 @@ var swig = require('swig');
 var https = require('https');
 var request = require('request');
 var path = require('path');
+var passport = require('passport');
+var flash = require('connect-flash');
+
+var morgan = require('morgan');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -27,6 +33,11 @@ var app = express();
 
 // Connect to MongoDB at localhost
 mongoose.connect('mongodb://localhost/more-testing');
+
+require('./config/passport.js')(passport);
+
+app.use(morgan('dev'));
+app.use(cookieParser());
 
 // Setup for BodyParser
 app.use( bodyParser.json() );       // to support JSON-encoded bodies
@@ -52,6 +63,12 @@ router.use(function(req,res,next){
 	next()
 })
 
+// setup for passport.js
+app.use(session({secret: 'rainbowsandshit'})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); //persistent login in sessions
+app.use(flash()); // use connect-flash for flash messages
+
 app.use('/', router);
 
 //Setup for using public directory with stylesheet, images, etc.
@@ -63,17 +80,64 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Express routing functions
 ////////////////////////////////////////////////////////////
 
-router.get('/', function(req, res) {
+router.get('/', isLoggedIn, function(req, res) {
 	//console.log(mongoose.models)
-	var pages = [
-		'bands',
-		'concerts',
-		'stages',
-	]
-    res.render('index2', {pages:pages}); 
+    res.render('index2'); 
 });
 
+////////////////////////////////////////////////////////////
+// Login
+////////////////////////////////////////////////////////////
+// show the login form
+app.get('/login', function(req, res) {
 
+	// render the page and pass in any flash data if it exists
+	res.render('login.ejs', { message: req.flash('loginMessage') }); 
+});
+
+// process the login form
+app.post('/login', passport.authenticate('local-login', {
+	successRedirect : '/',
+	failureRedirect : '/login',
+	failureFlash : true
+}));
+	
+////////////////////////////////////////////////////////////
+// Signup
+////////////////////////////////////////////////////////////
+// show the signup form
+app.get('/signup', function(req, res) {
+
+	// render the page and pass in any flash data if it exists
+	res.render('signup.ejs', { message: req.flash('signupMessage') });
+});
+
+// process the signup form
+app.post('/signup', passport.authenticate('local-signup', {
+	successRedirect : '/profile',
+	failureRedicret : '/signup',
+	failureFlash : true
+}));
+
+////////////////////////////////////////////////////////////
+// Logout
+////////////////////////////////////////////////////////////
+app.get('/logout', function(req, res) {
+	req.logout();
+	res.redirect('/');
+});
+
+	
+// route middleware to make sure a user is logged in
+function isLoggedIn(req, res, next) {
+
+	// if user is authenticated in the session, carry on 
+	if (req.isAuthenticated())
+		return next();
+
+	// if they aren't redirect them to the home page
+	res.redirect('/login');
+}
 
 ////////////////////////////////////////////////////////////
 // Routing functions for /stages/
@@ -82,7 +146,7 @@ router.get('/', function(req, res) {
 router.route('/stages')
 
 	// POST function for /stages/
-	.post(function(res,req){
+	.post(isLoggedIn, function(res,req){
 		// On POST-recieve,
 		
 
@@ -94,7 +158,7 @@ router.route('/stages')
 	})
 
 	// GET Function for /stages/
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		// Search database for ALL stage objects
 		Stage.find(function(err, stages){
@@ -108,7 +172,7 @@ router.route('/stages')
 
 router.route('/stage/:stage_id')
 
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		Stage.findById(req.params.stage_id, function(err,stage) {
 			if (err) {res.send(err)}
@@ -125,7 +189,7 @@ router.route('/stage/:stage_id')
 router.route('/stages/create')
 
 	// POST function for /stages/create/
-	.post(function(req,res){
+	.post(isLoggedIn, function(req,res){
 		// On POST-recieve, create a Stage Object with body params from form
 
 		var stage = new Stage({
@@ -142,7 +206,7 @@ router.route('/stages/create')
 		res.redirect('/stage/' + stage._id)
 	})
 
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 		res.render('stage-form',{});
 	});
 
@@ -155,7 +219,7 @@ router.route('/stages/create')
 router.route('/bands')
 
 	// GET Function for /bands/
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		// Search database for ALL stage objects
 		Band.find(function(err, bands){
@@ -170,7 +234,7 @@ router.route('/bands')
 // Routing function for an individual band object
 router.route('/band/:band_id')
 
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		// Find object by its' id and render page to user, if not found send 404
 		Band.findById(req.params.band_id, function(err,band) {
@@ -189,7 +253,7 @@ router.route('/band/:band_id')
 router.route('/band/:band_id/edit')
 
 	// POST function for this route, on recieve edited object via form
-	.post(function(req,res) {
+	.post(isLoggedIn, function(req,res) {
 		
 		Band.findById(req.params.band_id, function(err,band) {
 			if (err) {res.send(err)}
@@ -222,7 +286,7 @@ router.route('/band/:band_id/edit')
 	})
 
 	// GET function for this route
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		// Find object in database by id and render edit page for object type if found.
 		// If not found, send 404
@@ -242,7 +306,7 @@ router.route('/band/:band_id/edit')
 router.route('/bands/create')
 
 	// POST function for /bands/create/
-	.post(function(req,res){
+	.post(isLoggedIn, function(req,res){
 		// On POST-recieve, create a Band Object with body params from form
 
 		Band.find({name:req.body.name}, function(err,old_band){
@@ -274,7 +338,7 @@ router.route('/bands/create')
 	})
 
 	// GET function for this route, render form for creating this object type
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 		res.render('band-form',{});
 	});
 
@@ -287,7 +351,7 @@ router.route('/bands/create')
 router.route('/concerts')
 
 	// GET Function for /concerts/
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		// Search database for ALL Concert objects
 		Concert.find(function(err, concerts){
@@ -301,7 +365,7 @@ router.route('/concerts')
 
 router.route('/concert/:concert_id')
 
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 
 		Concert.findById(req.params.concert_id, function(err,concert) {
 			if (err) {res.send(err)}
@@ -319,7 +383,7 @@ router.route('/concert/:concert_id')
 router.route('/concert/:concert_id/edit')
 	
 	// POST function for this route, on recieve edited object via form
-	.post(function(req,res) {
+	.post(isLoggedIn, function(req,res) {
 		
 		Concert.findById(req.params.concert_id, function(err,concert) {
 			if (err) {res.send(err)}
@@ -359,7 +423,7 @@ router.route('/concert/:concert_id/edit')
 
 	// Find object in database by id and render edit page for object type if found.
 	// If not found, send 404
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 		Concert.findById(req.params.concert_id, function(err,concert){
 			if (err) {res.send(err)}
 			if (concert) {
@@ -375,7 +439,7 @@ router.route('/concert/:concert_id/edit')
 router.route('/concerts/create')
 
 	// POST function for /concerts/create/
-	.post(function(req,res){
+	.post(isLoggedIn, function(req,res){
 		// On POST-recieve, create a Concert Object with body params from form
 		var concert = new Concert({
 			name:req.body.name,
@@ -413,7 +477,7 @@ router.route('/concerts/create')
 		res.redirect('/concerts');
 	})
 
-	.get(function(req,res){
+	.get(isLoggedIn, function(req,res){
 		res.render('concert-form',{});
 	});
 
