@@ -17,6 +17,7 @@ var flash = require('connect-flash');
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var db = require('./config/database.js');
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -32,7 +33,8 @@ var Band = require('./models/Band.js');
 var app = express();
 
 // Connect to MongoDB at localhost
-mongoose.connect('mongodb://localhost/more-testing');
+//mongoose.connect('mongodb://localhost/dicksuckingshit');
+mongoose.connect(db.url);
 
 require('./config/passport.js')(passport);
 
