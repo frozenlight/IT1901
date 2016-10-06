@@ -429,6 +429,7 @@ router.route('/concert/:concert_id/edit')
 		Concert.findById(req.params.concert_id, function(err,concert){
 			if (err) {res.send(err)}
 			if (concert) {
+				console.log(concert.date)
 				res.render('concert-edit', concert);
 			}
 			else {

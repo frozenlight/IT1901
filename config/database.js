@@ -1,6 +1,6 @@
 // config/database.js
 module.exports = {
 
-	'url' : 'mongodb://localhost/Profiles'
+	'url' : 'mongodb://localhost/more-testing'
 
 };
