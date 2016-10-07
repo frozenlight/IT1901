@@ -2,53 +2,53 @@
 {% block content %}
 	<form class="form-horizontal" method="post" action="/concerts/create">
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="name">Navn: </label>
-			<div class="col-xs-9">
+			<label class="control-label col-xs-2" for="name">Navn: </label>
+			<div class="col-xs-10">
 				<input type="text" class="form-control" id="name" placeholder="Skriv navn på konserten">
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="band">Band: </label>
-			<div class="col-xs-9">
-				<input type="text" class="form-control" id="band" placeholder="Skriv navn på band, skill band med komma (",")">
+			<label class="control-label col-xs-2" for="band">Band: </label>
+			<div class="col-xs-10">
+				<input type="text" class="form-control" id="band" placeholder='Skriv navn på band, skill band med komma (",")'>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="genre">Sjanger: </label>
-			<div class="col-xs-9">
+			<label class="control-label col-xs-2" for="genre">Sjanger: </label>
+			<div class="col-xs-10">
 				<input type="text" class="form-control" id="genre" placeholder="Skriv inn sjangere">
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="stage">Scene: </label>
-			<div class="col-xs-9">
+			<label class="control-label col-xs-2" for="stage">Scene: </label>
+			<div class="col-xs-10">
 				<input type="text" class="form-control" id="stage" placeholder="Skriv inn scene">
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="tickets">Publikumsantall: </label>
-			<div class="col-xs-9">
+			<label class="control-label col-xs-2" for="tickets">Publikumsantall: </label>
+			<div class="col-xs-10">
 				<input type="text" class="form-control" id="tickets" placeholder="Skriv antall publikummere">
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="control-label col-xs-3" for="date">Dato: </label>
-			<div class="col-xs-9">
-				<input type="date" class="form-control" id="date" placeholder="Dato">
+			<label class="control-label col-xs-2" for="date">Dato: </label>
+			<div class="col-xs-3">
+				<input type="date" class="form-control" id="date">
+			</div>
+
+			<label class="control-label col-xs-1" for="time">Tid: </label>
+			<div class="col-xs-2">
+				<input type="time" class="form-control" id="time">
 			</div>
 		</div>
 
-		<div class="form-group">
-			<label class="control-label col-xs-3" for="time">Tid: </label>
-			<div class="col-xs-9">
-				<input type="time" class="form-control" id="time" placeholder="Time">
-			</div>
-		</div>
+		
 
 		<button type="submit" class="btn btn-default">Send inn</button>
 	</form>
