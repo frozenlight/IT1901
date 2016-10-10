@@ -42,13 +42,15 @@
 					<td>{{ booking.date }}</td>
 					<td><a href="/booking/{{ booking._id }}">{{ booking.band_name }}</a></td>
 					<td>{{ booking.price }}</td>
-					{% if !booking.considered %}
-						<p>Venter godkjenning</p>
-					{% elseif booking.approval %}
-						<p>Godkjent</p>
-					{% else %}
-						<p>Avslått</p>
-					{% endif %}
+					<td>
+						{% if !booking.considered %}
+							Venter godkjenning
+						{% elseif booking.approval %}
+							Godkjent
+						{% else %}
+							Avslått
+						{% endif %}
+					</td>
 					<td> <a href="mailto:#"> </a> </td> 
 				</tr>
 			{% endfor %}
