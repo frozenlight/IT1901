@@ -523,6 +523,7 @@ router.route('/bookings')
 router.route('/bookings/create')
 	.post(isLoggedIn, function(req,res){
 		var booking = new Booking({
+			band_name: "",
 			email: "",
 			text: "",
 			approval: false,
