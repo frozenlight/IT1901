@@ -1,0 +1,31 @@
+{% extends "index2.html" %}
+
+{% block content %}
+<img height="0" width="0" src="/noimage" id="artist_image"></img>
+<button id="spotify_search_button">SEARCH</button>
+<form method="post" action="/bands/create">
+	<p>Navn: </p>
+    <input id="spotify_search_field" type="text" name="name">
+    <p>Sjangre: </p>
+    <input type="text" name="spotify_genres" id="spotify_genres">
+    <p>Medlemmer (skill medlemmer med komma ',')</p>
+    <input type="text" name="members">
+    <p>Beskrivelse: </p>
+    <input type="text" name="description">
+    <p>Bilde: </p>
+    <input type="text" name="spotify_image" id="spotify_image">
+ 	<p>Popularitetsrate: </p>
+    <input type="number" name="spotify_popularity" id="spotify_popularity">
+    <p>Tidligere konserter i Norge: (skill konserter med komma ',')</p>
+    <input type="text" name="previous_concerts">
+    <p>Salgstall for ulike album (skriv på formen "albumNavn":"salgstall" , skill med komma ',')</p>
+    <input type="text" name="album_sales">
+    <p>Spotify ID: </p>
+    <input type="text" name="spotify_id" id="spotify_id">
+    <p>#følgere på spotify: </p>
+    <input type="text" name="spotify_followers" id="spotify_followers">
+    <p></p>
+    <input type="submit" value="submit">
+</form>
+
+{% endblock %}

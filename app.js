@@ -508,7 +508,7 @@ router.route('/concerts/create')
 
 
 //Route for list of bookings
-router.route('bookings')
+router.route('/bookings')
 	.get(isLoggedIn, function(req,res){
 		Booking.find(function(err, bookings){
 			if (err){ res.send(err); }
@@ -520,7 +520,7 @@ router.route('bookings')
 	})
 
 //Route for creating new bookings
-router.route('bookings/create')
+router.route('/bookings/create')
 	.post(isLoggedIn, function(req,res){
 		var booking = new Booking({
 			email: "",
