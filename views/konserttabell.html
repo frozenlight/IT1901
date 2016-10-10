@@ -58,6 +58,14 @@
 					<td>{{concert.stage}}</td>
 					<td>{{concert.audSize}}</td>
 					<td><a href='/concert/{{ concert._id }}/edit'>Endre her</a></td>
+					<!-- Dette skal forsvinne, en test om jeg greier å legge til ID'er til band i konserten -->
+					<!--td>
+						<ul>
+							{% for bandID in concert.bandIDs %}
+							<li> {{ bandID }} </li>
+							{% endfor %}
+						<ul>
+					</td-->
 				</tr>
 				{% endfor %}
 			</tbody>

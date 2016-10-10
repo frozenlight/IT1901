@@ -478,18 +478,18 @@ router.route('/concerts/create')
 			bandIDs:[],
 			//genres:req.body.genres.replaceAll(' ','').split(','),
 		})
-
 		//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-		/*concert.bands.forEach(function(band_name){
-			console.log("Trying to find a band!",band_name)
+		concert.bands.forEach(function(band_name){
+			console.log("Trying to find a band!",band_name);
+			//concert.bandIDs.push(band_name);
 			Band.find({name:band_name}, function(err,old_band){
 				console.log("Fant band!",band_name)
 				if (err) {res.send(err)}
 				if (old_band.name != undefined) {
-					bandIDs.push(old_band._id);
+					concert.bandIDs.push(old_band._id);
 				}
 			})
-		})*/
+		})
 
 		concert.save()
 
