@@ -546,9 +546,6 @@ router.route('/bookings/create')
 		booking.save(function(err){
 			if(err){res.send(err)}
 			else{
-				//res.redirect('/concert/' + req.params.concert_id)
-
-				//There is no dedicated concert page, therefore redirecting to the table
 				res.redirect('/bookings');
 
 			}
@@ -565,7 +562,23 @@ router.route('/booking/:booking_id')
 		Booking.findById(req.params.booking_id, function(err, booking){
 			if (err) {res.send(err)}
 			if (booking){
+				Object.keys(req.body).forEach(function(key,index){
+					if([key] in booking && req.body[key] != ''){
+						booking[key] = req.body[key];
+					}
+				})
 
+				if(req.body.confirm == "accept"){
+					booking.approval = true;
+				}
+				booking.considered = true;
+
+				booking.save(function(err){
+					if(err){res.send(err)}
+					else{
+						res.redirect('/bookings');
+					}
+				})
 			}
 		})
 	})
