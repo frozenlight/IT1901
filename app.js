@@ -506,12 +506,27 @@ router.route('/concerts/create')
 		res.render('concert-form',{});
 	});
 
+
+//Route for list of bookings
+router.route('bookings')
+	.get(isLoggedIn, function(req,res){
+		Booking.find(function(err, bookings){
+			if (err){ res.send(err); }
+
+			// Render found objects with swig and send to client
+			console.log(JSON.stringify(bookings))
+			res.render('bookingtabell', {bookings:bookings,title:'List of bookings'});
+		});
+	})
+
+//Route for creating new bookings
 router.route('bookings/create')
 	.post(isLoggedIn, function(req,res){
 		var booking = new Booking({
 			email: "",
 			text: "",
 			approval: false,
+			considered: false,
 			price: 0,
 			date: "",
 		})
@@ -536,6 +551,31 @@ router.route('bookings/create')
 			}
 		})
 	})
+
+	.get(isLoggedIn, function(req,res){
+		res.render('booking-form',{});
+	});
+
+//Route for spesific booking
+router.route('booking/:booking_id')
+	.post(isLoggedIn, function(req,res){
+		Booking.findById(req.params.booking_id, function(err, booking){
+			if (err) {res.send(err)}
+			if (booking){
+				
+			}
+		})
+	})
+
+	.get(isLoggedIn, function(req,res){
+		Booking.findById(req.params.booking_id, function(err, booking){
+			if (err) {res.send(err)}
+			if (booking){
+				res.render('booking', booking);
+			}
+		})
+	})
+
 
 
 ////////////////////////////////////////////////////////////
