@@ -2,10 +2,10 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-	<title>Konserttabell</title>
 {% endblock %}
 {% block content %}
 	<div class="container text-center">
+		<h2 class="tableHeader">Konsertoversikt</h2>
 
 		<div class="dropdown" id="scenedrop">
 			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
@@ -18,11 +18,11 @@
 			</ul>
 		</div>
 
-		<div class="form-group pull-right">
+		<div id="concertSearch" class="form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
-		<table id="tabell" data-toggle="table" 
+		<table data-toggle="table" 
 		data-classes="table table-hover results"
 		data-striped="true"
 		data-sort-name="Date"
@@ -50,6 +50,7 @@
 					<td>
 						<ul>
 							{% for band in concert.bands %}
+							<!--Legge til link til bandside!-->
 							<li> {{ band }} </li>
 							{% endfor %}
 						<ul>

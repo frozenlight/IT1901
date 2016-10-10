@@ -2,20 +2,28 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-	<script src="/script/sorttable.js"></script>
 {% endblock %}
 {% block content %}
-	<div>
-		<h2>Liste over band</h2>
-		<table id="tabell" class="sortable" data-toggle="table" data-classes="table table-hover results" data-striped="true" data-sort-name="Date" data-sort-order="asc">
+	<div class="container text-center">
+		<h2 class="tableHeader">Liste over band</h2>
+
+		<div id="bandSearch" class="form-group">
+			<input type="text" class="search form-control" placeholder="Søk">
+		</div>
+
+		<table id="tabell" data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Band"
+		data-sort-order="asc">
 			<thead>
 				<tr>
 					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-4" data-field="Genre" data-sortable="true">Sjanger</th>
-					<th class="col-xs-2" data-field="Band" data-sortable="true">Popularitetsrate</th>
-				</tr>
-					
+					<th class="col-xs-2" data-field="Popularity" data-sortable="true">Popularitetsrate</th>
+				</tr>	
 			</thead>
+
 			<tbody>
 				{% if bands %}
 				{% for band in bands %}
@@ -29,6 +37,6 @@
 				{% endif %}
 			</tbody>
 		</table>
+		<p>Create more objects <a href="/bands/create">here</a></p>
 	</div>
-	<p>Create more objects <a href="/bands/create">here</a></p>
 {% endblock %}
