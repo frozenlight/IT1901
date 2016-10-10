@@ -11,13 +11,15 @@ var swig = require('swig');
 var https = require('https');
 var request = require('request');
 var path = require('path');
+
 var passport = require('passport');
 var flash = require('connect-flash');
-
 var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var db = require('./config/database.js');
+
+var ConnectRoles = require('connect-roles');
 
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
@@ -67,11 +69,45 @@ router.use(function(req,res,next){
 	next()
 })
 
+// roles role initialization for connect-roles
+var roles = new ConnectRoles({
+  failureHandler: function (req, res, action) {
+    // optional function to customise code that runs when 
+    // user fails authorisation 
+    var accept = req.headers.accept || '';
+    res.status(403);
+    if (~accept.indexOf('html')) {
+      res.render('access-denied', {action: action});
+    } else {
+      res.send('Access Denied - You don\'t have permission to: ' + action);
+    }
+  }
+});
+
 // setup for passport.js
 app.use(session({secret: 'rainbowsandshit'})); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); //persistent login in sessions
 app.use(flash()); // use connect-flash for flash messages
+
+// Middleware for connect-roles
+app.use(roles.middleware());
+//moderator users can access private page, but 
+//they might not be the only ones so we don't return 
+//false if the user isn't a moderator 
+roles.use('access private page', function (req) {
+  if (req.user.role === 'moderator') {
+    return true;
+  }
+})
+ 
+//admin users can access all pages 
+roles.use(function (req) {
+  if (req.user.role === 'admin') {
+    return true;
+  }
+});
+
 
 app.use('/', router);
 
@@ -88,16 +124,16 @@ router.get('/', isLoggedIn, function(req, res) {
 	Concert.find(function(err, concerts){
 		if (err){ res.send(err); }
 
-		res.render('front', {concerts:JSON.stringify(concerts)});
+		res.render('front', {concerts:JSON.stringify(concerts),user:req.user});
 	});
 });
 
-require('./routes/api.js')(router)
-require('./routes/bands.js')(router,passport,isLoggedIn)
-require('./routes/bookings.js')(router,passport,isLoggedIn)
-require('./routes/concerts.js')(router,passport,isLoggedIn)
-require('./routes/stages.js')(router,passport,isLoggedIn)
-require('./routes/passport.js')(app)
+require('./routes/api.js')(router,roles)
+require('./routes/bands.js')(router,passport,isLoggedIn,roles)
+require('./routes/bookings.js')(router,passport,isLoggedIn,roles)
+require('./routes/concerts.js')(router,passport,isLoggedIn,roles)
+require('./routes/stages.js')(router,passport,isLoggedIn,roles)
+require('./routes/passport.js')(app,router,isLoggedIn,roles)
 
 require('./routes/prototypes.js')
 
