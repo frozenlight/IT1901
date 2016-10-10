@@ -574,8 +574,8 @@ router.route('/booking/:booking_id')
 		Booking.findById(req.params.booking_id, function(err, booking){
 			if (err) {res.send(err)}
 			if (booking){
-				//res.render('booking', booking);
-				res.json(booking);
+				res.render('booking', booking);
+				//res.json(booking);
 			}
 		})
 	})
