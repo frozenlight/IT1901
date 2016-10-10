@@ -1,0 +1,60 @@
+{% extends "index2.html" %}
+{% block head %}
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+	<title>Booking</title>
+{% endblock %}
+{% block content %}
+	<div class="container text-center">
+
+		<div class="dropdown" id="scenedrop">
+			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg status<span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<li><a href="#">Godkjent</a></li>
+				<li><a href="#">Avslått</a></li>
+				<li><a href="#">Venter godkjenning</a></li>
+			</ul>
+		</div>
+
+		<div class="form-group pull-right">
+			<input type="text" class="search form-control" placeholder="Søk">
+		</div>
+
+		<table id="tabell" data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Date"
+		data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+					<th class="col-xs-4" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
+					<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
+					<th class="col-xs-1" data-field="Godkjenn" data-sortable="true">Godkjenn</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for booking in bookings %}
+				<tr>
+					<td>{{ booking.date }}</td>
+					<td><a href="/bookings/{{ booking._id}}">{{ booking.band_name }}</a></td>
+					<td>{{ booking.price }}</td>
+					<td>{% if !{{ considered }} %}
+						<p>Venter godkjenning</p>
+						{% elseif {{approval}} %}
+						<p>Godkjent</p>
+						{% else %}
+						<p>Avslått</p>
+						{% endif %}
+					</td>
+					<td> <a href="mailto:#"> </a>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<p>Create more objects <a href="/bookings/create">here</a></p>
+	</div>
+
+{% endblock %}
