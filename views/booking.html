@@ -1,9 +1,19 @@
 {% extends "index2.html" %}
 
 {% block content %}
-<form method="post" action="/bookings/{{_id}}">
+<form method="post" action="/booking/{{_id}}">
 {% if bookings %}
-    <p>{{booking}}</p>
+    <p>{{bookings.name}} </p>
+        <p>Dato: </p>
+        <input type="date" name="date">
+        <p>Pris: </p>
+        <input type="number" name="price" value="{{bookings.price}}">
+        Beskjed:
+        <output>{{bookings.text}}</output> 
+        <p>Epost: </p>
+        <a href="mailto:someone@example.com?Subject=Booking%20of%20{{bookings.name}}" target="_top"> <input type="email" name="email" value="{{bookings.name:bookings.price:}}"> </a>
+        <p></p>
+        <input type="submit" value="submit">
 {% endif %}
 </form>
 
