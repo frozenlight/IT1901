@@ -36,22 +36,24 @@
 			</thead>
 
 			<tbody>
-				{% for booking in bookings %}
+			{% if bookings %}
+			{% for booking in bookings %}
 				<tr>
 					<td>{{ booking.date }}</td>
-					<td><a href="/bookings/{{ booking._id}}">{{ booking.band_name }}</a></td>
+					<td><a href="/booking/{{ booking._id }}">{{ booking.band_name }}</a></td>
 					<td>{{ booking.price }}</td>
-					<td>{% if !{{ considered }} %}
+					<td>{% if !booking.considered %}
 						<p>Venter godkjenning</p>
-						{% elseif {{approval}} %}
+						{% elseif booking.approval %}
 						<p>Godkjent</p>
 						{% else %}
 						<p>Avslått</p>
 						{% endif %}
 					</td>
-					<td> <a href="mailto:#"> </a>
+					<td> <a href="mailto:#"></a> </td>
 				</tr>
-				{% endfor %}
+			{% endfor %}
+			{% endif %}
 			</tbody>
 		</table>
 		<p>Create more objects <a href="/bookings/create">here</a></p>

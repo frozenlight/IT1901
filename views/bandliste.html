@@ -12,7 +12,7 @@
 				<tr>
 					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-4" data-field="Genre" data-sortable="true">Sjanger</th>
-					<th class="col-xs-2" data-field="Band" data-sortable="true">Popularitetsrate</th>
+					<th class="col-xs-2" data-field="PopRate" data-sortable="true">Popularitetsrate</th>
 				</tr>
 					
 			</thead>
@@ -21,7 +21,6 @@
 				{% for band in bands %}
 					<tr>
 						<td><a href="/band/{{ band._id}}">{{band.name}}</a></td>
-						<td style="display:none;"></td>
 						<td>{{band.spotify_genres}}</td>
 						<td>{{band.spotify_popularity}}</td>
 					</tr>
