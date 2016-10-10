@@ -557,12 +557,12 @@ router.route('/bookings/create')
 	});
 
 //Route for spesific booking
-router.route('booking/:booking_id')
+router.route('/booking/:booking_id')
 	.post(isLoggedIn, function(req,res){
 		Booking.findById(req.params.booking_id, function(err, booking){
 			if (err) {res.send(err)}
 			if (booking){
-				
+
 			}
 		})
 	})
