@@ -450,7 +450,7 @@ router.route('/concert/:concert_id/edit')
 	// If not found, send 404
 	.get(isLoggedIn, function(req,res){
 		Concert.findById(req.params.concert_id, function(err,concert){
-			if (err) {res.send(err)}
+			if (err) {res.send(err)};
 			if (concert) {
 				res.render('concert-edit', concert);
 			}
@@ -479,14 +479,13 @@ router.route('/concerts/create')
 			//genres:req.body.genres.replaceAll(' ','').split(','),
 		})
 		//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-		concert.bands.forEach(function(band_name){
-			console.log("Trying to find a band!",band_name);
-			//concert.bandIDs.push(band_name);
-			Band.find({name:band_name}, function(err,old_band){
-				console.log("Fant band!",band_name)
+		concert.bands.forEach(function(bandName){
+			Band.findOne({'name':bandName},'_id name',function(err,band){
 				if (err) {res.send(err)}
-				if (old_band.name != undefined) {
-					concert.bandIDs.push(old_band._id);
+				else{
+					console.log('FOUND IT! %s %s', band.name, band._id);
+					concert.bandIDs.push(band._id);
+					concert.save()
 				}
 			})
 		})
@@ -507,6 +506,36 @@ router.route('/concerts/create')
 		res.render('concert-form',{});
 	});
 
+router.route('bookings/create')
+	.post(isLoggedIn, function(req,res){
+		var booking = new Booking({
+			email: "",
+			text: "",
+			approval: false,
+			price: 0,
+			date: "",
+		})
+		Object.keys(req.body).forEach(function(key,index) {
+					if ([key]in booking && req.body[key] != ''){
+						if(typeof booking[key] != "undefined" && booking[key].constructor === Array){
+							booking[key] = req.body[key].split(',');
+						}
+						else{
+							booking[key] = req.body[key];
+						}
+					}
+				});
+		booking.save(function(err){
+			if(err){res.send(err)}
+			else{
+				//res.redirect('/concert/' + req.params.concert_id)
+
+				//There is no dedicated concert page, therefore redirecting to the table
+				res.redirect('/bookings');
+
+			}
+		})
+	})
 
 
 ////////////////////////////////////////////////////////////
