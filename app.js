@@ -510,6 +510,8 @@ router.route('/concerts/create')
 //Route for list of bookings
 router.route('/bookings')
 	.get(isLoggedIn, function(req,res){
+
+		//Find all Booking objects
 		Booking.find(function(err, bookings){
 			if (err){ res.send(err); }
 
@@ -517,7 +519,7 @@ router.route('/bookings')
 			console.log(JSON.stringify(bookings))
 			res.render('bookingtabell', {bookings:bookings,title:'List of bookings'});
 		});
-	})
+	});
 
 //Route for creating new bookings
 router.route('/bookings/create')

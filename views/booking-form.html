@@ -1,8 +1,8 @@
 {% extends "index2.html" %}
 {% block content %}
-    <form method="post" action="bookings/create">
-        <p>Navn: </p>
-        <input type="text" name="name">
+    <form method="post" action="/bookings/create">
+        <p>Bandnavn: </p>
+        <input type="text" name="band_name">
         <p>Epost: </p>
         <input type="email" name="email">
         <p>Dato: </p>
@@ -10,7 +10,7 @@
         <p>Pris: </p>
         <input type="number" name="price">
         Beskjed:
-        <textarea name="textbox" cols="50" rows="5">
+        <textarea name="text" cols="50" rows="5">
         </textarea>
         <p></p>
         <input type="submit" value="submit">
