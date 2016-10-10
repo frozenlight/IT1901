@@ -484,7 +484,7 @@ router.route('/concerts/create')
 				if (err) {res.send(err)}
 				if(band){
 					console.log('FOUND IT! %s %s', band.name, band._id);
-					concert.bandIDs.push(band._id);
+					concert.bandIDs.push([band.name,band._id]);
 					concert.save()
 				}
 			})
@@ -574,7 +574,8 @@ router.route('/booking/:booking_id')
 		Booking.findById(req.params.booking_id, function(err, booking){
 			if (err) {res.send(err)}
 			if (booking){
-				res.render('booking', booking);
+				//res.render('booking', booking);
+				res.json(booking);
 			}
 		})
 	})
