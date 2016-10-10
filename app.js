@@ -482,7 +482,7 @@ router.route('/concerts/create')
 		concert.bands.forEach(function(bandName){
 			Band.findOne({'name':bandName},'_id name',function(err,band){
 				if (err) {res.send(err)}
-				else{
+				if(band){
 					console.log('FOUND IT! %s %s', band.name, band._id);
 					concert.bandIDs.push(band._id);
 					concert.save()
