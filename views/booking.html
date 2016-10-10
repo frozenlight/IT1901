@@ -12,10 +12,9 @@
         Beskjed:
         <output>{{text}}</output> 
         <p>Epost: </p>
-        <textarea type="text" name="email" value="{{text}}" cols="100" rows="12">Konsert med: {{band_name}}&#13;&#10;Den {{date}}&#13;&#10;
-        Billettpris på: {{price}} &#13;&#10;&#13;&#10;Melding fra bookingansvarlig: &#13;&#10;{{text}}</textarea>
+        <textarea type="text" name="email" value="{{text}}" cols="100" rows="10">{{text}}</textarea>
         <br>
-        <input type="checkbox" name="accept">Godkjenn <input type="checkbox" name="denie">Avslå<br>
+        <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="denie">Avslå<br>
 
         <a href="mailto:someone@example.com?Subject=Booking%20of%20{{name}}" target="_top"><a href="mailto:someone@example.com?Subject=Booking%20of%20{{name}}" target="_top"> <input type="submit" value="submit"></a>
 </form>
