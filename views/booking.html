@@ -9,14 +9,16 @@
         <input type="date" name="date" value="{{date}}">
         <p>Pris: </p>
         <input type="number" name="price" value="{{price}}"><br/>
-        Beskjed:
-        <output>{{text}}</output> 
-        <p>Epost: </p>
-        <textarea type="text" name="email" value="{{text}}" cols="100" rows="10">{{text}}</textarea>
+        <p>Epost:</p>
+        <input type="email" name="email" value="{{email}}">
+        <p>Melding: </p>
+        <textarea type="text" name="text" value="{{text}}" cols="100" rows="10">{{text}}</textarea>
         <br>
         <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
 
-        <a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a> <br> <input type="submit" value="submit">
+        <input type="submit" value="Lagre">
+        <br>
+        <a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a>
 </form>
 
 

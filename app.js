@@ -576,7 +576,7 @@ router.route('/booking/:booking_id')
 				booking.save(function(err){
 					if(err){res.send(err)}
 					else{
-						res.redirect('/bookings');
+						res.redirect('/booking/'+req.params.booking_id);
 					}
 				})
 			}
