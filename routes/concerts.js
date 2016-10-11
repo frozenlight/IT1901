@@ -125,11 +125,13 @@ router.route('/concerts/create')
 			Band.findOne({'name':bandName},'_id name',function(err,band){
 				if (err) {res.send(err)}
 				if(band){
-					console.log('FOUND IT! %s %s', band.name, band._id);
 					var band_and_id = {name:band.name,id:band._id};
-					console.log(band_and_id);
 					concert.bandIDs.push(band_and_id);
-					console.log("state of bandIDs:"+JSON.stringify(concert.bandIDs));
+					concert.save();
+				}
+				if(band == undefined){
+					var band_and_id = {name:bandName,id:""};
+					concert.bandIDs.push(band_and_id);
 					concert.save();
 				}
 			})
