@@ -14,7 +14,7 @@
     <div id="heading">
         {% block heading %}
         <div class="headlink" id="samfbook"><a href="/"><img id="logo" src="/images/samfundet_logo_invers.gif"></a></div>
-        <div class="headlink" id="login"><a href="/profile">{{user.local.email}} :: {{user.role}}</a></div>
+        <div class="headlink" id="login"><a href="/profile">{{user.local.username}} :: {{user.role}}</a></div>
         {% endblock %}
     </div>
     
