@@ -51,13 +51,14 @@ th{
 }
 
 /*Forms*/
-/*.form-horizontal{
-	margin-top: 16px;
-}*/
-
 #spotify_search_button{
 	margin-left: 7px;
 	margin-bottom: 16px;
+}
+
+#artist_image{
+	margin-top: 15px;
+	border-radius: 5px;
 }
 
 #concert_submit{
