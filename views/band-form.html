@@ -4,9 +4,10 @@
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-<!--<img height="0" width="0" src="/noimage" id="artist_image"></img>
-<button id="spotify_search_button">SEARCH</button>
-<form method="post" action="/bands/create">
+
+
+<!--<form method="post" action="/bands/create">
+<img height="0" width="0" src="/noimage" id="artist_image"></img>
 	<p>Navn: </p>
 	<input id="spotify_search_field" type="text" name="name">
 
@@ -42,19 +43,21 @@
 </form>-->
 
 	<div class="container text-left">
+		<div class="col-xs-3"></div>
+		<button id="spotify_search_button" class="btn btn-primary">SEARCH</button>
 
 		<form class="form-horizontal" method="post" action="/bands/create">
 			<div class="form-group">
-				<label class="control-label col-xs-3" for="name">Navn: </label>
+				<label class="control-label col-xs-3" for="spotify_search_field">Navn: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="name" placeholder="Skriv navn på bandet">
+					<input type="text" class="form-control" id="spotify_search_field" placeholder="Skriv navn på bandet">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-xs-3" for="genre">Sjanger: </label>
+				<label class="control-label col-xs-3" for="spotify_genres">Sjanger: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="genre" placeholder="Skriv inn sjangere">
+					<input type="text" class="form-control" id="spotify_genres" placeholder="Skriv inn sjangere">
 				</div>
 			</div>
 
@@ -73,16 +76,16 @@
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-xs-3" for="image">Bilde: </label>
+				<label class="control-label col-xs-3" for="spotify_image">Bilde: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="image" placeholder="Bilde">
+					<input type="text" class="form-control" id="spotify_image" placeholder="Bilde">
 				</div>
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-xs-3" for="popularity">Popularitet: </label>
+				<label class="control-label col-xs-3" for="spotify_popularity">Popularitet: </label>
 				<div class="col-xs-9">
-					<input type="number" class="form-control" id="popularity" placeholder="Popularitet i Spotify">
+					<input type="number" class="form-control" id="spotify_popularity" placeholder="Popularitet i Spotify">
 				</div>
 			</div>		
 

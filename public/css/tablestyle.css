@@ -43,6 +43,11 @@ th{
 	margin-top: 16px;
 }
 
+#spotify_search_button{
+	margin-top: 16px;
+	margin-left: 7px;
+}
+
 #concert_submit{
 	margin-left: 6px;
 }
