@@ -26,7 +26,7 @@ router.route('/concerts')
 
 			// Render found objects with swig and send to client
 			console.log(JSON.stringify(concerts))
-			res.render('konserttabell', {concerts:concerts,title:'List of concerts'});
+			res.render('concert-table', {concerts:concerts,title:'List of concerts'});
 		});
 	});
 
