@@ -1,0 +1,42 @@
+{% extends "index2.html" %}
+{% block head %}
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+{% endblock %}
+{% block content %}
+	<div class="container text-center">
+		<h2 class="tableHeader">Liste over band</h2>
+
+		<div id="bandSearch" class="form-group">
+			<input type="text" class="search form-control" placeholder="Søk">
+		</div>
+
+		<table id="tabell" data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Band"
+		data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-4" data-field="Genre" data-sortable="true">Sjanger</th>
+					<th class="col-xs-2" data-field="Popularity" data-sortable="true">Popularitetsrate</th>
+				</tr>	
+			</thead>
+
+			<tbody>
+				{% if bands %}
+				{% for band in bands %}
+					<tr>
+						<td><a href="/band/{{ band._id}}">{{band.name}}</a></td>
+						<td style="display:none;"></td>
+						<td>{{band.spotify_genres}}</td>
+						<td>{{band.spotify_popularity}}</td>
+					</tr>
+				{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+		<p>Create more objects <a href="/bands/create">here</a></p>
+	</div>
+{% endblock %}
