@@ -1,31 +1,70 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{% if title %}{{ title }}{% endif %}</title>
-</head>
-<body>
-	{% if concerts %}
-	{% for concert in concerts %}
-	<div class="concert-container">
-		<h3><a href="/concert/{{ concert._id }}">{{ concert.name }}</a></h3>
-		<p>Genre:
-		{{ concert.genre }}
-		<!--{% for genre in concert.genres %}
-			{{ genre }}
-		{% endfor %} -->
-		</p>
-		<p>Band:
-		{% for band in concert.bands %}
-			{{ band }} ,
-			{% endfor %}
-		</p>
-		<p>Scene: {{ concert.stage }} </p>
-		<p>Publikumstall: {{ concert.audSize }} </p>
-		<p>Dato: {{ concert.date }}</p>
-		<p>Tid: {{ concert.time }}</p>
+{% extends "index.html" %}
+{% block head %}
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+{% endblock %}
+{% block content %}
+	<div class="container text-center">
+		<h2 class="tableHeader">Konsertoversikt</h2>
+
+		<div class="dropdown" id="scenedrop">
+			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
+			<ul class="dropdown-menu">
+				<li><a href="#">Edgar</a></li>
+				<li><a href="#">Klubben</a></li>
+				<li><a href="#">Knaus</a></li>
+				<li><a href="#">Storsalen</a></li>
+				<li><a href="#">Strossa</a></li>
+			</ul>
+		</div>
+
+		<div id="concertSearch" class="form-group pull-right">
+			<input type="text" class="search form-control" placeholder="Søk">
+		</div>
+
+		<table data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Date"
+		data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-2" data-field="Date" data-sortable="true">Dato</th>
+					<th class="col-xs-1" data-field="Time" data-sortable="true">Tid</th>
+					<th class="col-xs-3" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
+					<th class="col-xs-2" data-field="Scene" data-sortable="true">Scene</th>
+					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
+					<th class="col-xs-1" data-field="Edit" data-sortable="false"></th>
+				</tr>
+				<!--<tr class="warning no-result">
+      				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
+  				</tr>-->
+			</thead>
+
+			<tbody>
+				{% for concert in concerts %}
+				<tr>
+					<td>{{ concert.date }}</td>
+					<td>{{ concert.time }}</td>
+					<td>
+						<ul>
+
+							{% for band in concert.bandIDs %}
+       						<li><a id="{{band.name}}" href="/band/{{band.id}}">{{band.name}}</a></li>
+					        {% endfor %}
+						<ul>
+					</td>
+					<td>{{concert.genre}}</td>
+					<td>{{concert.stage}}</td>
+					<td>{{concert.audSize}}</td>
+					<td><a class="btn btn-default" href='/concert/{{ concert._id }}/edit'>Endre</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<p>Create more objects <a href="/concerts/create">here</a></p>
+		<p>Legg inn booking <a href="/bookings/create">her</a></p>
 	</div>
-	{% endfor %}
-	{% endif %}
-	<p>Create more objects <a href="/concerts/create">here</a></p>
-</body>
-</html>
+
+{% endblock %}
