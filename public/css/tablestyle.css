@@ -18,6 +18,11 @@ th{
 	color: #a03033;
 }
 
+.formHeader{
+	text-align: center;
+	color: #a03033;
+}
+
 #scenedrop .btn{
 	position: absolute;
 	left: 2px;
@@ -54,6 +59,10 @@ th{
 
 #band_submit{
 	margin-left: 7px;
+}
+
+#booking_submit{
+	margin-left: 6px;
 }
 
 /*.row {
