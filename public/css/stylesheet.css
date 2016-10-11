@@ -29,6 +29,8 @@
 
 #login{
 	float: right;
+	white-space: nowrap;
+	margin-right: 2%;
 }
 #samfbook{
 	width: 250px;
