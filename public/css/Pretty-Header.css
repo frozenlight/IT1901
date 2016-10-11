@@ -1,6 +1,7 @@
 .custom-header {
   background:#292c2f;
-  padding:20px 40px;
+  /*padding:20px 40px;*/
+  padding: 20px 0px;
   box-sizing:border-box;
   border:0;
   border-radius:0;
@@ -38,7 +39,7 @@
   font-size:11px;
   color:#fff;
   background-color:#2A6A92;
-  padding:2px 4px;
+  /*padding:2px 4px;*/
   font-weight:normal;
 }
 
@@ -49,7 +50,7 @@
 .custom-header li.dropdown .dropdown-toggle {
   border-radius:2px;
   color:#fff;
-  padding:8px 14px;
+  /*padding:8px 14px;*/
   background:#3a3c3e;
   opacity:0.9;
   border:0;
@@ -68,7 +69,7 @@
 img.dropdown-image {
   border-radius:50%;
   width:32px;
-  margin-left:10px;
+  /*margin-left:10px;*/
 }
 
 .custom-header .dropdown ul {
@@ -98,10 +99,10 @@ img.dropdown-image {
   color:#e9ac09 !important;
 }
 
-#content{
+#content,.container-fluid{
   position: relative;
   display: inline block;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 16%;
+  margin-right: 16%;
 }
 

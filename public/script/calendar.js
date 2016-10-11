@@ -54,7 +54,8 @@ $(document).ready(function(){
     	$('#calendar').fullCalendar({
 
     		// Add parsed events to the calendar
-			events:events
+			events:events,
+            weekNumberCalculation:"ISO"
     	})
     })
 })
