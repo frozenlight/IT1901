@@ -110,7 +110,7 @@ router.route('/concerts/create')
 		// On POST-recieve, create a Concert Object with body params from form
 		var concert = new Concert({
 			name:req.body.name,
-			bands: req.body.bands.replaceAll(' ','').split(','),
+			bands: req.body.bands.split(','),
 			genre: req.body.genre,
 			stage: req.body.stage,
 			audSize: req.body.audSize,
@@ -126,13 +126,14 @@ router.route('/concerts/create')
 				if (err) {res.send(err)}
 				if(band){
 					console.log('FOUND IT! %s %s', band.name, band._id);
-					concert.bandIDs.push([band.name,band._id]);
-					concert.save()
+					var band_and_id = {name:band.name,id:band._id};
+					console.log(band_and_id);
+					concert.bandIDs.push(band_and_id);
+					console.log("state of bandIDs:"+JSON.stringify(concert.bandIDs));
+					concert.save();
 				}
 			})
 		})
-
-		concert.save()
 
 		// Add model other variables for created Concert model
 		// ......

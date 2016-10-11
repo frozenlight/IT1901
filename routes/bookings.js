@@ -8,7 +8,7 @@ var Booking = require('../models/Booking.js');
 //Route for list of bookings
 ////////////////////////////////////////////////////////////
 
-module.exports = function(router,passport,isLoggedIn){
+module.exports = function(router,passport,isLoggedIn,user){
 router.route('/bookings')
 	.get(isLoggedIn, function(req,res){
 
@@ -59,7 +59,7 @@ router.route('/bookings/create')
 
 //Route for spesific booking
 router.route('/booking/:booking_id')
-	.post(isLoggedIn, function(req,res){
+	.post(isLoggedIn,function(req,res){
 		Booking.findById(req.params.booking_id, function(err, booking){
 			if (err) {res.send(err)}
 			if (booking){
@@ -69,11 +69,16 @@ router.route('/booking/:booking_id')
 					}
 				})
 
-				if(req.body.confirm == "accept"){
-					booking.approval = true;
+				if(user.is('admin')){
+					console.log("user access:"+user.is('admin'))
+					if(req.body.confirm == "accept"){
+						booking.approval = true;
+					}else if(req.body.confirm =="deny"){
+						booking.approval = false;
+					}
+					booking.considered = true;
 				}
-				booking.considered = true;
-
+				
 				booking.save(function(err){
 					if(err){res.send(err)}
 					else{

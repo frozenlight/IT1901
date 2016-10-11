@@ -2,7 +2,9 @@
 {% block content %}
     <h3>{{ name }}</h3>
     <p>
-        {{ bandIDs[3] }}
+        {% for stuff in bandIDs %}
+        <p>{{stuff.name}}{{stuff.id}}</p>
+        {% endfor %}
     </p>
     <form method="post" action="/concert/{{ _id }}/edit">
     	<p>Navn: </p>

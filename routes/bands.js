@@ -113,18 +113,29 @@ module.exports = function(router,passport,isLoggedIn,user){
 					var name = req.body.name;
 
 					var band = new Band({
-	    				name:req.body.name,
-	    				members:req.body.members.split(','),
-	    				description: req.body.description,
-	    				previous_concerts:req.body.previous_concerts.replaceAll(' ','').split(','),
-						album_sales:req.body.album_sales.replaceAll(' ','').split(','),
+	    				name:"",
+	    				members:[],
+	    				description:"",
+	    				previous_concerts:[],
+						album_sales:[],
 
-						spotify_id: req.body.spotify_id,
-						spotify_followers: req.body.spotify_followers,
-						spotify_genres: req.body.spotify_genres.split(','),
-						spotify_popularity: req.body.spotify_popularity,
-						spotify_image: req.body.spotify_image,
+						spotify_id: "",
+						spotify_followers:"",
+						spotify_genres:[],
+						spotify_popularity:"",
+						spotify_image:"",
 	    			})
+
+	    			Object.keys(req.body).forEach(function(key,index) {
+						if ([key] in band && req.body[key] != ''){
+							if(typeof band[key] != "undefined" && band[key].constructor === Array){
+								band[key] = req.body[key].split(',');
+							}
+							else{
+								band[key] = req.body[key];
+							}
+						}
+					});
 
 					band.save()
 

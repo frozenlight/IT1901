@@ -99,12 +99,20 @@ roles.use('access private page', function (req) {
   if (req.user.role === 'moderator') {
     return true;
   }
-})
+});
  
 //admin users can access all pages 
 roles.use(function (req) {
   if (req.user.role === 'admin') {
     return true;
+  }
+});
+
+roles.use('access booking', function (req){
+	if (req.user.role === 'bookingsjef') {
+		return true;
+	}else{
+    return false;
   }
 });
 
