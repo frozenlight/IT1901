@@ -49,9 +49,8 @@
 					<td>{{ concert.time }}</td>
 					<td>
 						<ul>
-							{% for band in concert.bands %}
-							<!--Legge til link til bandside!-->
-							<li> {{ band }} </li>
+							{% for band in concert.bandIDs %}
+							<li><a href="/band/{{band.id}}">{{ band.name }}</a></li>
 							{% endfor %}
 						<ul>
 					</td>
