@@ -43,8 +43,6 @@
 </form>-->
 
 	<div class="container text-left">
-		<div class="col-xs-3"></div>
-		<button id="spotify_search_button" class="btn btn-primary">Søk</button>
 
 		<form class="form-horizontal" method="post" action="/bands/create">
 			<div class="form-group">
@@ -53,6 +51,9 @@
 					<input type="text" class="form-control" id="spotify_search_field" placeholder="Skriv navn på bandet">
 				</div>
 			</div>
+
+			<div class="col-xs-3"></div>
+			<button id="spotify_search_button" type="button" class="btn btn-primary">Søk</button>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_genres">Sjanger: </label>
@@ -119,6 +120,7 @@
 
 			<div class="col-xs-3"></div>
 			<button id="band_submit" type="submit" class="btn btn-success">Send inn</button>
+			<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
 		</form>
 	</div>
 {% endblock %}
