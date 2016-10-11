@@ -1,35 +1,10 @@
 {% extends "index2.html" %}
 {% block head %}
 	{% parent %}
-	<style type="text/css">
-		.box {
-			height: 100%;
-			width: 100%;
-			margin-left: auto;
-			margin-right: auto;
-			position: relative;
-		}
-
-		.boxLeft {
-			width: 45%;
-			height: 100%;
-			position: absolute;
-			top: 25px;
-			left: 0px;
-
-		}
-
-		.boxRight {
-			width: 45%;
-			height: 100%;
-			position: absolute;
-			top: 25px;
-			right: 5%;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-	<header>
+	<!-- <header>
 		<h2>{{name}} :: {{_id}}</h2>
 	</header>
 	<div class="box">	
@@ -71,6 +46,86 @@
 					<li>{{album}}</li>
 					{% endfor %}
 				</ul>
+			</div>
+		</div>
+	</div> -->
+
+	<div class="container text-left">
+
+		<div class="col-xs-8">
+			<h2>{{name}}</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Sjangere</h3>
+				</div>
+				<div class="panel-body">
+					{% for genre in spotify_genres %}
+						{{genre}},
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Info</h3>
+				</div>
+				<div class="panel-body">
+					{{description}}
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Tidligere konserter i Norge</h3>
+				</div>
+				<div class="panel-body">
+					<ul>
+					{% for concert in previous_concerts %}
+						<li>{{concert}}</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+
+			<a class="btn btn-success" href='/band/{{ id }}/edit'>Endre band</a>
+		</div>
+
+		<div class="col-xs-4">
+			<h2>&nbsp</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Spotifyinformasjon</h3>
+				</div>
+				<div class="panel-body">
+					<div class="thumbnail">
+						<img src="{{spotify_image}}"/>
+					</div>
+					<table>
+						<tbody>
+							<tr>
+								<td>Popularitetsrate:</td>
+								<td>&nbsp {{spotify_popularity}}</td>
+							</tr>
+							<tr>
+								<td>Spotify-følgere:</td>
+								<td>&nbsp {{spotify_followers}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Salgstall</h3>
+				</div>
+				<div class="panel-body">
+					<ul>
+					{%for album in album_sales%}
+						<li>{{album}}</li>
+					{% endfor %}
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
