@@ -9,6 +9,7 @@ var BookingSchema = new mongoose.Schema({
 	text: String,
 	approval: Boolean,
 	considered: Boolean,
+	sent: Boolean,
 	price: Number,
 	date: String,
 });

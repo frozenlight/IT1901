@@ -15,11 +15,14 @@
         <textarea type="text" name="text" cols="100" rows="10">{{text}}</textarea>
         <br>
         <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
-        
+        <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if sent %} checked {% endif %}>Mail sendt<br>
         <input type="submit" value="Lagre">
         <br>
-        <a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a>
+        <button id="mailto-button" type="submit" formaction="/booking/{{_id}}"><a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a></button>
 </form>
 
 
+{% endblock %}
+{% block scripts %}
+    <!--<script type="text/javascript" src="/script/mailto.js"></script>-->
 {% endblock %}

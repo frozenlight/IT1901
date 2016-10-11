@@ -77,6 +77,13 @@ router.route('/booking/:booking_id')
 						booking.approval = false;
 					}
 					booking.considered = true;
+					if (req.body.sent == "yes"){
+						booking.sent = true
+						console.log("mailto checkbox checked")
+					}
+					else{
+						booking.sent = false
+					}
 				}
 
 				
