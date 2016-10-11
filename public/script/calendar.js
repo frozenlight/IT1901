@@ -29,7 +29,7 @@ $(document).ready(function(){
     			// We put the date back together in the YY-DD-MM format and add the time of day for event-start with added second precision
     			start:date[0] + date[1] + date[2] + 'T' + data[i].time + ':00',
     			// The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
-    			url: '/concerts/' + data[i]._id
+    			url: '/concert/' + data[i]._id
     		}
     		// For each event, push to events array which is piped into the calendar
     		events.push(d)
