@@ -16,7 +16,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 	router.route('/bands')
 
 		// GET Function for /bands/
-		.get(isLoggedIn, user.is('admin'), function(req,res){
+		.get(isLoggedIn, function(req,res){
 
 			// Search database for ALL stage objects
 			Band.find(function(err, bands){
