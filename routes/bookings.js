@@ -69,8 +69,8 @@ router.route('/booking/:booking_id')
 					}
 				})
 
-				if(user.is('admin')){
-					console.log("user access:"+user.is('admin'))
+				if(req.user.role === 'admin' || req.user.role === 'booking_boss'){
+					console.log("user access:"+req.user.role)
 					if(req.body.confirm == "accept"){
 						booking.approval = true;
 					}else if(req.body.confirm =="deny"){
@@ -78,6 +78,7 @@ router.route('/booking/:booking_id')
 					}
 					booking.considered = true;
 				}
+
 				
 				booking.save(function(err){
 					if(err){res.send(err)}

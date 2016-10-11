@@ -2,6 +2,16 @@
 
 // Frontend script for rendering mongoose model concert events in fullcalendar
 
+
+var colors = {
+    Edgar:"#4286f4",
+    Strossa:"#f4e542",
+    Storsalen:"#f44242",
+    Klubben:"#42f445",
+    Knaus:"#42f4e8",
+    Annen:"#8342f4"
+}
+
 // Start script when the DOM is ready
 $(document).ready(function(){
 
@@ -9,18 +19,23 @@ $(document).ready(function(){
 	// This seems to be the best way to cleanly get the information from the database and to frontend scripts
 	// This method uses jQuerys HTTP(S) GET request method to get and parse the concert information from the API
     $.get("/api/concerts", function(data){
-
     	// Each event needs to be parsed to the right format for the calendar
     	var events = []
 
     	for(var i = 0; i<data.length; i++){
+            var color = colors[data[i].stage]
+            if (color == undefined){
+                color = colors.Annen
+            }
 
     		// Stored dates are in YY-MM-DD format, but the calendar takes it in YY-DD-MM format
     		// Therefore we must split the date and puzzle it back together later
     		var date = data[i].date.split('-')
 
+
     		// Create the JSON-object for the calendar event
     		var d = {
+                color:color,
     			// To keep concistency, the event uses the same id as the database object
     			id:data[i]._id,
     			// Show each stage and the name of the concert in the calendar
