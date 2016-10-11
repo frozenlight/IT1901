@@ -27,7 +27,7 @@ $(document).ready(function(){
     			// We should maybe give each stage its own dedicated color to keep the calendar both interesting and easier to read
     			title:data[i].stage + ' : ' + data[i].name,
     			// We put the date back together in the YY-DD-MM format and add the time of day for event-start with added second precision
-    			start:date[0] + date[2] + date[1] + 'T' + data[i].time + ':00',
+    			start:date[0] + date[1] + date[2] + 'T' + data[i].time + ':00',
     			// The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
     			url: '/concerts/' + data[i]._id
     		}
