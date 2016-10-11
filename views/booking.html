@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="post" action="/booking/{{_id}}" action="mailto:{{email}}">
+<form method="post" action="/booking/{{_id}}">
 
     <h1>{{band_name}}</h1>
         <p>Dato: </p>
@@ -12,10 +12,10 @@
         <p>Epost:</p>
         <input type="email" name="email" value="{{email}}">
         <p>Melding: </p>
-        <textarea type="text" name="text" value="{{text}}" cols="100" rows="10">{{text}}</textarea>
+        <textarea type="text" name="text" cols="100" rows="10">{{text}}</textarea>
         <br>
         <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
-
+        
         <input type="submit" value="Lagre">
         <br>
         <a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a>

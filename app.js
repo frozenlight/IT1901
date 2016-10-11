@@ -164,6 +164,14 @@ router.route('/api/concerts')
 		})
 	})
 
+router.route('/api/bookings')
+	.get(function(req,res){
+		Booking.find(function(err,bookings){
+			if (err) { res.send(err) }
+			res.json(bookings)
+		})
+	})
+
 ////////////////////////////////////////////////////////////
 // Routing functions for /stages/
 ////////////////////////////////////////////////////////////
@@ -575,9 +583,6 @@ router.route('/booking/:booking_id')
 
 				booking.save(function(err){
 					if(err){res.send(err)}
-					else{
-						res.redirect('/booking/'+req.params.booking_id);
-					}
 				})
 			}
 		})

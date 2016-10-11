@@ -1,6 +1,9 @@
 {% extends "index2.html" %}
 {% block content %}
     <h3>{{ name }}</h3>
+    <p>
+        {{ bandIDs[3] }}
+    </p>
     <form method="post" action="/concert/{{ _id }}/edit">
     	<p>Navn: </p>
         <input type="text" name="name" placeholder="{{ name }}">
