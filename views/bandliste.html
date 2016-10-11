@@ -28,7 +28,7 @@
 				{% if bands %}
 				{% for band in bands %}
 					<tr>
-						<td><a href="/band/{{ band._id}}">{{band.name}}</a></td>
+						<td><a id="{{band.name}}" href="/band/{{ band._id}}">{{band.name}}</a></td>
 						<td>{{band.spotify_genres}}</td>
 						<td>{{band.spotify_popularity}}</td>
 					</tr>

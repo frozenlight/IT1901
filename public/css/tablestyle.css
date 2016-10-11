@@ -30,8 +30,15 @@ th{
 	background-color: #a03033;
 }
 
+#statusdrop .btn{
+	position: absolute;
+	left: 2px;
+
+	background-color: #a03033;
+}
+
 .dropdown .dropdown-menu{
-	margin-top: 9px;
+	margin-top: -2px;
 }
 
 .results tr[visible='false'],
