@@ -21,13 +21,15 @@ var db = require('./config/database.js');
 
 var ConnectRoles = require('connect-roles');
 
+var methodOverride = require('method-override');
+
 // Import models for mongoose
 var Stage = require('./models/Stage.js');
 var Concert = require('./models/Concert.js');
 var Band = require('./models/Band.js');
 var Booking = require('./models/Booking.js');
 
-var isLoggedIn = require('./config/passport_function.js')
+var isLoggedIn = require('./config/passport_function.js');
 
 
 ////////////////////////////////////////////////////////////
@@ -69,6 +71,12 @@ router.use(function(req,res,next){
 	next()
 })
 
+// setup for passport.js
+app.use(session({secret: 'rainbowsandshit'})); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); //persistent login in sessions
+app.use(flash()); // use connect-flash for flash messages
+
 // roles role initialization for connect-roles
 var roles = new ConnectRoles({
   failureHandler: function (req, res, action) {
@@ -84,43 +92,21 @@ var roles = new ConnectRoles({
   }
 });
 
-// setup for passport.js
-app.use(session({secret: 'rainbowsandshit'})); // session secret
-app.use(passport.initialize());
-app.use(passport.session()); //persistent login in sessions
-app.use(flash()); // use connect-flash for flash messages
-
 // Middleware for connect-roles
 app.use(roles.middleware());
-//moderator users can access private page, but 
-//they might not be the only ones so we don't return 
-//false if the user isn't a moderator 
-roles.use('access private page', function (req) {
-  if (req.user.role === 'moderator') {
-    return true;
-  }
-});
- 
-//admin users can access all pages 
-roles.use(function (req) {
-  if (req.user.role === 'admin') {
-    return true;
-  }
-});
 
-roles.use('access booking', function (req){
-	if (req.user.role === 'bookingsjef') {
-		return true;
-	}else{
-    return false;
-  }
-});
-
+require('./config/roles.js')(roles)
 
 app.use('/', router);
 
 //Setup for using public directory with stylesheet, images, etc.
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(methodOverride('_method'));
+// override with different headers; last one takes precedence
+app.use(methodOverride('X-HTTP-Method'))          // Microsoft
+app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
+app.use(methodOverride('X-Method-Override'))      // IBM
 
 
 ////////////////////////////////////////////////////////////
@@ -131,11 +117,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 router.get('/', isLoggedIn, function(req, res) {
 	Concert.find(function(err, concerts){
 		if (err){ res.send(err); }
-
+    console.log('Kan slette band: ' + roles.can('delete band'))
 		res.render('front', {concerts:JSON.stringify(concerts),user:req.user});
 	});
 });
-
 
 require('./routes/api.js')(router,roles)
 require('./routes/bands.js')(router,passport,isLoggedIn,roles)

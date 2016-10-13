@@ -8,6 +8,7 @@ var StageSchema = new mongoose.Schema({
 	price: String,
 	capacity: String,
 	concerts: [String],
+	color:String,
 });
 
 module.exports = mongoose.model('Stage', StageSchema);

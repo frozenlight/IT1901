@@ -84,7 +84,10 @@ router.route('/booking/:booking_id')
 					else{
 						booking.sent = false
 					}
+				} else {
+					req.flash({message:"Du har ikke tilgang til å endre Godkjent/ikke-godkjent feltet!"})
 				}
+
 
 				
 				booking.save(function(err){

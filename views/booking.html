@@ -2,7 +2,11 @@
 
 {% block content %}
 
-<form method="post" action="/booking/{{_id}}">
+{% if !message.length %}
+<div class="alert alert-danger">{{message}}</div>
+{% endif %}
+
+<form method="post" action="/booking/{{_id}}"
 
     <h1>{{band_name}}</h1>
         <p>Dato: </p>

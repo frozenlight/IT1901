@@ -21,6 +21,9 @@ $(document).ready(function(){
     $.get("/api/concerts", function(data){
     	// Each event needs to be parsed to the right format for the calendar
     	var events = []
+        $.get('/api/stages?name=Edgar',function(data){
+            console.log(JSON.stringify(data))
+        })
 
     	for(var i = 0; i<data.length; i++){
             var color = colors[data[i].stage]

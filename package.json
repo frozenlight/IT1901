@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "",
-    "start":"node app.js"
+    "start": "node app.js"
   },
   "author": "Ole Anders Stokker (frozenlight)",
   "license": "BSD-2-Clause",
@@ -18,7 +18,7 @@
     "ejs": "~0.8.5",
     "express": "~4.14.0",
     "express-session": "~1.0.0",
-    "method-override": "~1.0.0",
+    "method-override": "^1.0.2",
     "mongodb": "~2.2.10",
     "mongoose": "~4.6.1",
     "morgan": "~1.0.0",
