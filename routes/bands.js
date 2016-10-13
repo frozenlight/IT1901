@@ -99,6 +99,11 @@ module.exports = function(router,passport,isLoggedIn,user){
 			})
 		})
 
+		.delete(isLoggedIn,user.can('delete bands'),function(req,res){
+			console.log('Request: BAND DELETE')
+			Band.findByIdAndRemove(req.params.band_id)
+		})
+
 	// Routing functions for /bands/create/
 	router.route('/bands/create')
 
