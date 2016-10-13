@@ -58,7 +58,8 @@ $(document).ready(function(){
 
     		// Add parsed events to the calendar
 			events:events,
-            weekNumberCalculation:"ISO"
+            weekNumberCalculation:"ISO",
+            timeFormat: 'H:mm'
     	})
     })
 })
