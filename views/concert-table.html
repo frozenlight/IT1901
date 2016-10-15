@@ -36,6 +36,7 @@
 					<th class="col-xs-2" data-field="Scene" data-sortable="true">Scene</th>
 					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
 					<th class="col-xs-1" data-field="Edit" data-sortable="false"></th>
+					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
 				</tr>
 				<!--<tr class="warning no-result">
       				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -59,6 +60,12 @@
 					<td>{{concert.stage}}</td>
 					<td>{{concert.audSize}}</td>
 					<td><a class="btn btn-default" href='/concert/{{ concert._id }}/edit'>Endre</a></td>
+					<td>
+						<form method="POST" action="/concert/{{ concert._id }}">
+        					<input type="hidden" name="_method" value="DELETE"/>
+        					<input type="submit" class="btn btn-danger" value="Slett"/><br>
+    					</form>
+    				</td>
 				</tr>
 				{% endfor %}
 			</tbody>

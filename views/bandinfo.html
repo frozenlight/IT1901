@@ -88,6 +88,12 @@
 			</div>
 
 			<a class="btn btn-success" href='/band/{{ id }}/edit'>Endre band</a>
+
+			<form method="POST" action="/band/{{ _id }}">
+				<input type="hidden" name="_method" value="DELETE"/>
+				<input type="submit" class="btn btn-danger" value="Slett"/><br>
+			</form>
+
 		</div>
 
 		<div class="col-xs-4">

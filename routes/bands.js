@@ -45,6 +45,12 @@ module.exports = function(router,passport,isLoggedIn,user){
 				}
 			})
 		})
+		
+		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
+			Band.findOneAndRemove({'_id' : req.params.band_id}, function (err, band) {
+        		res.redirect('/bands')
+      		})
+		})
 
 	// Routing function for an individual objects edit page
 	router.route('/band/:band_id/edit')
@@ -99,9 +105,10 @@ module.exports = function(router,passport,isLoggedIn,user){
 			})
 		})
 
-		.delete(isLoggedIn,user.can('delete bands'),function(req,res){
-			console.log('Request: BAND DELETE')
-			Band.findByIdAndRemove(req.params.band_id)
+		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
+			Band.findOneAndRemove({'_id' : req.params.band_id}, function (err, band) {
+        		res.redirect('/bands')
+      		})
 		})
 
 	// Routing functions for /bands/create/

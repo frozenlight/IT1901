@@ -11,6 +11,10 @@
 		<p>Pris: {{ stage.price }}</p>
 		<p>Kapasitet: {{ stage.capacity }}</p>
 	</div>
+	<form method="POST" action="/stage/{{ stage._id }}">
+		<input type="hidden" name="_method" value="DELETE"/>
+		<input type="submit" class="btn btn-danger" value="Slett"/><br>
+	</form>
 	{% endfor %}
 	{% endif %}
 	<p>Create more objects <a href="/stages/create">here</a></p>

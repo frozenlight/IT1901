@@ -66,6 +66,19 @@ router.use(function(req,res,next){
 	// write request data to console for easier debugging
 	var request_text = 'Request: '+req.protocol+'://'+req.hostname+'@'+req.ip+req.path;
 	console.log(request_text);
+  // this middleware will call for each requested
+    // and we checked for the requested query properties
+    // if _method was existed
+    // then we know, clients need to call DELETE request instead
+    if ( req.query._method == 'DELETE' || req.body._method == 'DELETE') {
+        // change the original METHOD
+        // into DELETE method
+        req.method = 'DELETE'
+        // and set requested url to /user/12
+        req.url = req.path
+
+        console.log(JSON.stringify(req.body))
+    }      
 
 	// Ensure the jump to next
 	next()
@@ -102,11 +115,21 @@ app.use('/', router);
 //Setup for using public directory with stylesheet, images, etc.
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(methodOverride('_method'));
-// override with different headers; last one takes precedence
-app.use(methodOverride('X-HTTP-Method'))          // Microsoft
-app.use(methodOverride('X-HTTP-Method-Override')) // Google/GData
-app.use(methodOverride('X-Method-Override'))      // IBM
+
+/*
+// NOTE: when using req.body, you must fully parse the request body
+//       before you call methodOverride() in your middleware stack,
+//       otherwise req.body will not be populated.
+app.use(methodOverride(function(req, res){
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method
+    delete req.body._method
+    return method
+  }
+}))*/
 
 
 ////////////////////////////////////////////////////////////
@@ -117,7 +140,6 @@ app.use(methodOverride('X-Method-Override'))      // IBM
 router.get('/', isLoggedIn, function(req, res) {
 	Concert.find(function(err, concerts){
 		if (err){ res.send(err); }
-    console.log('Kan slette band: ' + roles.can('delete band'))
 		res.render('front', {concerts:JSON.stringify(concerts),user:req.user});
 	});
 });

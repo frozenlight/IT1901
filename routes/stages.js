@@ -7,7 +7,7 @@ var Stage = require('../models/Stage.js');
 // Routing functions for /stages/
 ////////////////////////////////////////////////////////////
 
-module.exports = function(router,passport,isLoggedIn){
+module.exports = function(router,passport,isLoggedIn,user){
 
 router.route('/stages')
 
@@ -50,6 +50,11 @@ router.route('/stage/:stage_id')
 			}
 		})
 	})
+	.delete(isLoggedIn, user.can('delete stage'), function(req, res) {
+			Stage.findOneAndRemove({'_id' : req.params.stage_id}, function (err, stage) {
+        		res.redirect('/stages')
+      		})
+		})
 
 // Routing functions for /stages/create/
 router.route('/stages/create')

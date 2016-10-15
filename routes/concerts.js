@@ -14,7 +14,7 @@ String.prototype.replaceAll = function(search, replacement) {
 // Routing functions for /concerts/
 ////////////////////////////////////////////////////////////
 
-module.exports = function(router,passport,isLoggedIn){
+module.exports = function(router,passport,isLoggedIn,user){
 router.route('/concerts')
 
 	// GET Function for /concerts/
@@ -45,6 +45,11 @@ router.route('/concert/:concert_id')
 			}
 		})
 	})
+	.delete(isLoggedIn, user.can('delete concert'), function(req, res) {
+			Concert.findOneAndRemove({'_id' : req.params.concert_id}, function (err, concert) {
+        		res.redirect('/concerts')
+      		})
+		})
 
 //Routing function for editing concert
 router.route('/concert/:concert_id/edit')
@@ -101,6 +106,11 @@ router.route('/concert/:concert_id/edit')
 			}
 		})
 	})
+	.delete(isLoggedIn, user.can('delete concert'), function(req, res) {
+			Concert.findOneAndRemove({'_id' : req.params.concert_id}, function (err, concert) {
+        		res.redirect('/concerts')
+      		})
+		})
 
 // Routing functions for /concerts/create/
 router.route('/concerts/create')
