@@ -30,8 +30,10 @@
                     <li role="presentation"><a href="/bands">Band </a></li>
                     <li role="presentation"><a href="/bookings"> Booking</a></li>
                     <li role="presentation"><a href="/" class="custom-navbar"> Rigging</a></li>
+                    {% if userIs('admin') %}
                     <li role="presentation"><a href="/stages" class="custom-navbar"> Scener</a></li>
                     <li role="presentation"><a href="/users" class="custom-navbar"> Brukere</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">

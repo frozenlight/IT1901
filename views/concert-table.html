@@ -10,11 +10,9 @@
 		<div class="dropdown" id="scenedrop">
 			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
 			<ul class="dropdown-menu">
-				<li><a href="#">Edgar</a></li>
-				<li><a href="#">Klubben</a></li>
-				<li><a href="#">Knaus</a></li>
-				<li><a href="#">Storsalen</a></li>
-				<li><a href="#">Strossa</a></li>
+				{% for stage in stages %}
+				<li><a href="#">{{stage.name}}</a></li>
+				{% endfor %}
 			</ul>
 		</div>
 
@@ -35,8 +33,12 @@
 					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
 					<th class="col-xs-2" data-field="Scene" data-sortable="true">Scene</th>
 					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
+					{% if userCan('edit concert') %}
 					<th class="col-xs-1" data-field="Edit" data-sortable="false"></th>
+					{% endif %}
+					{% if userCan('delete concert') %}
 					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
+					{% endif %}
 				</tr>
 				<!--<tr class="warning no-result">
       				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -59,13 +61,17 @@
 					<td>{{concert.genre}}</td>
 					<td>{{concert.stage}}</td>
 					<td>{{concert.audSize}}</td>
+					{% if userCan('edit concert') %}
 					<td><a class="btn btn-default" href='/concert/{{ concert._id }}/edit'>Endre</a></td>
+					{% endif %}
+					{% if userCan('delete concert') %}
 					<td>
 						<form method="POST" action="/concert/{{ concert._id }}">
         					<input type="hidden" name="_method" value="DELETE"/>
         					<input type="submit" class="btn btn-danger" value="Slett"/><br>
     					</form>
     				</td>
+    				{% endif %}
 				</tr>
 				{% endfor %}
 			</tbody>

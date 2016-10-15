@@ -22,6 +22,7 @@
     "mongodb": "~2.2.10",
     "mongoose": "~4.6.1",
     "morgan": "~1.0.0",
+    "nimble": "0.0.2",
     "passport": "~0.1.17",
     "passport-local": "~0.1.6",
     "request": "^2.75.0",

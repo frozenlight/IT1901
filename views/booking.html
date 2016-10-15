@@ -18,7 +18,9 @@
         <p>Melding: </p>
         <textarea type="text" name="text" cols="100" rows="10">{{text}}</textarea>
         <br>
+        {% if userIs('bookingsjef') %}
         <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
+        {% endif %}
         <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if sent %} checked {% endif %}>Mail sendt<br>
         <input type="submit" value="Lagre">
         <br>

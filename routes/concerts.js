@@ -1,8 +1,9 @@
 
 var Concert = require('../models/Concert.js');
 var Band = require('../models/Band.js');
+var Stage = require('../models/Stage.js');
 //require('../config/passport.js')(passport);
-
+var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
 
 String.prototype.replaceAll = function(search, replacement) {
@@ -18,17 +19,38 @@ module.exports = function(router,passport,isLoggedIn,user){
 router.route('/concerts')
 
 	// GET Function for /concerts/
-	.get(isLoggedIn, function(req,res){
+	.get(isLoggedIn, function(req ,res) {
 
-		// Search database for ALL Concert objects
-		Concert.find(function(err, concerts){
-			if (err){ res.send(err); }
-
-			// Render found objects with swig and send to client
-			console.log(JSON.stringify(concerts))
-			res.render('concert-table', {concerts:concerts,title:'List of concerts'});
-		});
-	});
+		// Nimble lets you run several functions asyncronously and return the results in an array
+		// It takes the functions as an array and resturns the result arranged at the same indexes
+		// Nimble takes two parameters, the array of functions, and the function to handle the results 	
+		nimble.parallel ([
+			function (callback) {
+				Concert.find(function(err, concerts){
+					if (err) {
+						res.send(err)
+					}
+					callback(err,concerts)
+				})
+			},
+			function (callback) {
+				Stage.find(function (err, stages) {
+					if (err) {
+						res.send(err)
+					}
+					callback(err, stages)
+				})
+			}],
+			function (err, results) {
+				info = {
+					concerts:results[0],
+					title:'List of concerts',
+					stages:results[1]
+				}
+				res.render('concert-table', info)
+			}
+		)
+	})
 
 router.route('/concert/:concert_id')
 

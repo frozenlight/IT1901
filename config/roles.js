@@ -55,6 +55,11 @@ module.exports = function(roles){
       return true
     }
   })
+   roles.use('edit concert', function (req){
+    if (req.user.role === 'bookingsjef') {
+      return true
+    }
+  })
 
   roles.use('bands user',function (req) {
     if (req.user.role === 'band' && req.user.connected_id === req.params.band_id) {
