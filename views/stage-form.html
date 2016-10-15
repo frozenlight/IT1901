@@ -1,3 +1,6 @@
+{% extends "index.html" %}
+
+{% block content %}
 <form method="post" action="/stages/create">
 	<p>Navn: </p>
     <input type="text" name="name">
@@ -5,6 +8,12 @@
     <input type="text" name="price">
     <p>Kapasitet: </p>
     <input type="text" name="capacity">
+    <p>Farge (hex e.g. #1b3d5f): </p>
+    <input type="text" name="color">
+    <p>Konserter (Array): </p>
+    <input type="text" name="concerts">
     <p></p>
     <input type="submit" value="submit">
 </form>
+
+{% endblock %}

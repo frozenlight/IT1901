@@ -1,15 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>{% if title %}{{ title }}{% endif %}</title>
-</head>
-<body>
+
+{% extends "index.html" %}
+
+{% block content %}
+
 	{% if stages %}
 	{% for stage in stages %}
 	<div class="stage-container">
 		<h3><a href="/stage/{{ stage._id }}">{{ stage.name }}</a></h3>
 		<p>Pris: {{ stage.price }}</p>
 		<p>Kapasitet: {{ stage.capacity }}</p>
+		{% if stage.concerts %}
+		<p>Tidligere konserter: {% for concert in stage.concerts %} {{concert}} {% endfor %}</p>
+		{% endif %}
+		<p style="color:{{stage.color}};">Farge: {{stage.color}}</p>
 	</div>
 	<form method="POST" action="/stage/{{ stage._id }}">
 		<input type="hidden" name="_method" value="DELETE"/>
@@ -18,5 +21,5 @@
 	{% endfor %}
 	{% endif %}
 	<p>Create more objects <a href="/stages/create">here</a></p>
-</body>
-</html>
+
+{% endblock %}

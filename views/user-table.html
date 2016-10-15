@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+<div class="container text-center">
+		<h2 class="tableHeader">List of users</h2>
+
+		<div id="concertSearch" class="form-group pull-right">
+			<input type="text" class="search form-control" placeholder="Søk">
+		</div>
+
+		<table data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Username"
+		data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-2" data-field="Username" data-sortable="true">Brukernavn</th>
+					<th class="col-xs-1" data-field="Role" data-sortable="true">Rolle</th>
+					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
+				</tr>
+				<!--<tr class="warning no-result">
+      				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
+  				</tr>-->
+			</thead>
+
+			<tbody>
+				{% for user in users %}
+				<tr>
+					<td>{{ user.local.username }}</td>
+					<td>{{ user.role }}</td>
+					<td>
+						<form method="POST" action="/user/{{ user._id }}">
+        					<input type="hidden" name="_method" value="DELETE"/>
+        					<input type="submit" class="btn btn-danger" value="Slett"/><br>
+    					</form>
+    				</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+{% endblock %}

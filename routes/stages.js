@@ -64,17 +64,36 @@ router.route('/stages/create')
 		// On POST-recieve, create a Stage Object with body params from form
 
 		var stage = new Stage({
-    		name:req.body.name,
-    		capacity:req.body.capacity,
-    		price:req.body.price,
-    	})
-    	stage.save()
+				name: "",
+				price: "",
+				capacity: "",
+				concerts: [],
+				color:"",
+			})
+
+			Object.keys(req.body).forEach(function (key, index) {
+				if ([key]in stage && req.body[key] != '') {
+					if (typeof stage[key] != 'undefined' && stage[key].constructor === Array) {
+						stage[key] = req.body[key].split(',')
+					} else {
+						stage[key] = req.body[key]
+					}
+				}
+			})
+
+			stage.save(function (err) {
+				if (err) {
+					res.send(err)
+				} else {
+					res.redirect('/stages')
+				}
+			})
 
 		// Add model other variables for created Stage model
 		// ......
 
 		// Send redirect to newly created stage object
-		res.redirect('/stage/' + stage._id)
+		//res.redirect('/stage/' + stage._id)
 	})
 
 	.get(isLoggedIn, function(req,res){
