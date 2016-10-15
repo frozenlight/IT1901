@@ -82,4 +82,8 @@
             <button id="concert_submit" type="submit" class="btn btn-success">Send inn</button>
         </form>
     </div>
+    <form method="POST" action="/concert/{{ _id }}/edit">
+        <input type="hidden" name="_method" value="DELETE"/>
+        <input type="submit" class="btn btn-success" value="Slett"/><br>
+    </form>
 {% endblock %}

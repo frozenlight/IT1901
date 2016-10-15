@@ -4,11 +4,11 @@
 
 
 var colors = {
-    Edgar:"#4286f4",
+    /*Edgar:"#4286f4",
     Strossa:"#f4e542",
     Storsalen:"#f44242",
     Klubben:"#42f445",
-    Knaus:"#42f4e8",
+    Knaus:"#42f4e8",*/
     Annen:"#8342f4"
 }
 
@@ -36,6 +36,7 @@ $(document).ready(function(){
     })*/
 
     $.when(concerts,bookings,stages).done(function(){
+
         //console.log('concerts: '+JSON.stringify(concerts))
 
         // When the objects are returned from the Async GET request, they come with more of the HTTP response than we need, we only use the resposeText
@@ -45,11 +46,15 @@ $(document).ready(function(){
         bookings = JSON.parse(bookings.responseText)
         stages = JSON.parse(stages.responseText)
 
+        var stage_colors = {}
+        for (var i = 0; i<stages.length; i++) {
+            stage_colors[stages[i].name] = stages[i].color
+        }
 
         var events = []
 
         for(var i = 0; i<concerts.length; i++){
-            var color = colors[concerts[i].stage]
+            var color = stage_colors[concerts[i].stage]
             if (color == undefined){
                 color = colors.Annen
             }

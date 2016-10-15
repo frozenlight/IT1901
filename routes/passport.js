@@ -87,4 +87,23 @@ module.exports = function(app,router,isLoggedIn,user){
 				}
 			})
 		})
+
+	router.route('/users')
+		.get(isLoggedIn, user.is('admin'), function (req, res) {
+			User.find(function (err, users) {
+				res.render('user-table',{users:users})
+			})
+		})
+
+	router.route('/user/:user_id')
+		.get(isLoggedIn, user.is('admin'), function (req, res) {
+			User.findById(req.params.user_id, function (err, _user) {
+				res.json(_user)
+			})
+		})
+		.delete(isLoggedIn, user.is('admin'), function (req, res) {
+			User.findOneAndRemove(req.params.user_id, function (err, _user) {
+				res.redirect('/users')
+			})
+		})
 }

@@ -4,7 +4,7 @@
   "description": "Building a server for Project 1 (IT1901)",
   "main": "app.js",
   "scripts": {
-    "test": "",
+    "test": "node create.js",
     "start": "node app.js"
   },
   "author": "Ole Anders Stokker (frozenlight)",

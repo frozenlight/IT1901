@@ -87,9 +87,9 @@
 			<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
 		</form>
 	</div>
-	<form method="post" action="/band/{{ _id }}/edit" enctype="application/x-www-form-urlencoded">
-		<input type="hidden" name="_method" value="delete"/>
-		<input type="submit" class="btn btn-success"/ value="Slett"><br>
+	<form method="POST" action="/band/{{ _id }}/edit">
+		<input type="hidden" name="_method" value="DELETE"/>
+		<input type="submit" class="btn btn-danger" value="Slett"/><br>
 	</form>
 {% endblock %}
 
