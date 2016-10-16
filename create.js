@@ -19,7 +19,7 @@ var User	  =  require('./models/user.js')
 
 mongoose.connect(db.url)
 
-console.log(JSON.stringify(Band.schema))
+//console.log(JSON.stringify(Band.schema))
 
 Stage.find({}, function (err, stages) {
 	if (err) {
