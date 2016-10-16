@@ -82,6 +82,16 @@ module.exports = function(router){
 				})
 		})
 
+	router.route('/api/band/:band_id')
+		.get(function (req, res) {
+			Band.findById(req.params.band_id, function (err, band) {
+				if (err) {
+					res.send(err)
+				}
+				res.json(band)
+			})
+		})
+
 	router.route('/api/stage')
 		.get(function(req,res){
 			var key = Object.keys(req.query)[0]

@@ -81,16 +81,18 @@
 					<input type="text" class="form-control" id="spotify_followers" name="spotify_followers" value="{{band.spotify_followers}}">
 				</div>
 			</div>
-
+			<input id="spotify_albums" type="hidden" name="spotify_albums" value="">
+			<input id="spotify_top_tracks" type="hidden" name="spotify_top_tracks" value="">
 			<div class="col-xs-3"></div>
 			<button id="band_submit" type="submit" class="btn btn-success">Send inn</button>
 			<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
 		</form>
+		<form method="POST" action="/band/{{ band.name }}/edit">
+			<input type="hidden" name="_method" value="DELETE"/>
+			<input type="submit" class="btn btn-danger" value="Slett"/><br>
+		</form>
+
 	</div>
-	<form method="POST" action="/band/{{ band.name }}/edit">
-		<input type="hidden" name="_method" value="DELETE"/>
-		<input type="submit" class="btn btn-danger" value="Slett"/><br>
-	</form>
 {% endblock %}
 
 {% block scripts %}
