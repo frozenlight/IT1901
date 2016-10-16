@@ -31,7 +31,9 @@ Stage.find({}, function (err, stages) {
 				price:'2000',
 				capacity:'100',
 				concerts:[],
-				color:'#4286f4'
+				color:'#4286f4',
+				concerts:[],
+				bands:[],
 			},
 			{
 				//_id:'SkgtUmVCA',
@@ -39,7 +41,9 @@ Stage.find({}, function (err, stages) {
 				price:'1690',
 				capacity:'130',
 				concerts:[],
-				color:'#f4e542'
+				color:'#f4e542',
+				concerts:[],
+				bands:[],
 			},
 			{
 				//_id:'Sy-Y8XV0R',
@@ -47,7 +51,9 @@ Stage.find({}, function (err, stages) {
 				price:'5000',
 				capacity:'500',
 				concerts:[],
-				color:'#f44242'
+				color:'#f44242',
+				concerts:[],
+				bands:[],
 			},
 			{
 				//_id:'H1ftIQVCA',
@@ -55,7 +61,9 @@ Stage.find({}, function (err, stages) {
 				price:'2500',
 				capacity:'175',
 				concerts:[],
-				color:'#42f445'
+				color:'#42f445',
+				concerts:[],
+				bands:[],
 			},
 			{
 				//_id:'BkXK874RA',
@@ -63,7 +71,9 @@ Stage.find({}, function (err, stages) {
 				price:'3500',
 				capacity:'250',
 				concerts:[],
-				color:'#42f4e8'
+				color:'#42f4e8',
+				concerts:[],
+				bands:[],
 			},
 		])
 		console.log('Created stages')

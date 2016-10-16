@@ -6,7 +6,6 @@ var Stage = require('../models/Stage.js');
 var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
 var mongoose = require('mongoose')
-var ObjectId = mongoose.Schema.ObjectId
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -228,6 +227,34 @@ router.route('/concerts/create')
 		//res.redirect('/concert/' + concert._id)
 
 		//There is no dedicated concert page, therefore redirecting to the table
+
+		Band.find({'_id': { $in: concert.bands }}, function (err, bands) {
+			for (var i = 0; i<bands.length; i++) {
+				console.log('ITERERER BAND')
+				bands[i].concerts.push(concert._id)
+				bands[i].save(function (err) {
+					console.error(err)
+				})
+			}
+		})
+
+		Stage.findOne({'_id':concert.stage}, function (err, stage) {
+			stage.concerts.push(concert._id)
+			for (var i = 0; i<concert.bands.length; i++) {
+				stage.bands.push(concert.bands[i])
+			}
+			stage.save(function (err) {
+				console.error(err)
+			})
+		})
+
+		concert.save(function (err) {
+			if (err) {
+				console.error(err)
+			} else {
+				console.log('Concert saved!')
+			}
+		})
 		res.redirect('/concerts');
 	})
 
