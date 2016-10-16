@@ -23,10 +23,9 @@ module.exports = function(router,passport,isLoggedIn,user){
 				if (err){ res.send(err); }
 
 				// Render found objects with swig and send to client 
-				console.log(JSON.stringify(bands))
 				res.render('bandliste', {bands:bands,title:'List of bands'});
 			});
-		});
+		})
 
 	// Routing function for an individual band object
 	router.route('/band/:band_id')
@@ -38,7 +37,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 				if (err) {res.send(err)}
 				if (band) {
 
-					res.render('bandinfo',band);
+					res.render('bandinfo',{band:band});
 				}
 				else {
 					res.sendStatus(404);
@@ -59,20 +58,41 @@ module.exports = function(router,passport,isLoggedIn,user){
 		.post(isLoggedIn, function(req,res) {
 			
 			Band.findById(req.params.band_id, function(err,band) {
-				if (err) {res.send(err)}
+				if (err) {
+					res.send(err)
+				}
 				if (band) {
 
+					//onsole.log('REBUILD: '+req.body)
+
 					// iterate over keys in recieved form, and if anything is edited, change information in object in database
-					Object.keys(req.body).forEach(function(key,index) {
-						if ([key] in band && req.body[key] != ''){
-							if(typeof band[key] != "undefined" && band[key].constructor === Array){
-								band[key] = req.body[key].split(',');
+					Object.keys(req.body).forEach(function (key, index) {
+						if ([key] in band && req.body[key] != '') {
+							if (typeof band[key] != "undefined" && band[key].constructor === Array) {
+								if (req.body[key].includes('{')) {
+									band[key] = JSON.parse(req.body[key])
+								} else {
+									band[key] = req.body[key].split(',')
+								}
 							}
-							else{
-								band[key] = req.body[key];
+							else if (typeof band[key] != "undefined" && band[key].constructor === Object) {
+								console.log(req.body[key])
+								band[key] = JSON.parse(req.body[key])
+							}
+							else {
+								band[key] = req.body[key]
 							}
 						}
-					});
+					})
+
+					//console.log('CONSTRUCTOR THINGY'+band.spotify_albums.constructor.name)
+
+
+					//Ugly thing done because i cant seem to find the constructor of the JSON type
+					band.spotify_albums = JSON.parse(req.body.spotify_albums)
+					band.spotify_top_tracks = JSON.parse(req.body.spotify_top_tracks)
+
+
 					// After edit, save and redirect to objects' page again, else send error
 					band.save(function(err){
 						if(err){res.send(err)}
@@ -117,6 +137,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 		// POST function for /bands/create/
 		.post(isLoggedIn, function(req,res){
 			// On POST-recieve, create a Band Object with body params from form
+			//console.log('FIRST BUILD: '+req.body)
 
 			Band.find({name:req.body.name}, function(err,old_band){
 				if (err) {res.send(err)}
@@ -136,12 +157,19 @@ module.exports = function(router,passport,isLoggedIn,user){
 						spotify_genres:[],
 						spotify_popularity:"",
 						spotify_image:"",
+
+						spotify_albums:{},
+						spotify_top_tracks:{},
 	    			})
 
 	    			Object.keys(req.body).forEach(function(key,index) {
 						if ([key] in band && req.body[key] != ''){
 							if(typeof band[key] != "undefined" && band[key].constructor === Array){
 								band[key] = req.body[key].split(',');
+							}
+							else if (typeof band[key] != "undefined" && band[key].constructor === Object) {
+								console.log(req.body[key])
+								band[key] = JSON.parse(req.body[key])
 							}
 							else{
 								band[key] = req.body[key];
@@ -150,7 +178,6 @@ module.exports = function(router,passport,isLoggedIn,user){
 					});
 
 					band.save()
-
 					// Redirect to band page after creation
 					res.redirect('/band/' + band._id)
 				}

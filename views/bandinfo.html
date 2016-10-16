@@ -4,62 +4,17 @@
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-	<!-- <header>
-		<h2>{{name}} :: {{_id}}</h2>
-	</header>
-	<div class="box">	
-		<div class="boxLeft">
-			<a href='/band/{{ id }}/edit'>Endre her</a>
-			<div id="sjanger">
-				<h3>Sjanger</h3>
-				<p>
-					{% for genre in spotify_genres %}
-					{{genre}},
-					{% endfor %}
-				</p>
-			</div>
-			<div id="info">
-				<h3>Info</h3>
-				<p>{{description}}</p>
-			</div>
-		</div>
-		<div class="boxRight">
-			<div id="strommetjenester">
-				<h3>Spotifyinformasjon</h3>
-				<p>Popularitetsrate: {{spotify_popularity}}</p>
-				<img width="200" height="200" src="{{spotify_image}}"/>
-				<p>Spotify ID: {{spotify_id}}</p>
-				<p>Spotify follower numbers: {{spotify_followers}}</p>
-			</div>	
-			<div id="tidligereKonserter">
-				<h3>Tidligere konserter i Norge</h3>
-				<ul>
-					{% for concert in previous_concerts %}
-					<li>{{concert}}</li>
-					{% endfor %}
-				</ul>	
-			</div>
-			<div id="albumsalg">
-				<h3>Salgstall for album</h3>
-				<ul>
-					{%for album in album_sales%}
-					<li>{{album}}</li>
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
-	</div> -->
 
 	<div class="container text-left">
 
 		<div class="col-xs-8">
-			<h2>{{name}}</h2>
+			<h2>{{band.name}}</h2>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Sjangere</h3>
 				</div>
 				<div class="panel-body">
-					{% for genre in spotify_genres %}
+					{% for genre in band.spotify_genres %}
 						{{genre}},
 					{% endfor %}
 				</div>
@@ -70,7 +25,7 @@
 					<h3 class="panel-title">Info</h3>
 				</div>
 				<div class="panel-body">
-					{{description}}
+					{{band.description}}
 				</div>
 			</div>
 
@@ -80,19 +35,48 @@
 				</div>
 				<div class="panel-body">
 					<ul>
-					{% for concert in previous_concerts %}
+					{% for concert in band.previous_concerts %}
 						<li>{{concert}}</li>
 					{% endfor %}
 					</ul>
 				</div>
 			</div>
+			{% if band.spotify_top_tracks %}
+			<h2 class="tableHeader">Top 10 songs on Spotify</h2>
 
-			<a class="btn btn-success" href='/band/{{ id }}/edit'>Endre band</a>
+			<table data-toggle="table" 
+			data-classes="table table-hover results"
+			data-striped="true"
+			data-sort-name="Name"
+			data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-2" data-field="Name" data-sortable="true">Navn</th>
+						<th class="col-xs-2" data-field="Album" data-sortable="true">Album</th>
+						<th class="col-xs-1" data-field="Popularity" data-sortable="true">Popularitet</th>
+						<th class="col-xs-1" data-field="Preview" data-sortable="false">Smakebit</th>
+					</tr>
+				</thead>
 
-			<form method="POST" action="/band/{{ _id }}">
+				<tbody>
+					{% for track in band.spotify_top_tracks %}
+					<tr>
+						<td>{{ track.name }}</td>
+						<td>{{ track.album }}</td>
+						<td>{{ track.popularity }}</td>
+						<td><audio controls><source src="{{track.preview_url}}" type="audio/mpeg">Not supported</source></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+			<a class="btn btn-success" href='/band/{{ band.id }}/edit'>Endre band</a>
+
+			<form method="POST" action="/band/{{ band._id }}">
 				<input type="hidden" name="_method" value="DELETE"/>
 				<input type="submit" class="btn btn-danger" value="Slett"/><br>
-			</form>
+			</form> 
 
 		</div>
 
@@ -104,35 +88,47 @@
 				</div>
 				<div class="panel-body">
 					<div class="thumbnail">
-						<img src="{{spotify_image}}"/>
+						<img src="{{band.spotify_image}}"/>
 					</div>
 					<table>
 						<tbody>
 							<tr>
 								<td>Popularitetsrate:</td>
-								<td>&nbsp {{spotify_popularity}}</td>
+								<td>&nbsp {{band.spotify_popularity}}</td>
 							</tr>
 							<tr>
 								<td>Spotify-følgere:</td>
-								<td>&nbsp {{spotify_followers}}</td>
+								<td>&nbsp {{band.spotify_followers}}</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
-			
+			{% if band.spotify_albums %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Salgstall</h3>
+					<h3 class="panel-title">Albumer</h3>
 				</div>
 				<div class="panel-body">
-					<ul>
-					{%for album in album_sales%}
-						<li>{{album}}</li>
-					{% endfor %}
-					</ul>
+					
+					<table data-toggle="table" 
+					data-classes="table table-hover results"
+					data-striped="true"
+					data-sort-name="Name"
+					data-sort-order="asc">
+
+						<tbody>
+							{% for album in band.spotify_albums %}
+							<tr>
+								<td><img height="64" width="64" src="{{album.image}}"></img></td>
+								<td>{{album.name}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
 				</div>
 			</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}
