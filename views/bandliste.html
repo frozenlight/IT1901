@@ -21,6 +21,7 @@
 					<th class="col-xs-2" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-4" data-field="Genre" data-sortable="true">Sjanger</th>
 					<th class="col-xs-2" data-field="Popularity" data-sortable="true">Popularitetsrate</th>
+					<th class="col-xs-2" data-field="Delete" data-sortable="false"></th>
 				</tr>	
 			</thead>
 
@@ -31,6 +32,12 @@
 						<td><a id="{{band.name}}" href="/band/{{ band._id}}">{{band.name}}</a></td>
 						<td>{{band.spotify_genres}}</td>
 						<td>{{band.spotify_popularity}}</td>
+						<td>
+							<form method="POST" action="/band/{{ band._id }}">
+	        					<input type="hidden" name="_method" value="DELETE"/>
+	        					<input type="submit" class="btn btn-danger" value="Slett"/><br>
+	    					</form>
+	    				</td>
 					</tr>
 				{% endfor %}
 				{% endif %}
