@@ -4,77 +4,60 @@
     <link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-    <!--<h3>{{ name }}</h3>
-    <p>
-        {% for stuff in bandIDs %}
-        <p>{{stuff.name}}{{stuff.id}}</p>
-        {% endfor %}
-    </p>
-    <form method="post" action="/concert/{{ _id }}/edit">
-    	<p>Navn: </p>
-        <input type="text" name="name" placeholder="{{ name }}">
-        <p>Band (skill band med komma ',')</p>
-        <input type="text" name="bands" placeholder="{{ bands }}">
-        <p>Sjanger: </p>
-        <input type="text" name="genre" placeholder="{{ genre }}"> 
-        <p>Scene: </p>
-        <input type="text" name="stage" placeholder="{{ stage }}">
-        <p>Publikumsantall: </p>
-        <input type="number" name="audSize" placeholder="{{ audSize }}">
-        <p>Dato og tid: </p>
-        <input type="date" name="date" value="{{ date }}"><input type="time" name="time" value="{{ time }}">
-        <p></p>
-        <input type="submit" value="submit">
-    </form>-->
 
     <div class="container text-left">
         <h2 class="formHeader">Endre konsert</h2>
 
-        <form class="form-horizontal" method="post" action="/concert/{{ _id }}/edit">
+        <form class="form-horizontal" method="post" action="/concert/{{ concert.name }}/edit">
             <div class="form-group">
                 <label class="control-label col-xs-2" for="name">Navn: </label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="name" name="name" placeholder="{{ name }}">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="{{ concert.name }}">
                 </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-xs-2" for="bands">Band: </label>
-                <div class="col-xs-10">
-                    <input type="text" class="form-control" id="bands" name="bands" placeholder='{{ bands }} (skill band med komma ",")'>
-                </div>
+                <label class="control-label col-xs-2" for="sel2">band: </label>
+                <select multiple class="form-control" name="bands" id="sel2">
+                    {% for band in bands %}
+                    <option value="{{band.id}}">{{band.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-2" for="genre">Sjanger: </label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="genre" name="genre" placeholder="{{ genre }}">
+                    <input type="text" class="form-control" id="genre" name="genre" placeholder="{{ concert.genre }}">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="control-label col-xs-2" for="stage">Scene: </label>
-                <div class="col-xs-10">
-                    <input type="text" class="form-control" id="stage" name="stage" placeholder="{{ stage }}">
-                </div>
+           <div class="form-group">
+                <label class="control-label col-xs-2" for="sel1">Scene: </label>
+                <select class="form-control" name="stage" id="sel1">
+                    {% for stage in stages %}
+                    <option value="{{stage.id}}">{{stage.name}}</option>
+                    {% endfor %}
+                </select>
             </div>
+
 
             <div class="form-group">
                 <label class="control-label col-xs-2" for="tickets">Publikumsantall: </label>
                 <div class="col-xs-10">
-                    <input type="text" class="form-control" id="tickets" name="audSize" placeholder="{{ audSize }}">
+                    <input type="text" class="form-control" id="tickets" name="audSize" placeholder="{{ concert.audSize }}">
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-xs-2" for="date">Dato: </label>
                 <div class="col-xs-3">
-                    <input type="date" class="form-control" id="date" name="date" value="{{ date }}">
+                    <input type="date" class="form-control" id="date" name="date" value="{{ concert.date }}">
                 </div>
 
                 <label class="control-label col-xs-1" for="time">Tid: </label>
                 <div class="col-xs-2">
-                    <input type="time" class="form-control" id="time" name="time" value="{{ time }}">
+                    <input type="time" class="form-control" id="time" name="time" value="{{ concert.time }}">
                 </div>
             </div>
 
@@ -82,7 +65,7 @@
             <button id="concert_submit" type="submit" class="btn btn-success">Send inn</button>
         </form>
     </div>
-    <form method="POST" action="/concert/{{ _id }}/edit">
+    <form method="POST" action="/concert/{{ concert.name }}/edit">
         <input type="hidden" name="_method" value="DELETE"/>
         <input type="submit" class="btn btn-success" value="Slett"/><br>
     </form>

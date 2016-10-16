@@ -8,11 +8,11 @@
 	<div class="container text-left">
 		<h2 class="formHeader">Endre band</h2>
 
-		<form class="form-horizontal" method="post" action="/band/{{ _id }}/edit">
+		<form class="form-horizontal" method="post" action="/band/{{ band.name }}/edit">
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_search_field">Navn: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="spotify_search_field" name="name" value="{{name}}">
+					<input type="text" class="form-control" id="spotify_search_field" name="name" value="{{band.name}}">
 				</div>
 			</div>
 			<div class="col-xs-3"></div>
@@ -21,27 +21,27 @@
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_genres">Sjanger: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="spotify_genres" name="spotify_genres" value="{{spotify_genres}}">
+					<input type="text" class="form-control" id="spotify_genres" name="spotify_genres" value="{{band.spotify_genres}}">
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="members">Medlemmer: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="members" name="members" value='{{members}}'>
+					<input type="text" class="form-control" id="members" name="members" value='{{band.members}}'>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="description">Beskrivelse: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="description" name="description" value="{{description}}">
+					<input type="text" class="form-control" id="description" name="description" value="{{band.description}}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_image">Bilde: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="spotify_image" name="spotify_image" value="{{spotify_image}}">
+					<input type="text" class="form-control" id="spotify_image" name="spotify_image" value="{{band.spotify_image}}">
 					
 					<img height="100" width="100" src="{{spotify_image}}" id="artist_image"></img>
 				</div>
@@ -50,35 +50,35 @@
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_popularity">Popularitet: </label>
 				<div class="col-xs-9">
-					<input type="number" class="form-control" id="spotify_popularity" name="spotify_popularity" value="{{spotify_popularity}}">
+					<input type="number" class="form-control" id="spotify_popularity" name="spotify_popularity" value="{{band.spotify_popularity}}">
 				</div>
 			</div>      
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="previous_concerts">Tidligere konserter i Norge: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="previous_concerts" name="previous_concerts" value='{{previous_concerts}}'>
+					<input type="text" class="form-control" id="previous_concerts" name="previous_concerts" value='{{band.previous_concerts}}'>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="album_sales">Salgstall for albumer: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="album_sales" name="album_sales" value='{{album_sales}}'>
+					<input type="text" class="form-control" id="album_sales" name="album_sales" value='{{band.album_sales}}'>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_id">Spotify-ID: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="spotify_id" name="spotify_id" value="{{Spotify-ID}}">
+					<input type="text" class="form-control" id="spotify_id" name="spotify_id" value="{{band.Spotify-ID}}">
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_followers">Følgere på Spotify: </label>
 				<div class="col-xs-9">
-					<input type="text" class="form-control" id="spotify_followers" name="spotify_followers" value="{{spotify_followers}}">
+					<input type="text" class="form-control" id="spotify_followers" name="spotify_followers" value="{{band.spotify_followers}}">
 				</div>
 			</div>
 
@@ -87,7 +87,7 @@
 			<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
 		</form>
 	</div>
-	<form method="POST" action="/band/{{ _id }}/edit">
+	<form method="POST" action="/band/{{ band.name }}/edit">
 		<input type="hidden" name="_method" value="DELETE"/>
 		<input type="submit" class="btn btn-danger" value="Slett"/><br>
 	</form>

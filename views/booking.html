@@ -6,27 +6,27 @@
 <div class="alert alert-danger">{{message}}</div>
 {% endif %}
 
-<form method="post" action="/booking/{{_id}}"
+<form method="post" action="/booking/{{booking.url}}"
 
     <h1>{{band_name}}</h1>
         <p>Dato: </p>
-        <input type="date" name="date" value="{{date}}">
+        <input type="date" name="date" value="{{booking.date}}">
         <p>Pris: </p>
-        <input type="number" name="price" value="{{price}}"><br/>
+        <input type="number" name="price" value="{{bookng.price}}"><br/>
         <p>Epost:</p>
-        <input type="email" name="email" value="{{email}}">
+        <input type="email" name="email" value="{{booking.email}}">
         <p>Melding: </p>
-        <textarea type="text" name="text" cols="100" rows="10">{{text}}</textarea>
+        <textarea type="text" name="text" cols="100" rows="10">{{booking.text}}</textarea>
         <br>
         {% if userIs('bookingsjef') %}
         <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
         {% endif %}
-        <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if sent %} checked {% endif %}>Mail sendt<br>
+        <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if booking.sent %} checked {% endif %}>Mail sendt<br>
         <input type="submit" value="Lagre">
         <br>
-        <button id="mailto-button" type="submit" formaction="/booking/{{_id}}"><a href="mailto:{{ email }}?Subject=Booking%20av%20{{band_name}}&body={{text}}" target="_top">SEND MAIL</a></button>
+        <button id="mailto-button" type="submit" formaction="/booking/{{booking.name}}"><a href="mailto:{{ booking.email }}?Subject=Booking%20av%20{{booking.band_name}}&body={{booking.text}}" target="_top">SEND MAIL</a></button>
 </form>
-<form method="POST" action="/booking/{{ _id }}">
+<form method="POST" action="/booking/{{ booking.url }}">
     <input type="hidden" name="_method" value="DELETE"/>
     <input type="submit" class="btn btn-danger" value="Slett"/><br>
 </form>

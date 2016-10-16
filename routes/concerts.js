@@ -5,6 +5,8 @@ var Stage = require('../models/Stage.js');
 //require('../config/passport.js')(passport);
 var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
+var mongoose = require('mongoose')
+var ObjectId = mongoose.Schema.ObjectId
 
 String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -26,13 +28,17 @@ router.route('/concerts')
 		// Nimble takes two parameters, the array of functions, and the function to handle the results 	
 		nimble.parallel ([
 			function (callback) {
-				Concert.find(function(err, concerts){
-					if (err) {
-						res.send(err)
-					}
-					callback(err,concerts)
-				})
+				Concert.find()
+					.populate('stage')
+					.populate('bands')
+					.exec(function(err, concerts){
+						if (err) {
+							res.send(err)
+						}
+						callback(err,concerts)
+					})
 			},
+
 			function (callback) {
 				Stage.find(function (err, stages) {
 					if (err) {
@@ -41,6 +47,8 @@ router.route('/concerts')
 					callback(err, stages)
 				})
 			}],
+
+			// after the array of functions is finished, this function is run with the results of them
 			function (err, results) {
 				info = {
 					concerts:results[0],
@@ -52,13 +60,13 @@ router.route('/concerts')
 		)
 	})
 
-router.route('/concert/:concert_id')
+router.route('/concert/:name')
 
 	.get(isLoggedIn, function(req,res){
 
-		Concert.findById(req.params.concert_id, function(err,concert) {
+		Concert.findOne({'name':req.params.name}).populate('stage').exec(function(err,concert) {
 			if (err) {res.send(err)}
-			console.log(concert)
+			//console.log(concert)
 			if (concert) {
 				res.json(concert);
 			}
@@ -68,25 +76,25 @@ router.route('/concert/:concert_id')
 		})
 	})
 	.delete(isLoggedIn, user.can('delete concert'), function(req, res) {
-			Concert.findOneAndRemove({'_id' : req.params.concert_id}, function (err, concert) {
+			Concert.findOneAndRemove({'name' : req.params.name}, function (err, concert) {
         		res.redirect('/concerts')
       		})
 		})
 
 //Routing function for editing concert
-router.route('/concert/:concert_id/edit')
+router.route('/concert/:name/edit')
 	
 	// POST function for this route, on recieve edited object via form
 	.post(isLoggedIn, function(req,res) {
 		
-		Concert.findById(req.params.concert_id, function(err,concert) {
+		Concert.findOne({'name':req.params.name}, function(err,concert) {
 			if (err) {res.send(err)}
 			if (concert) {
 
 				// iterate over keys in recieved form, and if anything is edited, change information in object in database
 				Object.keys(req.body).forEach(function(key,index) {
 					if ([key]in concert && req.body[key] != ''){
-						if(typeof concert[key] != "undefined" && concert[key].constructor === Array){
+						if(typeof concert[key] != "undefined" && concert[key].constructor === Array && req.body[key].constructor !== Array) {
 							concert[key] = req.body[key].split(',');
 						}
 						else{
@@ -98,7 +106,7 @@ router.route('/concert/:concert_id/edit')
 				concert.save(function(err){
 					if(err){res.send(err)}
 					else{
-						//res.redirect('/concert/' + req.params.concert_id)
+						//res.redirect('/concert/' + req.params.name)
 
 						//There is no dedicated concert page, therefore redirecting to the table
 						res.redirect('/concerts');
@@ -117,57 +125,101 @@ router.route('/concert/:concert_id/edit')
 
 	// Find object in database by id and render edit page for object type if found.
 	// If not found, send 404
-	.get(isLoggedIn, function(req,res){
-		Concert.findById(req.params.concert_id, function(err,concert){
-			if (err) {res.send(err)};
-			if (concert) {
-				res.render('concert-edit', concert);
+	.get(isLoggedIn, function(req, res) {
+
+		nimble.parallel ([
+			function (callback) {
+				Concert.findOne({'name':req.params.name}, function(err,concert){
+					if (err) {
+						res.send(err)
+					}
+					callback(err,concert)
+				})
+			},
+
+			function (callback) {
+				Stage.find(function (err, stages) {
+					if (err) {
+						res.send(err)
+					}
+					callback(err, stages)
+				})
+			},
+			function (callback) {
+				Band.find(function (err, bands) {
+					if (err) {
+						res.send(err)
+					}
+					callback(err, bands)
+				})
+			}],
+
+			// after the array of functions is finished, this function is run with the results of them
+			function (err, results) {
+
+				res.render('concert-edit', {concert:results[0],stages:results[1],bands:results[2]});
 			}
-			else {
-				res.sendStatus(404);
-			}
-		})
+		)
+
 	})
 	.delete(isLoggedIn, user.can('delete concert'), function(req, res) {
-			Concert.findOneAndRemove({'_id' : req.params.concert_id}, function (err, concert) {
+			Concert.findOneAndRemove({'name' : req.params.name}, function (err, concert) {
         		res.redirect('/concerts')
       		})
 		})
+
+
+
 
 // Routing functions for /concerts/create/
 router.route('/concerts/create')
 
 	// POST function for /concerts/create/
 	.post(isLoggedIn, function(req,res){
+		console.log('BODY: ' + JSON.stringify(req.body))
+
+		console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
 		// On POST-recieve, create a Concert Object with body params from form
 		var concert = new Concert({
 			name:req.body.name,
-			bands: req.body.bands.split(','),
+			bands: req.body.bands,
 			genre: req.body.genre,
 			stage: req.body.stage,
 			audSize: req.body.audSize,
 			date:req.body.date,
 			time:req.body.time,
 
-			bandIDs:[],
+			//bandIDs:[],
 			//genres:req.body.genres.replaceAll(' ','').split(','),
 		})
 		//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-		concert.bands.forEach(function(bandName){
+		/*concert.bands.forEach(function(bandName){
 			Band.findOne({'name':bandName},'_id name',function(err,band){
 				if (err) {res.send(err)}
 				if(band){
 					var band_and_id = {name:band.name,id:band._id};
 					concert.bandIDs.push(band_and_id);
-					concert.save();
+					concert.save(function (err) {
+						if (err) {
+							console.error(err)
+						} else {
+							console.log('Concert saved!')
+						}
+					})
 				}
 				if(band == undefined){
 					var band_and_id = {name:bandName,id:""};
 					concert.bandIDs.push(band_and_id);
-					concert.save();
+					concert.save(function (err) {
+						if (err) {
+							console.error(err)
+						} else {
+							console.log('Concert saved!')
+						}
+					})
 				}
 			})
-		})
+		})*/
 
 		// Add model other variables for created Concert model
 		// ......
@@ -180,7 +232,35 @@ router.route('/concerts/create')
 	})
 
 	.get(isLoggedIn, function(req,res){
-		res.render('concert-form',{});
-	});
+		nimble.parallel ([
+
+			function (callback) {
+				Band.find(function(err, bands){
+					if (err) {
+						res.send(err)
+					}
+					callback(err,bands)
+				})
+			},
+
+			function (callback) {
+				Stage.find().populate('Stage').exec(function (err, stages) {
+					if (err) {
+						res.send(err)
+					}
+					callback(err, stages)
+				})
+			}],
+
+
+			function (err, results) {
+				info = {
+					bands:results[0],
+					stages:results[1]
+				}
+				res.render('concert-form', info)
+			}
+		)
+	})
 
 }

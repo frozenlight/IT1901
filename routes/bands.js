@@ -29,16 +29,16 @@ module.exports = function(router,passport,isLoggedIn,user){
 		});
 
 	// Routing function for an individual band object
-	router.route('/band/:band_id')
+	router.route('/band/:name')
 
 		.get(isLoggedIn, function(req,res){
 
 			// Find object by its' id and render page to user, if not found send 404
-			Band.findById(req.params.band_id, function(err,band) {
+			Band.findOne({'name':req.params.name}, function(err,band) {
 				if (err) {res.send(err)}
 				if (band) {
 
-					res.render('bandinfo',band);
+					res.render('bandinfo',{band:band});
 				}
 				else {
 					res.sendStatus(404);
@@ -47,18 +47,18 @@ module.exports = function(router,passport,isLoggedIn,user){
 		})
 		
 		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
-			Band.findOneAndRemove({'_id' : req.params.band_id}, function (err, band) {
+			Band.findOneAndRemove({'name' : req.params.name}, function (err, band) {
         		res.redirect('/bands')
       		})
 		})
 
 	// Routing function for an individual objects edit page
-	router.route('/band/:band_id/edit')
+	router.route('/band/:name/edit')
 
 		// POST function for this route, on recieve edited object via form
 		.post(isLoggedIn, function(req,res) {
 			
-			Band.findById(req.params.band_id, function(err,band) {
+			Band.findOne({'name':req.params.name}, function(err,band) {
 				if (err) {res.send(err)}
 				if (band) {
 
@@ -77,7 +77,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 					band.save(function(err){
 						if(err){res.send(err)}
 						else{
-							res.redirect('/band/' + req.params.band_id)
+							res.redirect('/band/' + req.params.name)
 						}
 					})
 				}
@@ -93,11 +93,11 @@ module.exports = function(router,passport,isLoggedIn,user){
 
 			// Find object in database by id and render edit page for object type if found.
 			// If not found, send 404
-			Band.findById(req.params.band_id, function(err,band) {
+			Band.findOne({'name':req.params.name}, function(err,band) {
 				if (err) {res.send(err)}
 				if (band) {
 
-					res.render('band-edit',band);
+					res.render('band-edit',{band:band});
 				}
 				else {
 					res.sendStatus(404);
@@ -106,7 +106,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 		})
 
 		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
-			Band.findOneAndRemove({'_id' : req.params.band_id}, function (err, band) {
+			Band.findOneAndRemove({'name' : req.params.name}, function (err, band) {
         		res.redirect('/bands')
       		})
 		})
@@ -152,7 +152,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 					band.save()
 
 					// Redirect to band page after creation
-					res.redirect('/band/' + band._id)
+					res.redirect('/band/' + band.name)
 				}
 			})
 		})

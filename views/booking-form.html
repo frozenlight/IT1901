@@ -4,38 +4,19 @@
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-	<!--<form method="post" action="/bookings/create">
-		<p>Bandnavn: </p>
-		<input type="text" name="band_name">
-
-		<p>Epost: </p>
-		<input type="email" name="email">
-
-		<p>Dato: </p>
-		<input type="date" name="date">
-
-		<p>Pris: </p>
-		<input type="number" name="price">
-
-		Beskjed:
-		<textarea name="text" cols="50" rows="5">
-
-		</textarea>
-		<p></p>
-		<input type="submit" value="submit">
-	</form>-->
 
 	<div class="container text-left">
 		<h2 class="formHeader">Opprett tilbud</h2>
 
 		<form class="form-horizontal" method="post" action="/bookings/create">
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="band_name">Bandnavn: </label>
-				<div class="col-xs-10">
-					<input type="text" class="form-control" id="band_name" name="band_name" placeholder="Skriv navn på band">
-				</div>
+				<label class="control-label col-xs-2" for="sel2">band: </label>
+				<select class="form-control" name="band" id="sel2">
+					{% for band in bands %}
+					<option value="{{band.id}}">{{band.name}}</option>
+					{% endfor %}
+				</select>
 			</div>
-
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="email">Epost: </label>
 				<div class="col-xs-10">

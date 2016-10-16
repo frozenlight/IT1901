@@ -1,6 +1,9 @@
 
 var Booking = require('../models/Booking.js')
+var Band = require('../models/Band.js')
 //require('../config/passport.js')(passport);
+
+var nimble = require('nimble')
 
 
 
@@ -13,7 +16,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		.get(isLoggedIn, function(req, res) {
 
 			//Find all Booking objects
-			Booking.find(function (err, bookings) {
+			Booking.find().populate('band').exec(function (err, bookings) {
 				if (err) {
 					res.send(err)
 				}
@@ -30,7 +33,6 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		.post(isLoggedIn, function (req, res) {
 
 			var booking = new Booking({
-				band_name: '',
 				email: '',
 				text: '',
 				approval: false,
@@ -48,6 +50,14 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					}
 				}
 			})
+			booking.url = booking.date+'-'+booking.id.slice(0,5)
+			booking.band = req.body.band
+
+			console.log('BOOKING BAND: '+booking.band)
+			Band.findOne(booking.band, function (err, band) {
+				band.bookings.push(booking._id)
+				band.save()
+			})
 
 			booking.save(function (err) {
 				if (err) {
@@ -59,13 +69,18 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			res.render('booking-form',{})
+			Band.find(function (err, bands) {
+				if (err) {
+					res.send(err)
+				}
+				res.render('booking-form',{bands:bands})
+			})
 		})
 
 	//Route for spesific booking
-	router.route('/booking/:booking_id')
+	router.route('/booking/:url')
 		.post(isLoggedIn,function (req, res) {
-			Booking.findById(req.params.booking_id, function (err, booking) {
+			Booking.findOne({'url':req.params.url}, function (err, booking) {
 				if (err) {
 					res.send(err)
 				}
@@ -104,7 +119,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						if (err) {
 							res.send(err)
 						} else {
-							res.redirect('/booking/'+req.params.booking_id)
+							res.redirect('/booking/'+req.params.url)
 						}
 					})
 				}
@@ -112,18 +127,21 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Booking.findById(req.params.booking_id, function (err, booking) {
+			Booking.findOne({'url':req.params.url}, function (err, booking) {
 				if (err) {
 					res.send(err)
 				}
 				if (booking) {
-					res.render('booking', booking)
+					console.log('Getting to A BOOKING')
+					res.render('booking', {booking:booking})
 					//res.json(booking)
+				} else {
+					console.log('NOT FINDING THE FUCKING BOOKING')
 				}
 			})
 		})
 		.delete(isLoggedIn, user.can('delete booking'), function(req, res) {
-			Booking.findOneAndRemove({'_id' : req.params.booking_id}, function (err, booking) {
+			Booking.findOneAndRemove({'url' : req.params.url}, function (err, booking) {
         		res.redirect('/bookings')
       		})
 		})

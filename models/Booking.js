@@ -2,9 +2,10 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 
+var Band = require('./Band.js')
+
 var BookingSchema = new mongoose.Schema({
-	_id: {type:String,'default':shortid.generate},
-	band_name: String,
+	band: {type: mongoose.Schema.ObjectId, ref: 'Band'},
 	email: String,
 	text: String,
 	approval: Boolean,
@@ -12,6 +13,7 @@ var BookingSchema = new mongoose.Schema({
 	sent: Boolean,
 	price: Number,
 	date: String,
+	url:String,
 });
 
 module.exports = mongoose.model('Booking', BookingSchema);

@@ -19,34 +19,67 @@ module.exports = function(router){
 
 	router.route('/api/concerts')
 		.get(function(req,res){
-			Concert.find(function(err,concerts){
-				if (err) { res.send(err) }
-				res.json(concerts)
-			})
+			Concert.find()
+				.populate('stage')
+				.populate('bands')
+				.exec(function (err, concerts) {
+				if (err) {
+						res.send(err)
+					}
+					res.json(concerts)
+				})
+		})
+
+	router.route('/api/concert/:name')
+		.get(function (req, res) {
+			Concert.findOne({'name':req.params.name})
+				.populate('stage')
+				.populate('bands')
+				.exec(function (err, concert) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(concert)
+				})
 		})
 
 	router.route('/api/stages')
 		.get(function(req,res){
-			Stage.find(function(err,stages){
-				if (err) { res.send(err) }
-				res.json(stages)
-			})
+			Stage.find()
+				.populate('bands')
+				.populate('concerts')
+				.exec(function (err, stages) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(stages)
+				})
 		})
 
 	router.route('/api/bookings')
 		.get(function(req,res){
-			Booking.find(function(err,bookings){
-				if (err) { res.send(err) }
-				res.json(bookings)
-			})
+			Booking.find()
+				.populate('band')
+				.exec(function (err, bookings) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(bookings)
+				})
 		})
 
 	router.route('/api/bands')
 		.get(function(req,res){
-			Band.find(function(err,bands){
-				if (err) { res.send(err) }
-				res.json(bands)
-			})
+			Band.find()
+				.populate('concerts')
+				.populate('bookings')
+				.populate('stages')
+				.exec(function (err, bands) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(bands)
+				})
 		})
 
 	router.route('/api/stage')

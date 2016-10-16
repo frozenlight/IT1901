@@ -36,11 +36,11 @@ router.route('/stages')
 		});
 	});
 
-router.route('/stage/:stage_id')
+router.route('/stage/:name')
 
 	.get(isLoggedIn, function(req,res){
 
-		Stage.findById(req.params.stage_id, function(err,stage) {
+		Stage.findOne({'name':req.params.name}, function(err,stage) {
 			if (err) {res.send(err)}
 			if (stage) {
 				res.json(stage);
@@ -51,7 +51,7 @@ router.route('/stage/:stage_id')
 		})
 	})
 	.delete(isLoggedIn, user.can('delete stage'), function(req, res) {
-			Stage.findOneAndRemove({'_id' : req.params.stage_id}, function (err, stage) {
+			Stage.findOneAndRemove({'name' : req.params.name}, function (err, stage) {
         		res.redirect('/stages')
       		})
 		})

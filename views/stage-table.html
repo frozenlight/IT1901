@@ -6,7 +6,7 @@
 	{% if stages %}
 	{% for stage in stages %}
 	<div class="stage-container">
-		<h3><a href="/stage/{{ stage._id }}">{{ stage.name }}</a></h3>
+		<h3><a href="/stage/{{ stage.name }}">{{ stage.name }}</a></h3>
 		<p>Pris: {{ stage.price }}</p>
 		<p>Kapasitet: {{ stage.capacity }}</p>
 		{% if stage.concerts %}
@@ -14,7 +14,7 @@
 		{% endif %}
 		<p style="color:{{stage.color}};">Farge: {{stage.color}}</p>
 	</div>
-	<form method="POST" action="/stage/{{ stage._id }}">
+	<form method="POST" action="/stage/{{ stage.name }}">
 		<input type="hidden" name="_method" value="DELETE"/>
 		<input type="submit" class="btn btn-danger" value="Slett"/><br>
 	</form>

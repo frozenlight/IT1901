@@ -26,7 +26,7 @@ Stage.find({}, function (err, stages) {
 	if (stages === undefined || stages.length == 0) {
 		Stage.create([
 			{
-				_id:'H1KUmVAR',
+				//_id:'H1KUmVAR',
 				name:'Edgar',
 				price:'2000',
 				capacity:'100',
@@ -34,7 +34,7 @@ Stage.find({}, function (err, stages) {
 				color:'#4286f4'
 			},
 			{
-				_id:'SkgtUmVCA',
+				//_id:'SkgtUmVCA',
 				name:'Strossa',
 				price:'1690',
 				capacity:'130',
@@ -42,7 +42,7 @@ Stage.find({}, function (err, stages) {
 				color:'#f4e542'
 			},
 			{
-				_id:'Sy-Y8XV0R',
+				//_id:'Sy-Y8XV0R',
 				name:'Storsalen',
 				price:'5000',
 				capacity:'500',
@@ -50,7 +50,7 @@ Stage.find({}, function (err, stages) {
 				color:'#f44242'
 			},
 			{
-				_id:'H1ftIQVCA',
+				//_id:'H1ftIQVCA',
 				name:'Klubben',
 				price:'2500',
 				capacity:'175',
@@ -58,7 +58,7 @@ Stage.find({}, function (err, stages) {
 				color:'#42f445'
 			},
 			{
-				_id:'BkXK874RA',
+				//_id:'BkXK874RA',
 				name:'Knaus',
 				price:'3500',
 				capacity:'250',

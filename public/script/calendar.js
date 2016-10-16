@@ -75,7 +75,7 @@ $(document).ready(function(){
                 // We put the date back together in the YY-DD-MM format and add the time of day for event-start with added second precision
                 start:date[0] + date[1] + date[2] + 'T' + concerts[i].time + ':00',
                 // The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
-                url: '/concert/' + concerts[i]._id
+                url: '/concert/' + concerts[i].name
             }
             // For each event, push to events array which is piped into the calendar
             events.push(d)
@@ -103,7 +103,7 @@ $(document).ready(function(){
                 title:bookings[i].band_name + ' : ' + approval,
                 start:bookings[i].date + 'T' + bookings[i].time + ':00',
                 // The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
-                url: '/booking/' + bookings[i]._id
+                url: '/booking/' + bookings[i].name
             }
             // For each event, push to events array which is piped into the calendar
             events.push(d)

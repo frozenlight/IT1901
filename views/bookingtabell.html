@@ -40,7 +40,7 @@
 			{% for booking in bookings %}
 				<tr>
 					<td>{{ booking.date }}</td>
-					<td><a href="/booking/{{ booking._id }}">{{ booking.band_name }}</a></td>
+					<td><a href="/booking/{{ booking.url }}">{{ booking.band.name }}</a></td>
 					<td>{{ booking.price }}</td>
 					<td>
 						{% if !booking.considered %}

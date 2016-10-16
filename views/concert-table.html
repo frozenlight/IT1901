@@ -51,22 +51,23 @@
 					<td>{{ concert.date }}</td>
 					<td>{{ concert.time }}</td>
 					<td>
+						{% if concert.bands %}
 						<ul>
-
-							{% for band in concert.bandIDs %}
-       						<li><a id="{{band.name}}" href="/band/{{band.id}}">{{band.name}}</a></li>
+							{% for band in concert.bands %}
+       						<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
 					        {% endfor %}
 						<ul>
+						{% endif %}
 					</td>
 					<td>{{concert.genre}}</td>
-					<td>{{concert.stage}}</td>
+					<td>{{concert.stage.name}}</td>
 					<td>{{concert.audSize}}</td>
 					{% if userCan('edit concert') %}
-					<td><a class="btn btn-default" href='/concert/{{ concert._id }}/edit'>Endre</a></td>
+					<td><a class="btn btn-default" href='/concert/{{ concert.name }}/edit'>Endre</a></td>
 					{% endif %}
 					{% if userCan('delete concert') %}
 					<td>
-						<form method="POST" action="/concert/{{ concert._id }}">
+						<form method="POST" action="/concert/{{ concert.name }}">
         					<input type="hidden" name="_method" value="DELETE"/>
         					<input type="submit" class="btn btn-danger" value="Slett"/><br>
     					</form>
