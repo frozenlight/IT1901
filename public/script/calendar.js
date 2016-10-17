@@ -66,12 +66,12 @@ $(document).ready(function(){
 
             // Create the JSON-object for the calendar event
             var d = {
-                color:color,
+                color:concerts[i].stage.color,
                 // To keep concistency, the event uses the same id as the database object
                 id:concerts[i]._id,
                 // Show each stage and the name of the concert in the calendar
                 // We should maybe give each stage its own dedicated color to keep the calendar both interesting and easier to read
-                title:concerts[i].stage + ' : ' + concerts[i].name,
+                title:concerts[i].stage.name + ' : ' + concerts[i].name,
                 // We put the date back together in the YY-DD-MM format and add the time of day for event-start with added second precision
                 start:date[0] + date[1] + date[2] + 'T' + concerts[i].time + ':00',
                 // The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
