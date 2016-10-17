@@ -95,11 +95,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 						console.log('user access:'+req.user.role)
 
+						console.log(req.body.confirm)
+
 						if (req.body.confirm == 'accept') {
+							console.log('Setting approved')
 							booking.approval = true
 						} else if ( req.body.confirm == 'deny' ) {
+							console.log('Setting denied')
 							booking.approval = false
 						}
+						console.log('Setting concidered to true')
 
 						booking.considered = true
 
@@ -110,6 +115,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 							booking.sent = false
 						}
 					} else {
+						console.log('Attempted to override with rouge POST request, access blocked because of auth')
 						req.flash({message:'Du har ikke tilgang til å endre Godkjent/ikke-godkjent feltet!'})
 					}
 

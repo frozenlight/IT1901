@@ -10,7 +10,7 @@ var Booking = require('../models/Booking.js')
 // with read-only access to the models and other information we choose
 ////////////////////////////////////////////////////////////
 
-module.exports = function(router){
+module.exports = function (router) {
 
 	router.route('/api')
 		.get(function(req,res){
@@ -56,6 +56,19 @@ module.exports = function(router){
 				})
 		})
 
+	router.route('/api/stage/:name')
+		.get(function (req, res) {
+			Stage.findOne({'name':req.params.name})
+				.populate('bands')
+				.populate('concerts')
+				.exec(function (err, stage) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(stage)
+				})
+		})
+
 	router.route('/api/bookings')
 		.get(function(req,res){
 			Booking.find()
@@ -65,6 +78,18 @@ module.exports = function(router){
 						res.send(err)
 					}
 					res.json(bookings)
+				})
+		})
+
+	router.route('/api/booking/:url')
+		.get(function (req, res) {
+			Booking.findOne({'url':req.params.url})
+				.populate('band')
+				.exec(function (err, booking) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(booking)
 				})
 		})
 
@@ -82,30 +107,17 @@ module.exports = function(router){
 				})
 		})
 
-	router.route('/api/band/:band_id')
+	router.route('/api/band/:name')
 		.get(function (req, res) {
-			Band.findById(req.params.band_id, function (err, band) {
-				if (err) {
-					res.send(err)
-				}
-				res.json(band)
-			})
+			Band.findOne({'name':req.params.name})
+				.populate('concerts')
+				.populate('bookings')
+				.populate('stages')
+				.exec(function (err, band) {
+					if (err) {
+						res.send(err)
+					}
+					res.json(band)
+				})
 		})
-
-	router.route('/api/stage')
-		.get(function(req,res){
-			var key = Object.keys(req.query)[0]
-			var other = req.query[key]
-			console.log("SEARCH:   "+key)
-			console.log("PARAM:    "+other)
-			Stage.findOne({key:other},function(err,stage){
-				if(err){res.send(err)}
-				if(stage == undefined){
-					res.send("undefined")
-				} else {
-					console.log(JSON.stringify(stage))
-					res.json(stage)
-				}
-			})
-		})
-	}
+}

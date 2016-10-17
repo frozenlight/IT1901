@@ -69,15 +69,24 @@ module.exports = function(router,passport,isLoggedIn,user){
 
 					//onsole.log('REBUILD: '+req.body)
 
+					//Ugly thing done because i cant seem to find the constructor of the JSON type
+					if (req.body.spotify_albums != '') {
+						console.log('SETTING ALBUMS')
+						band.spotify_albums = JSON.parse(req.body.spotify_albums)
+						req.body.spotify_albums = ''
+					}
+					if (req.body.spotify_top_tracks != '') {
+						console.log('SETTING TOP TRACKS')
+						band.spotify_top_tracks = JSON.parse(req.body.spotify_top_tracks)
+						req.body.spotify_top_tracks = ''
+					}
+
+
 					// iterate over keys in recieved form, and if anything is edited, change information in object in database
 					Object.keys(req.body).forEach(function (key, index) {
 						if ([key] in band && req.body[key] != '') {
 							if (typeof band[key] != "undefined" && band[key].constructor === Array) {
-								if (req.body[key].includes('{')) {
-									band[key] = JSON.parse(req.body[key])
-								} else {
-									band[key] = req.body[key].split(',')
-								}
+								band[key] = req.body[key].split(',')
 							}
 							else if (typeof band[key] != "undefined" && band[key].constructor === Object) {
 								console.log(req.body[key])
@@ -90,12 +99,6 @@ module.exports = function(router,passport,isLoggedIn,user){
 					})
 
 					//console.log('CONSTRUCTOR THINGY'+band.spotify_albums.constructor.name)
-
-
-					//Ugly thing done because i cant seem to find the constructor of the JSON type
-					band.spotify_albums = JSON.parse(req.body.spotify_albums)
-					band.spotify_top_tracks = JSON.parse(req.body.spotify_top_tracks)
-
 
 					// After edit, save and redirect to objects' page again, else send error
 					band.save(function(err){

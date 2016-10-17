@@ -116,6 +116,45 @@
 			</table>
 			{% endif %}
 
+			{% if band.bookings %}
+
+			<h2 class="tableHeader">Bookings på Samfundet</h2>
+
+			<!--<form method="POST" action="/band/{{ band.name }}">-->
+
+			<table data-toggle="table" 
+			data-classes="table table-hover results"
+			data-striped="true"
+			data-sort-name="Date"
+			data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+						<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
+						<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for booking in band.bookings %}
+					<tr>
+						<td>{{ booking.date }}</td>
+						<td>{{ booking.price }}</td>
+						<td>
+							{% if !booking.considered %}
+								Venter godkjenning
+							{% elseif booking.approval %}
+								Godkjent
+							{% else %}
+								Avslått
+							{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
 		</div>
 
 		<div class="col-xs-4">
