@@ -19,7 +19,7 @@
         <textarea type="text" name="text" cols="100" rows="10">{{booking.text}}</textarea>
         <br>
         {% if userIs('bookingsjef') %}
-        <input type="radio" name="confirm" value="accept">Godkjenn <input type="radio" name="confirm" value="deny">Avslå<br>
+        <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if !booking.approval %} checked {%  endif %}>Avslå<br>
         {% endif %}
         <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if booking.sent %} checked {% endif %}>Mail sendt<br>
         <input type="submit" value="Lagre">

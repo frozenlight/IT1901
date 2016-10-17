@@ -100,8 +100,8 @@ $(document).ready(function(){
                 id:bookings[i]._id,
                 // Show each stage and the name of the concert in the calendar
                 // We should maybe give each stage its own dedicated color to keep the calendar both interesting and easier to read
-                title:bookings[i].band_name + ' : ' + approval,
-                start:bookings[i].date + 'T' + bookings[i].time + ':00',
+                title:bookings[i].band.name + ' : ' + approval,
+                start:bookings[i].date + 'T' +'00:00:00',
                 // The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
                 url: '/booking/' + bookings[i].name
             }
