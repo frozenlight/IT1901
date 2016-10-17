@@ -98,7 +98,7 @@ var roles = new ConnectRoles({
     var accept = req.headers.accept || '';
     res.status(403);
     if (~accept.indexOf('html')) {
-      res.render('access-denied', {action: action});
+      res.render('access-denied')
     } else {
       res.send('Access Denied - You don\'t have permission to: ' + action);
     }
@@ -150,9 +150,29 @@ require('./routes/bookings.js')(router,passport,isLoggedIn,roles)
 require('./routes/concerts.js')(router,passport,isLoggedIn,roles)
 require('./routes/stages.js')(router,passport,isLoggedIn,roles)
 require('./routes/passport.js')(app,router,isLoggedIn,roles)
+require('./routes/error.js')(router)
 
 require('./routes/prototypes.js')
 
+
+
+
+
+/*app.use(function (err, req, res, next) {
+  if(err.status !== 404) {
+    return next();
+  }
+  res.render('not-found')
+})*/
+
+app.use(function (req, res, next) {
+  if (!req.user) {
+    res.redirect('/login')
+  } else {
+    res.status(404)
+    res.render('not-found')
+  }
+})
 
 ////////////////////////////////////////////////////////////
 // Run Express server

@@ -44,7 +44,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 						res.render('bandinfo',{band:band});
 					}
 					else {
-						res.sendStatus(404);
+						res.render('not-found')
 					}
 				})
 		})
@@ -110,7 +110,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 				}
 				else {
 					// if for some reason the edited object is not found, send 404
-					res.sendStatus(404);
+					res.render('not-found')
 				}
 			})
 		})
@@ -127,7 +127,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 					res.render('band-edit',{band:band});
 				}
 				else {
-					res.sendStatus(404);
+					res.render('not-found')
 				}
 			})
 		})

@@ -73,7 +73,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					if (concert) {
 						res.json(concert);
 					} else {
-						res.sendStatus(404);
+						res.render('not-found')
 					}
 			})
 		})
@@ -118,7 +118,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					})
 				} else {
 					// if for some reason the edited object is not found, send 404
-					res.sendStatus(404)
+					res.render('not-found')
 				}
 			})
 		})

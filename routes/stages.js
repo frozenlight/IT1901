@@ -46,7 +46,7 @@ router.route('/stage/:name')
 				res.json(stage);
 			}
 			else {
-				res.sendStatus(404);
+				res.render('not-found')
 			}
 		})
 	})

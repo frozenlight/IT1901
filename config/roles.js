@@ -15,7 +15,9 @@ module.exports = function(roles){
    
   //admin users can access all pages 
   roles.use(function (req) {
-    if (req.user.role === 'admin') {
+    if (!req.user) {
+      return false
+    } else if (req.user.role === 'admin') {
       return true
     }
   })
