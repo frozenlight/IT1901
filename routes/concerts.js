@@ -61,20 +61,23 @@ router.route('/concerts')
 
 router.route('/concert/:name')
 
-	.get(isLoggedIn, function(req,res){
+	.get(isLoggedIn, function (req, res) {
 
-		Concert.findOne({'name':req.params.name}).populate('stage').exec(function(err,concert) {
-			if (err) {res.send(err)}
-			//console.log(concert)
-			if (concert) {
-				res.json(concert);
-			}
-			else {
-				res.sendStatus(404);
-			}
+		Concert.findOne({'name':req.params.name})
+			.populate('stage')
+			.populate('bands')
+			.exec(function (err, concert) {
+				if (err) {
+					res.send(err)
+				}
+				if (concert) {
+					res.json(concert);
+				} else {
+					res.sendStatus(404);
+				}
 		})
 	})
-	.delete(isLoggedIn, user.can('delete concert'), function(req, res) {
+	.delete(isLoggedIn, user.can('delete concert'), function (req, res) {
 			Concert.findOneAndRemove({'name' : req.params.name}, function (err, concert) {
         		res.redirect('/concerts')
       		})
