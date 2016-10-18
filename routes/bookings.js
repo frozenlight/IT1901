@@ -133,18 +133,20 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Booking.findOne({'url':req.params.url}, function (err, booking) {
-				if (err) {
-					res.send(err)
-				}
-				if (booking) {
-					console.log('Getting to A BOOKING')
-					res.render('booking', {booking:booking})
-					//res.json(booking)
-				} else {
-					console.log('NOT FINDING THE FUCKING BOOKING')
-				}
-			})
+			Booking.findOne({'url':req.params.url})
+				.populate('band')
+				.exec(function (err, booking) {
+					if (err) {
+						res.send(err)
+					}
+					if (booking) {
+						console.log('Getting to A BOOKING')
+						res.render('booking', {booking:booking})
+						//res.json(booking)
+					} else {
+						console.log('NOT FINDING THE FUCKING BOOKING')
+					}
+				})
 		})
 		.delete(isLoggedIn, user.can('delete booking'), function(req, res) {
 			Booking.findOneAndRemove({'url' : req.params.url}, function (err, booking) {
