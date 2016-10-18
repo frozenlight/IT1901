@@ -7,13 +7,16 @@
 	<div class="container text-center">
 		<h2 class="tableHeader">Konsertoversikt</h2>
 
-		<div class="dropdown" id="scenedrop">
-			<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
-			<ul class="dropdown-menu">
-				{% for stage in stages %}
-				<li><a href="#">{{stage.name}}</a></li>
-				{% endfor %}
-			</ul>
+		<div class="col-xs-6">
+			<div class="dropdown" id="scenedrop">
+				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					{% for stage in stages %}
+					<li><a href="#">{{stage.name}}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<a class="btn btn-primary createButton" href="/concerts/create">Opprett ny konsert</a>
 		</div>
 
 		<div id="concertSearch" class="form-group pull-right">
@@ -77,8 +80,6 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<p>Create more objects <a href="/concerts/create">here</a></p>
-		<p>Legg inn booking <a href="/bookings/create">her</a></p>
 	</div>
 
 {% endblock %}
