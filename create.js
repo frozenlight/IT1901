@@ -20,6 +20,20 @@ var User	  =  require('./models/user.js')
 mongoose.connect(db.url)
 
 //console.log(JSON.stringify(Band.schema))
+User.find({}, function (err, users) {
+	if (err) { console.log(err); }
+	if (users == undefined || users.length == 0) {
+		var user = new User();
+		user.local.username = 'admin'
+		user.local.password = user.generateHash('admin')
+		user.role = 'admin'
+		user.save()
+		console.log('admin created');
+	} else {
+		console.log('admin allready created');
+	}
+})
+
 
 Stage.find({}, function (err, stages) {
 	if (err) {

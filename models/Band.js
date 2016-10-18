@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose');
 var shortid = require('shortid');
+var User = require('./user.js');
 
 var BandSchema = new mongoose.Schema({
 	name:String,

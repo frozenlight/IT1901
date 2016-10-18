@@ -7,6 +7,7 @@ var User       		= require('../models/user');
 
 
 
+
 // expose this function to our app using module.exports
 module.exports = function(passport) {
 
@@ -38,6 +39,7 @@ module.exports = function(passport) {
 		// by default, local strategy uses username and password, we will override with email
 		usernameField : 'username',
 		passwordField : 'password',
+		roleField : 'role',
 		passReqToCallback : true // allows us to pass back the entire request to the callback
 	},
 	function(req, username, password, done) {
@@ -63,12 +65,9 @@ module.exports = function(passport) {
 				newUser.local.password = newUser.generateHash(password); // use the generateHash function in our user model
 
 				// save the user
-				newUser.save(function(err) {
-					if (err)
-						throw err;
-					return done(null, newUser);
-				});
-			}
+				newUser.save()
+				done(null, newUser)	
+				}
 
 		});
 
