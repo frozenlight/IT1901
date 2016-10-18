@@ -106,7 +106,9 @@ $(document).ready(function(){
                 url: '/booking/' + bookings[i].name
             }
             // For each event, push to events array which is piped into the calendar
-            events.push(d)
+            if (!bookings[i].concert_created) {
+                events.push(d)
+            }
         }
         
 

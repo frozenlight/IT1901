@@ -180,25 +180,29 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		// POST function for /concerts/create/
 		.post(isLoggedIn, function (req, res) {
 
-			console.log('BODY: ' + JSON.stringify(req.body))
+			//console.log('BODY: ' + JSON.stringify(req.body))
 
-			console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
+			//console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
 			
 			// On POST-recieve, create a Concert Object with body params from form
 			var reqbands = []
 			var reqbookings = []
-			if (!req.body.booking.constructor === Array ){
-				console.log('constructor is not array')
-				req.body.booking = [req.body.booking]
-			}
-			console.log(req.body.booking)
 
-			for (var i = 0; i<req.body.booking.length; i++) {
-				console.log('REQ BOOKINGS: '+req.body.booking)
-				var booking_band = req.body.booking[i].split(',')
+			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
+
+			if (!Array.isArray(req.body.booking)) {
+				var booking_band = req.body.booking.split(',')
 				reqbookings.push(booking_band[0])
 				reqbands.push(booking_band[1])
+			} else {
+				for (var i = 0; i<req.body.booking.length; i++) {
+					//console.log('REQ BOOKINGS: '+req.body.booking)
+					var booking_band = req.body.booking[i].split(',')
+					reqbookings.push(booking_band[0])
+					reqbands.push(booking_band[1])
+				}
 			}
+
 			console.log(booking_band)
 			var concert = new Concert({
 				name:req.body.name,

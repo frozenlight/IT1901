@@ -39,7 +39,7 @@
         <div class="form-group">
             {% if userIs('bookingsjef') %}
             <div class="col-xs-3">
-                <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if !booking.approval %} checked {%  endif %}>Avslå
+                <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if booking.concidered and !booking.approval %} checked {%  endif %}>Avslå
             </div>
             {% endif %}
             <div class="col-xs-3">

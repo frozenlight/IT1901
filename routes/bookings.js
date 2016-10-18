@@ -51,22 +51,32 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					}
 				}
 			})
-			booking.url = booking.date+'-'+booking.id.slice(0,5)
+			//booking.url = booking.date+'-'+booking.id.slice(0,5)
 			booking.band = req.body.band
 
 			console.log('BOOKING BAND: '+booking.band)
 			Band.findOne(booking.band, function (err, band) {
 				band.bookings.push(booking._id)
 				band.save()
+
+				booking.url = booking.date+'-'+band.name
+
+				booking.save(function (err) {
+					if (err) {
+						res.send(err)
+					} else {
+						res.redirect('/bookings')
+					}
+				})
 			})
 
-			booking.save(function (err) {
+			/*booking.save(function (err) {
 				if (err) {
 					res.send(err)
 				} else {
 					res.redirect('/bookings')
 				}
-			})
+			})*/
 		})
 
 		.get(isLoggedIn, function (req, res) {
