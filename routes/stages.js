@@ -40,15 +40,17 @@ router.route('/stage/:name')
 
 	.get(isLoggedIn, function(req,res){
 
-		Stage.findOne({'name':req.params.name}, function(err,stage) {
-			if (err) {res.send(err)}
-			if (stage) {
-				res.json(stage);
-			}
-			else {
-				res.render('not-found')
-			}
-		})
+		Stage.findOne({'name':req.params.name})
+            .populate('bands')
+            .populate('concerts')
+            .exec(function(err,stage) {
+                if (err) {res.send(err)}
+                if (stage) {
+				    res.render('stage-info', {stage:stage})
+                } else {
+				    res.render('not-found')
+                }
+            })
 	})
 	.delete(isLoggedIn, user.can('delete stage'), function(req, res) {
 			Stage.findOneAndRemove({'name' : req.params.name}, function (err, stage) {
@@ -69,6 +71,7 @@ router.route('/stages/create')
 				capacity: "",
 				concerts: [],
 				color:"",
+                image:"",
 			})
 
 			Object.keys(req.body).forEach(function (key, index) {

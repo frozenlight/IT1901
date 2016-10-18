@@ -8,6 +8,7 @@ var StageSchema = new mongoose.Schema({
 	capacity: String,
 	concerts: [String],
 	color:String,
+    image:String,
 	bands:[{type: mongoose.Schema.ObjectId, ref: 'Band'}],
 	Concerts:[{type: mongoose.Schema.ObjectId, ref: 'Band'}],
 });
