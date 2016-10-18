@@ -2,6 +2,7 @@
 var Concert = require('../models/Concert.js')
 var Band = require('../models/Band.js')
 var Stage = require('../models/Stage.js')
+var Booking = require('../models/Booking.js')
 //require('../config/passport.js')(passport);
 var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
@@ -268,11 +269,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			nimble.parallel ([
 
 				function (callback) {
-					Band.find(function(err, bands) {
+					Booking.find().populate('band').exec(function(err, bookings) {
 						if (err) {
 							res.send(err)
 						}
-						callback(err,bands)
+						//console.log(JSON.stringify(bookings))
+						callback(err,bookings)
 					})
 				},
 
@@ -288,7 +290,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 				function (err, results) {
 					info = {
-						bands:results[0],
+						bookings:results[0],
 						stages:results[1]
 					}
 					res.render('concert-form', info)

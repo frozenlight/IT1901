@@ -19,8 +19,10 @@
 				<label class="control-label col-xs-2" for="sel2">band: </label>
 				<div class="col-xs-10">
 					<select multiple class="form-control" name="bands" id="sel2">
-						{% for band in bands %}
-							<option value="{{band.id}}">{{band.name}}</option>
+						{% for booking in bookings %}
+							{% if booking.approval %}
+									<option id="{{booking.band.id}}">{{booking.band.name}}</option>
+							{%  endif %}
 						{% endfor %}
 					</select>
 				</div>

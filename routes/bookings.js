@@ -69,12 +69,14 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Band.find(function (err, bands) {
-				if (err) {
-					res.send(err)
-				}
-				res.render('booking-form',{bands:bands})
-			})
+			Band.find()
+				.populate('band')
+				.exec(function (err, bands) {
+					if (err) {
+						res.send(err)
+					}
+					res.render('booking-form',{bands:bands})
+				})
 		})
 
 	//Route for spesific booking
