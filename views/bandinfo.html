@@ -30,6 +30,17 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
+					<h3 class="panel-title">Medlemmer</h3>
+				</div>
+				<div class="panel-body">
+					{% for member in band.members %}
+						{{member}},
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
 					<h3 class="panel-title">Info</h3>
 				</div>
 				<div class="panel-body">
@@ -161,7 +172,7 @@
 			<h2>&nbsp</h2>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Spotifyinformasjon</h3>
+					<h3 class="panel-title">Statistikk</h3>
 				</div>
 				<div class="panel-body">
 					<div class="thumbnail">
@@ -177,10 +188,30 @@
 								<td>Spotify-følgere:</td>
 								<td>&nbsp {{band.spotify_followers}}</td>
 							</tr>
+							<tr>
+								<td>Avspillingsantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_playcount}}</td>
+							</tr>
+							<tr>
+								<td>Lytterantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_listeners}}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Eksterne lenker</h3>
+				</div>
+				<div class="panel-body">
+					{% for link in band.external_urls %}
+						{{link}},
+					{% endfor %}
+				</div>
+			</div>
+
 			{% if band.spotify_albums %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
