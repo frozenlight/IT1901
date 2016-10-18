@@ -185,9 +185,25 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
 			
 			// On POST-recieve, create a Concert Object with body params from form
+			var reqbands = []
+			var reqbookings = []
+			if (!req.body.booking.constructor === Array ){
+				console.log('constructor is not array')
+				req.body.booking = [req.body.booking]
+			}
+			console.log(req.body.booking)
+
+			for (var i = 0; i<req.body.booking.length; i++) {
+				console.log('REQ BOOKINGS: '+req.body.booking)
+				var booking_band = req.body.booking[i].split(',')
+				reqbookings.push(booking_band[0])
+				reqbands.push(booking_band[1])
+			}
+			console.log(booking_band)
 			var concert = new Concert({
 				name:req.body.name,
-				bands: req.body.bands,
+				bookings: reqbookings,
+				bands: reqbands,
 				genre: req.body.genre,
 				stage: req.body.stage,
 				audSize: req.body.audSize,
@@ -197,6 +213,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
+			console.log('CONCERT1 : '+concert)
 			//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
 			/*concert.bands.forEach(function(bandName){
 				Band.findOne({'name':bandName},'_id name',function(err,band){
@@ -233,6 +250,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			//res.redirect('/concert/' + concert._id)
 
 			//There is no dedicated concert page, therefore redirecting to the table
+
+			Booking.find({'_id': { $in: concert.bookings }}, function (err, bookings) {
+				for (var i = 0; i<bookings.length; i++) {
+					console.log('ITERERER Bookings')
+					bookings[i].concert_created = true
+					bookings[i].save(function (err) {
+						console.error(err)
+					})
+				}
+			})
 
 			Band.find({'_id': { $in: concert.bands }}, function (err, bands) {
 				for (var i = 0; i<bands.length; i++) {

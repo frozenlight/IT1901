@@ -37,6 +37,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				text: '',
 				approval: false,
 				considered: false,
+				concert_created:false,
 				price: 0,
 				date: '',
 			})
