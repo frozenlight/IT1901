@@ -87,6 +87,9 @@ module.exports = function(app,router,isLoggedIn,user){
 					data.save()
 					res.redirect('/')
 				}
+				console.log(req.body.new_password);
+				req.user.password = req.user.generateHash(req.body.new_password)
+				req.user.save()
 			})
 		})
 		.get(isLoggedIn,function(req,res){
