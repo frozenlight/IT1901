@@ -6,6 +6,13 @@ th{
 	text-align: center;
 }
 
+/*"Lag ny X"-knapp*/
+.createButton{
+    /*position: absolute;*/
+    /*display: none;*/
+    /*left: 0;*/
+}
+
 /*Generelt*/
 .container{
 	position: relative;
