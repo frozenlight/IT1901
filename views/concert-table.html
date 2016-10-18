@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 {% block head %}
 	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css">
 {% endblock %}
 {% block content %}
 	<div class="container text-center">
@@ -56,7 +56,8 @@
 							{% for band in concert.bands %}
        						<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
 					        {% endfor %}
-						<ul>
+					        <li><a href="/concert/{{concert.name}}">Konsert</a></li>
+						</ul>
 						{% endif %}
 					</td>
 					<td>{{concert.genre}}</td>

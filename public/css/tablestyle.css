@@ -73,6 +73,23 @@ th{
 	margin-left: 6px;
 }
 
+#concert_band_list {
+  display: inline;
+  list-style: none;
+}
+
+#concert_band_list li {
+  display: inline;
+}
+
+#concert_band_list li:after {
+  content: ", ";
+}
+
+#concert_band_list li:last-child:after {
+  content: "";
+}
+
 /*.row {
 	margin: 0;
 }
@@ -129,3 +146,4 @@ th{
 	margin-top: 0px;
 	font-size: 23px;
 }
+

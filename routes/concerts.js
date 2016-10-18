@@ -71,7 +71,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						res.send(err)
 					}
 					if (concert) {
-						res.json(concert);
+						res.render('concert-info', {concert:concert});
 					} else {
 						res.render('not-found')
 					}

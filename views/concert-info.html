@@ -1,0 +1,218 @@
+{% extends "index.html" %}
+{% block head %}
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+{% endblock %}
+{% block content %}
+
+	<div class="container text-left">
+
+		<a class="btn btn-success" href='/band/{{ concert.name }}/edit'>Endre band</a>
+
+			<form method="POST" action="/concert/{{ concert.name }}">
+
+				<input type="hidden" name="_method" value="DELETE"/>
+				<input type="submit" class="btn btn-danger" value="Slett"/><br>
+			</form> 
+
+		<div class="col-xs-8">
+			<h2>{{concert.name}}</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Info</h3>
+				</div>
+				<div class="panel-body">
+					Dato og tid: {{concert.date}}, {{concert.time}} <br>
+					Scene: {{concert.stage.name}} <br>
+					Band:
+					<ul id="concert_band_list">
+						{% for band in concert.bands %}
+							<li><a href="/band/{{ band.name }}">{{band.name}}</a></li>
+						{% endfor %}
+					</ul>
+
+					
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Info</h3>
+				</div>
+				<div class="panel-body">
+					{{band.description}}
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Tidligere konserter i Norge</h3>
+				</div>
+				<div class="panel-body">
+					<ul>
+					{% for concert in band.previous_concerts %}
+						<li>{{concert}}</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+			{% if band.spotify_top_tracks %}
+			<h2 class="tableHeader">Top 10 songs on Spotify</h2>
+
+			<!--<form method="POST" action="/band/{{ band.name }}">-->
+
+			<table data-toggle="table" 
+			data-classes="table table-hover results"
+			data-striped="true"
+			data-sort-name="Name"
+			data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-2" data-field="Name" data-sortable="true">Navn</th>
+						<th class="col-xs-2" data-field="Album" data-sortable="true">Album</th>
+						<th class="col-xs-1" data-field="Popularity" data-sortable="true">Popularitet</th>
+						<th class="col-xs-1" data-field="Preview" data-sortable="false">Smakebit</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for track in band.spotify_top_tracks %}
+					<tr>
+						<td>{{ track.name }}</td>
+						<td>{{ track.album }}</td>
+						<td>{{ track.popularity }}</td>
+						<td><audio controls><source src="{{track.preview_url}}" type="audio/mpeg">Not supported</source></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+			{% if band.concerts %}
+
+			<h2 class="tableHeader">Tidligere konserter på Samfundet</h2>
+
+			<!--<form method="POST" action="/band/{{ band.name }}">-->
+
+			<table data-toggle="table" 
+			data-classes="table table-hover results"
+			data-striped="true"
+			data-sort-name="Date"
+			data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-2" data-field="Date" data-sortable="true">Dato</th>
+						<th class="col-xs-1" data-field="Name" data-sortable="false">Navn</th>
+						<th class="col-xs-1" data-field="Genres" data-sortable="true">Sjangre</th>
+						<th class="col-xs-1" data-field="AudSize" data-sortable="false">Deltakere</th>
+						<th class="col-xs-1" data-field="Stage" data-sortable="true">Scene</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for concert in band.concerts %}
+					<tr>
+						<td>{{ concert.date }}</td>
+						<td>{{ concert.name }}</td>
+						<td>{% for genre in concert.genres %}{{ genres }}, {% endfor %}</td>
+						<td>{{ concert.audSize }}</td>
+						<td>{{ concert.stage.name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+			{% if band.bookings %}
+
+			<h2 class="tableHeader">Bookings på Samfundet</h2>
+
+			<!--<form method="POST" action="/band/{{ band.name }}">-->
+
+			<table data-toggle="table" 
+			data-classes="table table-hover results"
+			data-striped="true"
+			data-sort-name="Date"
+			data-sort-order="asc">
+				<thead>
+					<tr>
+						<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+						<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
+						<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for booking in band.bookings %}
+					<tr>
+						<td>{{ booking.date }}</td>
+						<td>{{ booking.price }}</td>
+						<td>
+							{% if !booking.considered %}
+								Venter godkjenning
+							{% elseif booking.approval %}
+								Godkjent
+							{% else %}
+								Avslått
+							{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% endif %}
+
+		</div>
+
+		<div class="col-xs-4">
+			<h2>&nbsp</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Spotifyinformasjon</h3>
+				</div>
+				<div class="panel-body">
+					<div class="thumbnail">
+						<img src="{{band.spotify_image}}"/>
+					</div>
+					<table>
+						<tbody>
+							<tr>
+								<td>Popularitetsrate:</td>
+								<td>&nbsp {{band.spotify_popularity}}</td>
+							</tr>
+							<tr>
+								<td>Spotify-følgere:</td>
+								<td>&nbsp {{band.spotify_followers}}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{% if band.spotify_albums %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Albumer</h3>
+				</div>
+				<div class="panel-body">
+					
+					<table data-toggle="table" 
+					data-classes="table table-hover results"
+					data-striped="true"
+					data-sort-name="Name"
+					data-sort-order="asc">
+
+						<tbody>
+							{% for album in band.spotify_albums %}
+							<tr>
+								<td><img height="64" width="64" src="{{album.image}}"></img></td>
+								<td>{{album.name}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
