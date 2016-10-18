@@ -14,6 +14,7 @@
 		data-striped="true"
 		data-sort-name="Username"
 		data-sort-order="asc">
+			
 			<thead>
 				<tr>
 					<th class="col-xs-2" data-field="Username" data-sortable="true">Brukernavn</th>
@@ -31,7 +32,7 @@
 					<td>{{ user.local.username }}</td>
 					<td>{{ user.role }}</td>
 					<td>
-						<form method="POST" action="/user/{{ user._id }}">
+						<form method="POST" action="/user/{{ user.id }}">
         					<input type="hidden" name="_method" value="DELETE"/>
         					<input type="submit" class="btn btn-danger" value="Slett"/><br>
     					</form>
@@ -40,6 +41,30 @@
 				{% endfor %}
 			</tbody>
 		</table>
+		<hr>
+		<div class="container">
+		<div class="col-sm-6 col-sm-offset-3">
+			<form action="/signup" method="post">
+				<div class="form-group">
+					<label>Brukernavn</label>
+					<input type="text" class="form-control" name="username" placeholder="Brukernavn" autofocus>
+				</div>
+				<div class="form-group">
+					<label>Passord</label>
+					<input type="password" class="form-control" name="password" placeholder="Passord">
+				</div>
+				<div class="form-group">
+					<label>Rolle</label>
+					<input type="text" class="form-control" name="role" placeholder="Rolle">
+				</div>
+
+				<button type="submit" class="btn btn-warning btn-lg" >Legg til Bruker</button>
+			</form>
+
+		</div>
+
+		</div>
+		
 	</div>
 
 {% endblock %}

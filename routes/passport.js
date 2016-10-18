@@ -38,15 +38,25 @@ module.exports = function(app,router,isLoggedIn,user){
 	app.get('/signup', function(req, res) {
 
 		// render the page and pass in any flash data if it exists
-		res.render('signup.ejs', { message: req.flash('signupMessage') });
+		res.render('signup.html', { message: req.flash('signupMessage') });
 	});
 
 	// process the signup form
-	app.post('/signup', passport.authenticate('local-signup', {
-		successRedirect : '/profile',
-		failureRedicret : '/signup',
-		failureFlash : true
-	}));
+	//app.post('/signup', passport.authenticate('local-signup', {
+	//	successRedirect : '/users',
+	//	failureRedicret : '/signup',
+	//	failureFlash : true
+	//}));
+	router.route('/signup')
+	.post(function (req, res) {
+		console.log(req);
+		var newUser = new User();
+		newUser.local.username = req.body.username
+		newUser.local.password = newUser.generateHash(req.body.password)
+		newUser.role = req.body.role
+		newUser.save()
+		res.redirect('/users')
+	})
 
 	////////////////////////////////////////////////////////////
 	// Logout
@@ -102,7 +112,7 @@ module.exports = function(app,router,isLoggedIn,user){
 			})
 		})
 		.delete(isLoggedIn, user.is('admin'), function (req, res) {
-			User.findOneAndRemove(req.params.user_id, function (err, _user) {
+			User.findByIdAndRemove(req.params.user_id, function (err, _user) {
 				res.redirect('/users')
 			})
 		})
