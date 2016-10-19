@@ -168,6 +168,11 @@ module.exports = function(router,passport,isLoggedIn,user){
 
 						spotify_albums:{},
 						spotify_top_tracks:{},
+
+						external_urls:[],
+
+						lastfm_playcount:"",
+						lastfm_listeners:"",
 	    			})
 
 	    			Object.keys(req.body).forEach(function(key,index) {

@@ -28,6 +28,20 @@
 				</div>
 			</div>
 
+			{% if band.members.length  %}
+
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Medlemmer</h3>
+				</div>
+				<div class="panel-body">
+					{% for member in band.members %}
+						{{member}},
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Info</h3>
@@ -161,7 +175,7 @@
 			<h2>&nbsp</h2>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Spotifyinformasjon</h3>
+					<h3 class="panel-title">Statistikk</h3>
 				</div>
 				<div class="panel-body">
 					<div class="thumbnail">
@@ -177,10 +191,32 @@
 								<td>Spotify-følgere:</td>
 								<td>&nbsp {{band.spotify_followers}}</td>
 							</tr>
+							<tr>
+								<td>Avspillingsantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_playcount}}</td>
+							</tr>
+							<tr>
+								<td>Lytterantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_listeners}}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
+
+			{% if band.external_urls.length %}
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Eksterne lenker</h3>
+				</div>
+				<div class="panel-body">
+					{% for link in band.external_urls %}
+						<a href="{{link}}">{{link}}</a>
+					{% endfor %}
+				</div>
+			</div>
+			{% endif %}
+
 			{% if band.spotify_albums %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
