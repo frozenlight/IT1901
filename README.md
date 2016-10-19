@@ -8,40 +8,30 @@ Vi bruker pakkebehandleren *apt*, dette avhenger av din distrubusjon. På MacOS 
 
 For å installere programmer med  må vi kjøre apt som *super user* ved hjelp av kommandoensud
 
-For å laste ned prosjektet trenger vi git, for å installere kjør:
+Programmene vi trenger for å laste ned og kjøre serveren er git, nodejs, mongodb og pm2
 
-	sudo apt install git
+	sudo apt install git nodejs mongodb pm2
 
-Last ned prosjektet ved hjelp av git:
-
-	git clone https:// *adresse til repoet*
-
-Installer Nodejs
-
-	sudo apt install nodejs
-
-Gå inn i prosjektmappen
-
-	cd Gruppe09
-
-Ínstaller tilleggspakkene som hører til prosjektet med pakkebehandleren npm, som følger med Nodejs
-Pakkene som skal installeres er lagret i prosjektets package.json fil, og installeres ved å kjøre:
-
-	npm install
-
-Prosjektet bruker MongoDB som database, dette installeres ved å kjøre:
-
-	sudo apt install mongodb
 
 Lag mappen som databasen skal være i:
 
 	sudo mkdir /data/db
 
-Kjør mongodb
+Last ned prosjektet ved hjelp av git:
 
-	sudo mongod
+	git clone *adresse til repoet*
 
-Åpne en ny terminal så databasen og serveren kan kjøres samtidig
-Deretter kan prosjektet startes ved å kjøre:
+Gå inn i prosjektmappen og 
 
-	npm start
+	cd gruppe09
+
+installer tilleggspakkene som hører til prosjektet med pakkebehandleren npm, som følger med Nodejs
+Pakkene som skal installeres er lagret i prosjektets package.json fil, og installeres ved å kjøre:
+
+	npm install 
+
+For å kjøre MongoDB og Node bruker vi pm2
+
+	pm2 start mongod && pm2 start app.js
+
+
