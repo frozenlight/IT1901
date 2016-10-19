@@ -10,32 +10,32 @@ For å installere programmer med  må vi kjøre apt som *super user* ved hjelp a
 
 For å laste ned prosjektet trenger vi git, for å installere kjør:
 
-	:::sudo apt install git
+	sudo apt install git
 
 Last ned prosjektet ved hjelp av git:
 
-	:::git clone https:// *adresse til repoet*
+	git clone https:// *adresse til repoet*
 
 Installer Nodejs
 
-	:::sudo apt install nodejs
+	sudo apt install nodejs
 
 Gå inn i prosjektmappen
 
-	:::cd Gruppe09
+	cd Gruppe09
 
 Ínstaller tilleggspakkene som hører til prosjektet med pakkebehandleren npm, som følger med Nodejs
 Pakkene som skal installeres er lagret i prosjektets package.json fil, og installeres ved å kjøre:
 
-	:::npm install
+	npm install
 
 Prosjektet bruker MongoDB som database, dette installeres ved å kjøre:
 
-	:::sudo apt install mongodb
+	sudo apt install mongodb
 
 Lag mappen som databasen skal være i:
 
-	:::sudo mkdir /data/db
+	sudo mkdir /data/db
 
 Kjør mongodb
 
@@ -44,4 +44,4 @@ Kjør mongodb
 Åpne en ny terminal så databasen og serveren kan kjøres samtidig
 Deretter kan prosjektet startes ved å kjøre:
 
-	:::npm start
+	npm start
