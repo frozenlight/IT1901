@@ -28,6 +28,8 @@
 				</div>
 			</div>
 
+			{% if band.members.length  %}
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Medlemmer</h3>
@@ -38,6 +40,7 @@
 					{% endfor %}
 				</div>
 			</div>
+			{% endif %}
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -201,16 +204,18 @@
 				</div>
 			</div>
 
+			{% if band.external_urls.length %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Eksterne lenker</h3>
 				</div>
 				<div class="panel-body">
 					{% for link in band.external_urls %}
-						{{link}},
+						<a href="{{link}}">{{link}}</a>
 					{% endfor %}
 				</div>
 			</div>
+			{% endif %}
 
 			{% if band.spotify_albums %}
 			<div class="panel panel-default">
