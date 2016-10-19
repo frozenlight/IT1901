@@ -21,14 +21,10 @@ Last ned prosjektet ved hjelp av git:
 
 	git clone *adresse til repoet*
 
-Gå inn i prosjektmappen og 
-
-	cd gruppe09
-
-installer tilleggspakkene som hører til prosjektet med pakkebehandleren npm, som følger med Nodejs
+Gå inn i prosjektmappen og installer tilleggspakkene som hører til prosjektet med pakkebehandleren npm, som følger med Nodejs
 Pakkene som skal installeres er lagret i prosjektets package.json fil, og installeres ved å kjøre:
 
-	npm install 
+	cd gruppe09 && npm install 
 
 For å kjøre MongoDB og Node bruker vi pm2
 
