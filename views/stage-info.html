@@ -36,6 +36,64 @@
         </div>
        
     </div>
+
+<div class="col-xs-12">
+<div class="container text-center">
+		<h2 class="tableHeader">Konsertoversikt</h2>
+
+		
+		<table data-toggle="table" 
+		data-classes="table table-hover results"
+		data-striped="true"
+		data-sort-name="Date"
+		data-sort-order="asc">
+			<thead>
+				<tr>
+					<th class="col-xs-2" data-field="Date" data-sortable="true">Dato</th>
+					<th class="col-xs-1" data-field="Time" data-sortable="true">Tid</th>
+					<th class="col-xs-3" data-field="Band" data-sortable="true">Band</th>
+					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
+					
+				</tr>
+				<!--<tr class="warning no-result">
+      				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
+  				</tr>-->
+			</thead>
+
+			<tbody>
+				{% for concert in concerts %}
+                {% if concert.stage.name == stage.name %} 
+				<tr>
+					<td>{{ concert.date }}</td>
+					<td>{{ concert.time }}</td>
+					<td>
+						{% if concert.bands %}
+						<ul>
+							{% for band in concert.bands %}
+       						<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
+					        {% endfor %}
+					        <li><a href="/concert/{{concert.name}}">Konsert</a></li>
+						</ul>
+						{% endif %}
+					</td>
+
+					<td>{{concert.audSize}}</td>
+					
+    				
+				</tr>
+                {% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+
+
+
+
+
+    <!--
     <div class="col-xs-4">
             
             <div class="panel panel-default">
@@ -51,7 +109,7 @@
                         {% endif %}
 
 					{% endfor %}
-					
+					-->
             </div>
         </div>
        

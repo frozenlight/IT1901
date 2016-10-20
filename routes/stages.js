@@ -88,6 +88,7 @@ router.route('/stage/:name')
 			function(callback) {
 				Concert.find({})
 					.populate('stage')
+                    .populate('bands')
 					.exec(function(err, concerts) {
 						if (err) {
 							//res.send(err)
