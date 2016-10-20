@@ -43,11 +43,12 @@
 					<h3 class="panel-title">Konserter</h3>
 				</div>
             <div class="panel-body">
-				<ul>
-					{% for concert in stage.Concerts %}
-						<li>{{concert}}</li>
+                
+				
+					{% for concert in concerts %}
+						<p>{{concert.date}}</p>
 					{% endfor %}
-					</ul>
+					
             </div>
         </div>
        
