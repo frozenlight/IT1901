@@ -2,6 +2,8 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+	<link rel="stylesheet" type="text/css" href="/css/chosen.css" />
+	<link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css">
 {% endblock %}
 {% block content %}
 	<div class="container text-left">
@@ -16,12 +18,12 @@
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="sel2">Bookinger: </label>
+				<label class="control-label col-xs-2" for="bands">Band: </label>
 				<div class="col-xs-10">
-					<select multiple class="form-control" name="booking" id="sel2">
+					<select data-placeholder="Velg band" class="form-control chosen-select" multiple name="booking" id="bands">
 						{% for booking in bookings %}
 							{% if booking.approval and !booking.concert_created %}
-									<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.band.name}}</option>
+									<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.date}} {{booking.band.name}}</option>
 							{%  endif %}
 						{% endfor %}
 					</select>
