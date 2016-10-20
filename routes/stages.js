@@ -1,5 +1,8 @@
 
 var Stage = require('../models/Stage.js');
+var Concert = require('../models/Concert.js');
+
+var nimble = require('nimble');
 //require('../config/passport.js')(passport);
 
 
@@ -25,32 +28,84 @@ router.route('/stages')
 
 	// GET Function for /stages/
 	.get(isLoggedIn, function(req,res){
+		nimble.parallel([
+			function(callback) {
+				Stage.find(function(err, stages){
+					if (err) {
+						//res.send(err);
+					}
+					if (stages) {
+						callback(null,stages)
+					} else {
+						callback(err)
+					}
+				})
+			},
 
+			function (callback) {
+				Concert.find({}, function (err, concerts) {
+					if (err) {
+						//res.send(err)
+					}
+					if (concerts) {
+						callback(null,concerts)
+					} else {
+						callback(err)
+					}
+				})
+			}],
+
+			function(err, results) {
+				// Render found objects with swig and send to client 
+				res.render('stage-table', {stages:results[0],concerts:results[1],title:'List of stages'});
+			})
 		// Search database for ALL stage objects
-		Stage.find(function(err, stages){
+		/*Stage.find(function(err, stages){
 			if (err){ res.send(err); }
 
 			// Render found objects with swig and send to client 
 			console.log(JSON.stringify(stages))
 			res.render('stage-table', {stages:stages,title:'List of stages'});
-		});
+		});*/
 	});
 
 router.route('/stage/:name')
 
 	.get(isLoggedIn, function(req,res){
+		nimble.parallel([
+			function(callback) {
+				Stage.findOne({'name':req.params.name})
+		            .populate('bands')
+		            .populate('concerts')
+		            .exec(function(err,stage) {
+		                if (err) {
+		                	//res.send(err)
+		                }
+		                callback(err,stage)
+		            })
+			},
 
-		Stage.findOne({'name':req.params.name})
-            .populate('bands')
-            .populate('concerts')
-            .exec(function(err,stage) {
-                if (err) {res.send(err)}
-                if (stage) {
-				    res.render('stage-info', {stage:stage})
-                } else {
-				    res.render('not-found')
-                }
-            })
+			function(callback) {
+				Concert.find({})
+					.populate('stage')
+					.exec(function(err, concerts) {
+						if (err) {
+							//res.send(err)
+						}
+						if (concerts) {
+							callback(err,concerts)
+						}
+					})
+			}],
+
+			function (err,results) {
+				if (results[0]) {
+					res.render('stage-info', {stage:results[0],concerts:results[1]})
+				} else {
+					res.render('not-found')
+				}
+			})
+
 	})
 	.delete(isLoggedIn, user.can('delete stage'), function(req, res) {
 			Stage.findOneAndRemove({'name' : req.params.name}, function (err, stage) {

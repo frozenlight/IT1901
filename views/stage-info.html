@@ -43,10 +43,13 @@
 					<h3 class="panel-title">Konserter</h3>
 				</div>
             <div class="panel-body">
-                
-				
+
+				<ul>
 					{% for concert in concerts %}
-						<p>{{concert.date}}</p>
+                        {% if concert.stage.name == stage.name %} 
+						    <li>{{concert.name}}</li>
+                        {% endif %}
+
 					{% endfor %}
 					
             </div>
