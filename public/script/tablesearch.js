@@ -8,7 +8,7 @@ $(document).ready(function() {
 		Search(searchSplit);
 	});
 
-	$("#scenedrop li").on("click", function(){
+	$("#tabledrop li").on("click", function(){
 		let searchTerm = $('.search').val($(this).text());
 		let searchText = searchTerm.val();
 		let listItem = $('.results tbody').children('tr');
@@ -17,6 +17,9 @@ $(document).ready(function() {
 		Search(searchSplit);
 	});
 
+	if ($('.results tbody tr[visible="true"]').length == 0){
+		$('.no-result').show();
+	}
 });
 
 let Search = function(searchSplit){
@@ -32,4 +35,13 @@ let Search = function(searchSplit){
 		$(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
 			$(this).attr('visible','true');
 		});
+
+		let jobCount = $('.results tbody tr[visible="true"]').length;
+		//$('.counter').text(jobCount + ' item');
+
+		if(jobCount == 0){
+			$('.no-result').show();
+		}else{
+			$('.no-result').hide();
+		}
 }

@@ -1,5 +1,7 @@
 $(document).ready(function(){
-	$(".chosen-select").chosen(
-		{no_results_text: "Oops, nothing found!"}
-		)
+	$(".chosen-select").chosen({
+		disable_search_threshold: 10,
+		no_results_text: "Booking ikke funnet: ",
+		
+	})
 });

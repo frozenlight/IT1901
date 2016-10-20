@@ -2,6 +2,8 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+	<link rel="stylesheet" type="text/css" href="/css/chosen.css" />
+	<link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css">
 {% endblock %}
 {% block content %}
 
@@ -10,15 +12,17 @@
 
 		<form class="form-horizontal" method="post" action="/bookings/create">
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="sel2">Band: </label>
+				<label class="control-label col-xs-2" for="band">Band: </label>
 				<div class="col-xs-10">
-					<select class="form-control" name="band" id="sel2">
+					<select data-placeholder="Velg band" class="form-control chosen-select" name="band" id="band">
+						<option value=""></option>
 						{% for band in bands %}
-						<option value="{{band.id}}">{{band.name}}</option>
+						<option id="{{band.id}}" value="{{band.id}}">{{band.name}}</option>
 						{% endfor %}
 					</select>
 				</div>
 			</div>
+
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="email">Epost: </label>
 				<div class="col-xs-10">
