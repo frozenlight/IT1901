@@ -190,20 +190,26 @@ module.exports = function(router,passport,isLoggedIn,user){
 						}
 					});
 
-					band.save()
+					//band.save()
 					
 					var bandUser = new User();
 					bandUser.local.username = req.body.name;
 					bandUser.local.password = bandUser.generateHash(req.body.name);
 					bandUser.role = 'band';
+					bandUser.connected_band = band._id;
 					bandUser.save()
 					
 					var managerUser = new User();
 					managerUser.local.username = req.body.name + '_manager';
 					managerUser.local.password = managerUser.generateHash(req.body.name);
 					managerUser.role = 'manager';
+					bandUser.connected_band = band._id;
 					managerUser.save()
 					
+					band.connected_user = bandUser._id
+					band.connected_manager = bandManager._id
+
+					band.save()
 					// Redirect to band page after creation
 					res.redirect('/band/' + band.name)
 					
