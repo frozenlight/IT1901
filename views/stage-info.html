@@ -45,7 +45,7 @@
             <div class="panel-body">
 				<ul>
 					{% for concert in concerts %}
-                        {% if concert.stage.name is stage.name %} 
+                        {% if concert.stage.name == stage.name %} 
 						    <li>{{concert.name}}</li>
                         {% endif %}
 					{% endfor %}
