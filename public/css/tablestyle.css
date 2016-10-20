@@ -30,19 +30,13 @@ th{
 	color: #a03033;
 }
 
-#scenedrop .btn{
-	position: absolute;
-	left: 2px;
-
+/*#scenedrop .btn-drop{
 	background-color: #a03033;
 }
 
-#statusdrop .btn{
-	position: absolute;
-	left: 2px;
-
+#statusdrop .btn-drop{
 	background-color: #a03033;
-}
+}*/
 
 .dropdown .dropdown-menu{
 	margin-top: -2px;
@@ -80,59 +74,123 @@ th{
 	margin-left: 6px;
 }
 
-/*.row {
-	margin: 0;
+/*.btn-drop*/
+.btn-drop{
+	color:#fff;
+	background-color:#A03033;
+	border-color:#2e6da4;
+}
+.btn-drop.focus,
+.btn-drop:focus{
+	color:#fff;
+	background-color:#A0383B;
+	border-color:#122b40;
+}
+.btn-drop:hover{
+	color:#fff;
+	background-color:#A0383B;
+	border-color:#204d74;
+}
+.btn-drop.active,
+.btn-drop:active,
+.open>.dropdown-toggle.btn-drop{
+	color:#fff;
+	background-color:#A0383B;
+	border-color:#204d74;
+}
+.btn-drop.active.focus,
+.btn-drop.active:focus,
+.btn-drop.active:hover,
+.btn-drop:active.focus,
+.btn-drop:active:focus,
+.btn-drop:active:hover,
+.open>.dropdown-toggle.btn-drop.focus,
+.open>.dropdown-toggle.btn-drop:focus,
+.open>.dropdown-toggle.btn-drop:hover{
+	color:#fff;
+	background-color:#204d74;
+	border-color:#122b40;
+}
+.btn-drop.active,
+.btn-drop:active,
+.open>.dropdown-toggle.btn-drop{
+	background-image:none;
+}
+.btn-drop.disabled.focus,
+.btn-drop.disabled:focus,
+.btn-drop.disabled:hover,
+.btn-drop[disabled].focus,
+.btn-drop[disabled]:focus,
+.btn-drop[disabled]:hover,
+fieldset[disabled] .btn-drop.focus,
+fieldset[disabled] .btn-drop:focus,
+fieldset[disabled] .btn-drop:hover{
+	background-color:#A03033;
+	border-color:#2e6da4;
+}
+.btn-drop .badge{
+	color:#A03033;
+	background-color:#fff;
+}
+.btn-drop{
+	text-shadow:0 -1px 0 rgba(0,0,0,.2);
+	-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+	box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
+}
+.btn-drop.active,.btn-drop:active{
+	-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125);
+	box-shadow:inset 0 3px 5px rgba(0,0,0,.125);
+}
+.btn-drop.disabled,
+.btn-drop[disabled],
+fieldset[disabled] .btn-drop{
+	-webkit-box-shadow:none;
+	box-shadow:none;
+}
+.btn-drop .badge{
+	text-shadow:none;
+}
+/****FARGEFEILEN LIGGER HER*/
+.btn-drop{
+    background-image: -webkit-linear-gradient(top, #A03033 0, #661C1E 100%);
+    background-image: -o-linear-gradient(top, #A03033 0, #661C1E 100%);
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#A03033), to(#661C1E));
+    background-image: linear-gradient(to bottom, #A03033 0, #661C1E 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
+    filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
+    background-repeat: repeat-x;
+    border-color: #245580
 }
 
-.articles {
-	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 20px;
+.btn-drop:focus,
+.btn-drop:hover {
+    background-color: #661C1E;
+    background-position: 0 -4rem;
 }
-
-.article {
-	color: #222;
-	background: rgba(255,255,255,.9);
-	border-spacing: 2px;
-	border-color: gray;
-	font-family: arial,sans-serif;
-	border-bottom: 1px #e5e5e5 solid;
+/*****/
+.btn-drop.active,
+.btn-drop:active{
+	background-color:#661C1E;
+	border-color:#245580;
 }
-
-.current .item {
-	background: rgba(206,220,206,.9);
-}
-
-.item {
-	cursor: pointer;
-	padding-top: 7px;
-	padding-bottom: 7px;
-	
-}
-
-.item .date {
-	margin-left: 20px;
-}
-
-.item .title {
-	font-weight: bold;
-}
-
-.item .pubdate {
-	margin-right: 20px;
-}
-
-.item .pubdate {
-	text-align: right;  
-}
-
-.description {
-	display: none;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-.description h1 {
-	margin-top: 0px;
-	font-size: 23px;
+.btn-drop.disabled,
+.btn-drop.disabled.active,
+.btn-drop.disabled.focus,
+.btn-drop.disabled:active,
+.btn-drop.disabled:focus,
+.btn-drop.disabled:hover,
+.btn-drop[disabled],
+.btn-drop[disabled].active,
+.btn-drop[disabled].focus,
+.btn-drop[disabled]:active,
+.btn-drop[disabled]:focus,
+.btn-drop[disabled]:hover,
+fieldset[disabled] .btn-drop,
+fieldset[disabled] .btn-drop.active,
+fieldset[disabled] .btn-drop.focus,
+fieldset[disabled] .btn-drop:active,
+fieldset[disabled] .btn-drop:focus,
+fieldset[disabled] .btn-drop:hover{
+	background-color:#661C1E;
+	background-image:none;
 }

@@ -722,9 +722,12 @@ tr:first-child > td > .fc-day-grid-event {
 	opacity: .25;
 }
 
-.fc-day-grid-event .fc-content { /* force events to be one-line tall */
-	white-space: nowrap;
+/*.fc-day-grid-event .fc-content { /* force events to be one-line tall */
+/*	white-space: nowrap;
 	overflow: hidden;
+}*/
+.fc-day-grid-event > .fc-content {
+    white-space: normal;
 }
 
 .fc-day-grid-event .fc-time {

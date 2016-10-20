@@ -2,6 +2,7 @@
 var Concert = require('../models/Concert.js')
 var Band = require('../models/Band.js')
 var Stage = require('../models/Stage.js')
+var Booking = require('../models/Booking.js')
 //require('../config/passport.js')(passport);
 var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
@@ -179,14 +180,34 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		// POST function for /concerts/create/
 		.post(isLoggedIn, function (req, res) {
 
-			console.log('BODY: ' + JSON.stringify(req.body))
+			//console.log('BODY: ' + JSON.stringify(req.body))
 
-			console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
+			//console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
 			
 			// On POST-recieve, create a Concert Object with body params from form
+			var reqbands = []
+			var reqbookings = []
+
+			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
+
+			if (!Array.isArray(req.body.booking)) {
+				var booking_band = req.body.booking.split(',')
+				reqbookings.push(booking_band[0])
+				reqbands.push(booking_band[1])
+			} else {
+				for (var i = 0; i<req.body.booking.length; i++) {
+					//console.log('REQ BOOKINGS: '+req.body.booking)
+					var booking_band = req.body.booking[i].split(',')
+					reqbookings.push(booking_band[0])
+					reqbands.push(booking_band[1])
+				}
+			}
+
+			console.log(booking_band)
 			var concert = new Concert({
 				name:req.body.name,
-				bands: req.body.bands,
+				bookings: reqbookings,
+				bands: reqbands,
 				genre: req.body.genre,
 				stage: req.body.stage,
 				audSize: req.body.audSize,
@@ -196,6 +217,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
+			console.log('CONCERT1 : '+concert)
 			//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
 			/*concert.bands.forEach(function(bandName){
 				Band.findOne({'name':bandName},'_id name',function(err,band){
@@ -233,6 +255,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 			//There is no dedicated concert page, therefore redirecting to the table
 
+			Booking.find({'_id': { $in: concert.bookings }}, function (err, bookings) {
+				for (var i = 0; i<bookings.length; i++) {
+					console.log('ITERERER Bookings')
+					bookings[i].concert_created = true
+					bookings[i].save(function (err) {
+						console.error(err)
+					})
+				}
+			})
+
 			Band.find({'_id': { $in: concert.bands }}, function (err, bands) {
 				for (var i = 0; i<bands.length; i++) {
 					console.log('ITERERER BAND')
@@ -268,11 +300,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			nimble.parallel ([
 
 				function (callback) {
-					Band.find(function(err, bands) {
+					Booking.find().populate('band').exec(function(err, bookings) {
 						if (err) {
 							res.send(err)
 						}
-						callback(err,bands)
+						//console.log(JSON.stringify(bookings))
+						callback(err,bookings)
 					})
 				},
 
@@ -288,7 +321,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 				function (err, results) {
 					info = {
-						bands:results[0],
+						bookings:results[0],
 						stages:results[1]
 					}
 					res.render('concert-form', info)

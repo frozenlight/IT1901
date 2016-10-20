@@ -46,7 +46,9 @@
 					<td><a href="/booking/{{ booking.url }}">{{ booking.band.name }}</a></td>
 					<td>{{ booking.price }}</td>
 					<td>
-						{% if !booking.considered %}
+						{% if booking.concert_created %}
+							Konsert laget
+						{% elseif !booking.considered %}
 							Venter godkjenning
 						{% elseif booking.approval %}
 							Godkjent

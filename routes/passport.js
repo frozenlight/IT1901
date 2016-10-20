@@ -10,6 +10,8 @@ var morgan = require('morgan');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 
+var ensureLogin = require('connect-ensure-login')
+
 var User = require('../models/user.js')
 
 module.exports = function(app,router,isLoggedIn,user){
@@ -26,7 +28,7 @@ module.exports = function(app,router,isLoggedIn,user){
 
 	// process the login form
 	app.post('/login', passport.authenticate('local-login', {
-		successRedirect : '/',
+		successReturnToOrRedirect : '/',
 		failureRedirect : '/login',
 		failureFlash : true
 	}));
