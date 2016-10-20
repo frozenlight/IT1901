@@ -58,8 +58,6 @@
 	display: inline-block;
 	width: 100%;
 	height: 100%;
-	
-	
 }
 #navbar{
 	color: white;
@@ -69,7 +67,6 @@
 	min-height: 100%;
 	width: 20%;
 	background-color: #333;
-	
 }
 #booksys{
 	font-size: 20px;
@@ -124,7 +121,7 @@ body,html{
 	margin:0px;
 	padding:0px;
 	height:100%;
-	font-family: "futura-pt", "Lato", sans-serif;
+	font-family: "Lato", "futura-pt", sans-serif;
 }
 
 div#old_password_container.container {
