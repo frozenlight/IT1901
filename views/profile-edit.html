@@ -17,6 +17,7 @@
             <hr>
             <div id="cahnge_password" class="userinfo">
             <form action="/profile" method="post">
+                {% if userIs('admin') %}
                 <p class="text-center">Endre Rolle</p>
                 <label class="change_password">Ny Rolle: </label>
                 <input type="text" class="change_password" name="role">
@@ -24,15 +25,16 @@
             </form>
             </div>
             <hr>
+                {% endif %}
             <div id="cahnge_password" class="userinfo">
                 <p class="text-center">Endre Passord</p>
                 <label class="change_password">Gammelt Passord: </label>
-                <input type="password" class="change_password">
+                <input type="password" class="change_password" name="password_old">
                 <br>
 
                 <label class="change_password">Nytt Passord: </label>
                 <input type="password" class="change_password_old">
-                <button class="btn btn-default change_password_button" type="submit">Lagre </button>
+                <button class="btn btn-default change_password_button" type="submit" name="password_new">Lagre </button>
             </div>
         </div>
     </div>

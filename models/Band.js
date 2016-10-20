@@ -1,6 +1,7 @@
 
 var mongoose = require('mongoose');
 var shortid = require('shortid');
+var User = require('./user.js');
 
 var BandSchema = new mongoose.Schema({
 	name:String,
@@ -17,9 +18,13 @@ var BandSchema = new mongoose.Schema({
 	spotify_genres:[String],
 	spotify_popularity:String,
 	spotify_image:String,
-
 	spotify_albums: Object,
 	spotify_top_tracks: Object,
+
+	external_urls: [String],
+
+	lastfm_listeners: String,
+	lastfm_playcount: String,
 });
 
 module.exports = mongoose.model('Band', BandSchema);

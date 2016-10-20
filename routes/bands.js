@@ -1,5 +1,6 @@
 
 var Band = require('../models/Band.js');
+var User = require('../models/user.js');
 //var replaceAll = require('./prototypes.js')
 
 ////////////////////////////////////////////////////////////
@@ -167,6 +168,11 @@ module.exports = function(router,passport,isLoggedIn,user){
 
 						spotify_albums:{},
 						spotify_top_tracks:{},
+
+						external_urls:[],
+
+						lastfm_playcount:"",
+						lastfm_listeners:"",
 	    			})
 
 	    			Object.keys(req.body).forEach(function(key,index) {
@@ -185,8 +191,24 @@ module.exports = function(router,passport,isLoggedIn,user){
 					});
 
 					band.save()
+					
+					var bandUser = new User();
+					bandUser.local.username = req.body.name;
+					bandUser.local.password = bandUser.generateHash(req.body.name);
+					bandUser.role = 'band';
+					bandUser.save()
+					
+					var managerUser = new User();
+					managerUser.local.username = req.body.name + '_manager';
+					managerUser.local.password = managerUser.generateHash(req.body.name);
+					managerUser.role = 'manager';
+					managerUser.save()
+					
 					// Redirect to band page after creation
 					res.redirect('/band/' + band.name)
+					
+					
+					// Vi må sette opp slik at når du laget et band, så opprettes det en band-bruker og en band-manager. Disse må lenkes med at band har et felt band_user og 					// manager_user av typen {type:mongoose.Schema.ObjectId,ref:'User'. Band-bruker og manager-bruker må begge ha et felt linked_band av typen									// {type:mongoose.Schema.ObjectId,ref:'Band'}. For at dette skal virke må models/Band.js ha inkludert models/user.js og vica versa.
 				}
 			})
 		})
