@@ -10,12 +10,14 @@
 
 		<form class="form-horizontal" method="post" action="/bookings/create">
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="sel2">band: </label>
-				<select class="form-control" name="band" id="sel2">
-					{% for band in bands %}
-					<option value="{{band.id}}">{{band.name}}</option>
-					{% endfor %}
-				</select>
+				<label class="control-label col-xs-2" for="sel2">Band: </label>
+				<div class="col-xs-10">
+					<select class="form-control" name="band" id="sel2">
+						{% for band in bands %}
+						<option value="{{band.id}}">{{band.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="email">Epost: </label>
