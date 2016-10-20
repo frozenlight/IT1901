@@ -16,6 +16,10 @@ var ConcertSchema = new mongoose.Schema({
  	date: String,
 	time: String,
 
+	ticketPrice: Number,
+	expenses: Number,
+	revenue: Number,
+
 	bandIDs: Array, //Will contain the database ID's for the bands, if they exist
 });
 

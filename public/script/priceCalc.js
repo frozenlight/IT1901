@@ -1,16 +1,23 @@
 
 console.log("HEIII, fant den")
 
-const sel2 = document.getElementById('sel2');
-
-
-function ticketCalc(){
-	console.log("HEIII, gjorde noe mer")
-	const bookings = sel2.childNodes;
-	prompt(bookings);
+function ticketCalc(bookings,stages){
+	console.log("WTF")
+	
 }
 
 document.addEventListener("DOMContentLoaded",function(e){
 	console.log("HEIII, gjorde noe")
-	ticketCalc();
+	let bookings = $.get('/api/bookings')
+	let stages = $.get('/api/stages')
+	$.when(bookings,stages).done(function(){
+		bookings = JSON.parse(bookings.responseText)
+		stages = JSON.parse(stages.responseText)
+		document.getElementById('sel2').addEventListener('onChange',function(e){
+			ticketCalc(bookings,stages)
+		})
+		document.getElementById('sel1').addEventListener('onChange',function(e){
+			ticketCalc(bookings,stages)
+		})
+	})
 })
