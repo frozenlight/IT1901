@@ -37,6 +37,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				text: '',
 				approval: false,
 				considered: false,
+				concert_created:false,
 				price: 0,
 				date: '',
 			})
@@ -50,31 +51,43 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					}
 				}
 			})
-			booking.url = booking.date+'-'+booking.id.slice(0,5)
+			//booking.url = booking.date+'-'+booking.id.slice(0,5)
 			booking.band = req.body.band
 
 			console.log('BOOKING BAND: '+booking.band)
 			Band.findOne(booking.band, function (err, band) {
 				band.bookings.push(booking._id)
 				band.save()
+
+				booking.url = booking.date+'-'+band.name
+
+				booking.save(function (err) {
+					if (err) {
+						res.send(err)
+					} else {
+						res.redirect('/bookings')
+					}
+				})
 			})
 
-			booking.save(function (err) {
+			/*booking.save(function (err) {
 				if (err) {
 					res.send(err)
 				} else {
 					res.redirect('/bookings')
 				}
-			})
+			})*/
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Band.find(function (err, bands) {
-				if (err) {
-					res.send(err)
-				}
-				res.render('booking-form',{bands:bands})
-			})
+			Band.find()
+				.populate('band')
+				.exec(function (err, bands) {
+					if (err) {
+						res.send(err)
+					}
+					res.render('booking-form',{bands:bands})
+				})
 		})
 
 	//Route for spesific booking
@@ -133,18 +146,20 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Booking.findOne({'url':req.params.url}, function (err, booking) {
-				if (err) {
-					res.send(err)
-				}
-				if (booking) {
-					console.log('Getting to A BOOKING')
-					res.render('booking', {booking:booking})
-					//res.json(booking)
-				} else {
-					console.log('NOT FINDING THE FUCKING BOOKING')
-				}
-			})
+			Booking.findOne({'url':req.params.url})
+				.populate('band')
+				.exec(function (err, booking) {
+					if (err) {
+						res.send(err)
+					}
+					if (booking) {
+						console.log('Getting to A BOOKING')
+						res.render('booking', {booking:booking})
+						//res.json(booking)
+					} else {
+						console.log('NOT FINDING THE FUCKING BOOKING')
+					}
+				})
 		})
 		.delete(isLoggedIn, user.can('delete booking'), function(req, res) {
 			Booking.findOneAndRemove({'url' : req.params.url}, function (err, booking) {
