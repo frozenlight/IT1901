@@ -8,6 +8,8 @@ var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
 var mongoose = require('mongoose')
 
+var moment = require('moment')
+
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.split(search).join(replacement)
@@ -305,7 +307,32 @@ module.exports = function (router, passport, isLoggedIn, user) {
 							res.send(err)
 						}
 						//console.log(JSON.stringify(bookings))
-						callback(err,bookings)
+						var bookings_by_date = {}
+						var date_list = []
+
+						for (var i = 0; i<bookings.length; i++) {
+							date_list.push(bookings[i].date)
+							bookings[i].date = moment(bookings[i].date).format("D. MMMM YYYY")
+						}
+						date_list = uniq(date_list)
+
+						for (var i = 0; i<date_list.length; i++) {
+
+							bookings_by_date[moment(date_list[i]).format("D. MMMM YYYY")] = []
+						}
+
+						for (var i = 0; i<bookings.length; i++) {
+							if (bookings[i].approval) {
+								bookings_by_date[bookings[i].date].push(bookings[i])
+							}
+						}
+						for (var key in bookings_by_date) {
+							if (!bookings_by_date[key].length) {
+								delete bookings_by_date[key]
+							}
+						}
+						console.log(JSON.stringify(bookings_by_date))
+						callback(err,bookings_by_date)
 					})
 				},
 
@@ -328,4 +355,10 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				}
 			)
 		})
+}
+
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
 }

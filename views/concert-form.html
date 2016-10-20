@@ -2,8 +2,8 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-	<link rel="stylesheet" type="text/css" href="/css/chosen.css" />
-	<link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/chosen.bootstrap.css" />
+	<!--link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css"-->
 {% endblock %}
 {% block content %}
 	<div class="container text-left">
@@ -21,10 +21,14 @@
 				<label class="control-label col-xs-2" for="bands">Band: </label>
 				<div class="col-xs-10">
 					<select data-placeholder="Velg band" class="form-control chosen-select" multiple name="booking" id="bands">
-						{% for booking in bookings %}
-							{% if booking.approval and !booking.concert_created %}
-									<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.date}} {{booking.band.name}}</option>
-							{%  endif %}
+						{% for date,bookings in bookings %}
+							<optgroup label="{{ date }}">
+								{% for booking in bookings %}
+									{% if booking.approval and !booking.concert_created %}
+										<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.band.name}}</option>
+									{%  endif %}
+								{% endfor %}
+							</optgroup>
 						{% endfor %}
 					</select>
 				</div>
@@ -71,4 +75,9 @@
 			<button id="concert_submit" type="submit" class="btn btn-success">Send inn</button>
 		</form>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/script/chosen.jquery.js"></script>
+    <script src="/script/chosen.js"></script>
 {% endblock %}
