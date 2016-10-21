@@ -306,18 +306,37 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						if (err) {
 							res.send(err)
 						}
+						let stuff = {}
 						//console.log(JSON.stringify(bookings))
-						var bookings_by_date = {}
-						var date_list = []
+						let bookings_by_date = {}
+						let date_list = []
 
-						for (var i = 0; i<bookings.length; i++) {
+						/*let list = bookings.sort((a,b) => a.date - b.date)
+						let stuff = list.map(a => stuff[a.date]
+						let dates = list.filter((elem, i, arr) => arr.indexOf(elem) === i).map(a => [a])*/
+
+						bookings = bookings.sort((a,b) => new Date(a.date) - new Date(b.date))
+
+						//console.log(JSON.stringify(bookings))
+
+						for (let i = 0; i<bookings.length; i++) {
+							let booking = bookings[i]
+							booking.date = moment(booking.date).format('D. MMMM YYYY')
+							if (!bookings_by_date.hasOwnProperty(booking.date) && booking.approval) {
+								bookings_by_date[booking.date] = []
+							}
+							if (booking.approval) {
+								bookings_by_date[booking.date].push(booking)
+							}
+						}
+
+						/*for (var i = 0; i<bookings.length; i++) {
 							date_list.push(bookings[i].date)
 							bookings[i].date = moment(bookings[i].date).format("D. MMMM YYYY")
 						}
-						date_list = uniq(date_list)
+						date_list = date_list.filter((e,i,a) => a.indexOf(e) === i)
 
 						for (var i = 0; i<date_list.length; i++) {
-
 							bookings_by_date[moment(date_list[i]).format("D. MMMM YYYY")] = []
 						}
 
@@ -330,8 +349,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 							if (!bookings_by_date[key].length) {
 								delete bookings_by_date[key]
 							}
-						}
-						console.log(JSON.stringify(bookings_by_date))
+						}*/
+						//console.log(JSON.stringify(bookings_by_date))
 						callback(err,bookings_by_date)
 					})
 				},
