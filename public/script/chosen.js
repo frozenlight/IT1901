@@ -5,3 +5,8 @@ $(document).ready(function(){
 		
 	})
 });
+
+$('select').on('change', function () {
+    var selectedGroup = $('option:selected', this).parent();
+    $('optgroup', this).not(selectedGroup).prop('disabled', true);
+});

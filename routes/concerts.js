@@ -8,6 +8,8 @@ var nimble = require('nimble')
 var replaceAll = require('./prototypes.js')
 var mongoose = require('mongoose')
 
+var moment = require('moment')
+
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.split(search).join(replacement)
@@ -304,8 +306,23 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						if (err) {
 							res.send(err)
 						}
-						//console.log(JSON.stringify(bookings))
-						callback(err,bookings)
+
+						let bookings_by_date = {}
+
+						bookings = bookings.sort((a,b) => new Date(a.date) - new Date(b.date))
+
+						for (let i = 0; i<bookings.length; i++) {
+							let booking = bookings[i]
+							booking.date = moment(booking.date).format('D. MMMM YYYY')
+							if (!bookings_by_date.hasOwnProperty(booking.date) && booking.approval) {
+								bookings_by_date[booking.date] = []
+							}
+							if (booking.approval) {
+								bookings_by_date[booking.date].push(booking)
+							}
+						}
+						
+						callback(err,bookings_by_date)
 					})
 				},
 
@@ -328,4 +345,10 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				}
 			)
 		})
+}
+
+function uniq(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
 }
