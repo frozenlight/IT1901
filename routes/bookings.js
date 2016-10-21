@@ -12,20 +12,66 @@ var nimble = require('nimble')
 ////////////////////////////////////////////////////////////
 
 module.exports = function (router, passport, isLoggedIn, user) {
+
+	// Route for '/bookings'
 	router.route('/bookings')
-		.get(isLoggedIn, function(req, res) {
 
-			//Find all Booking objects
-			Booking.find().populate('band').exec(function (err, bookings) {
-				if (err) {
-					res.send(err)
-				}
+		// handles all GET requests for route '/bookings'
+		.get(isLoggedIn, user.can('see bookings'), function(req, res) {
 
-				// Render found objects with swig and send to client
-				console.log(JSON.stringify(bookings))
+			// If the user is a manager or a band user, only the objects which correspond with the user should be loaded
+			if (['manager','band'].indexOf(req.user.role) >= 0) {
 
-				res.render('bookingtabell', {bookings:bookings,title:'List of bookings'})
-			})
+				// Find all bands in the Booking collection
+				Booking.find()
+
+					// Populate all the band fields in the booking objects recieved
+					.populate('band')
+
+					// Exectute function with the array of bookings from the query
+					.exec(function (err, bookings) {
+
+						// If there is an error with the query, send the error message to the client
+						if (err) {
+							res.send(err)
+						}
+
+						//TESTING **REMOVE**
+
+						for (let i = 0; i<bookings.length; i++) {
+							if (req.user.connected_band == bookings[i].band.id) {
+								console.log('CONNECTED BAND ID: ' + req.user.connected_band + ' == ' + bookings[i].band.id + ' EQUALS true')
+							} else {
+								console.log('CONNECTED BAND ID: ' + req.user.connected_band + ' == ' + bookings[i].band.id + ' EQUALS false')	
+							}
+						}
+
+						//ENDTEST ** REMOVE**
+
+						// Use lambda to filter out all the bookings band or manager shouldn't have access to
+						let connected_bookings = bookings.filter(booking => booking.band.id == req.user.connected_band)
+
+						// render the same view as usual, but with the limited selection of bookings
+						res.render('bookingtabell', {bookings:connected_bookings})
+					})
+
+			// If user is not manager or band user
+			} else {
+
+				//Find all Booking objects
+				Booking.find()
+					.populate('band')
+					.exec(function (err, bookings) {
+						if (err) {
+							res.send(err)
+						}
+
+						// Render found objects with swig and send to client
+						console.log(JSON.stringify(bookings))
+
+						res.render('bookingtabell', {bookings:bookings,title:'List of bookings'})
+					})
+			}
 		})
 
 	//Route for creating new bookings
@@ -104,7 +150,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 					})
 
-					if (req.user.role === 'admin' || req.user.role === 'booking_boss') {
+					if (req.user.role === 'admin' || req.user.role === 'bookingsjef') {
 
 						console.log('user access:'+req.user.role)
 

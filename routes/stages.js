@@ -59,14 +59,6 @@ router.route('/stages')
 				// Render found objects with swig and send to client 
 				res.render('stage-table', {stages:results[0],concerts:results[1],title:'List of stages'});
 			})
-		// Search database for ALL stage objects
-		Stage.find(function(err, stages){
-			if (err){ res.send(err); }
-
-			// Render found objects with swig and send to client 
-			console.log(JSON.stringify(stages))
-			res.render('stage-table', {stages:stages,title:'List of stages'});
-		});
 	});
 
 router.route('/stage/:name')

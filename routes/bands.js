@@ -134,8 +134,81 @@ module.exports = function(router,passport,isLoggedIn,user){
 		})
 
 		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
-			Band.findOneAndRemove({'name' : req.params.name}, function (err, band) {
-        		res.redirect('/bands')
+			Band.findOne({'name' : req.params.name}, function (err, band) {
+				nimble.parallel([
+					function (callback) {
+						Concert.find({'_id':{$in:band.concerts}}, function (err, concerts) {
+							concerts.bands = concerts.bands.filter(concert_band => concert_band != band.id)
+							if (!concert.bands.length) {
+								concert.remove(function (err) {
+									if (err) {
+										let message = 'Failed to delete a concert which is being deleted because a band is being deleted and teh concert no longer contains any bands'
+									} else {
+										let message = 'Deleted a concert which is being deleted because a band is being deleted and teh concert no longer contains any bands'
+									}
+									callback(err,message)
+								})
+							} else {
+								concert.save(function (err) {
+									if (err) {
+										let message = 'Failed to delete a band id which is being deleted from a concert'
+									} else {
+										let message = 'Deleted a band id which is being deleted from a concert'
+									}
+									callback(err,message)
+								})
+							}
+						})
+					},
+
+					function (callback) {
+						let users = [band.connected_user,band.connected_manager]
+						User.findAndRemove({'_id':{$in:users}}, function (err, users) {
+							if (err) {
+								let message = 'Failed to delete the users of a band which is being deleted'
+							} else {
+								let message = 'Deleted the users of a band which is being deleted'
+							}
+							callback(err,message)
+						})
+					},
+
+					function (callback) {
+						Booking.findAndRemove({'_id':{$in:band.bookings}}, function (err, bookings) {
+							if (err) {
+								let message = 'Failed to delete the bookings of a band which is being deleted'
+							} else {
+								let message = 'Deleted the bookings of a band which is being deleted'
+							}
+							callback(err,message)
+						})
+					},
+
+					function (callback) {
+						Stage.find({'_id':{$in:band.stages}}, function (err, stages) {
+							stages.bands = stages.bands.filter(stage_band => stage_band != band.id)
+							stage.save(function (err) {
+								if (err) {
+									let message = 'Failed to delete a band id which is being deleted from a stage'
+								} else {
+									let message = 'Deleted a band id which is being deleted from a stage'
+								}
+								callback(err,message)
+							})
+						})
+
+					}],
+
+					function (err, results) {
+						if (err) {
+							res.send(err)
+						}
+						for (var i = 0; i<results.length; i++) {
+							console.log(results[i])
+						}
+						res.redirect('/bands')
+					}
+				)
       		})
 		})
 
@@ -203,11 +276,11 @@ module.exports = function(router,passport,isLoggedIn,user){
 					managerUser.local.username = req.body.name + '_manager';
 					managerUser.local.password = managerUser.generateHash(req.body.name);
 					managerUser.role = 'manager';
-					bandUser.connected_band = band._id;
+					managerUser.connected_band = band._id;
 					managerUser.save()
 					
 					band.connected_user = bandUser._id
-					band.connected_manager = bandManager._id
+					band.connected_manager = managerUser._id
 
 					band.save()
 					// Redirect to band page after creation
