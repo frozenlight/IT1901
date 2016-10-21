@@ -2,8 +2,8 @@
 {% block head %}
 	{% parent %}
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-	<link rel="stylesheet" type="text/css" href="/css/chosen.css" />
-	<link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/chosen.bootstrap.css" />
+	<!--link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css"-->
 {% endblock %}
 {% block content %}
 
@@ -53,4 +53,9 @@
 			<button id="booking_submit" type="submit" class="btn btn-success">Send tilbud</button>
 		</form>
 	</div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="/script/chosen.jquery.js"></script>
+    <script src="/script/chosen.js"></script>
 {% endblock %}
