@@ -1,0 +1,21 @@
+
+{% extends "booking.html" %}
+
+{% block info %}
+    <h3> Booking for band: {{booking.band.name}}</h3>
+    <p>
+        Dato: {{booking.date}}
+        Pris: {{booking.price}}
+        Epost: {{booking.email}}
+        Melding: {{booking.text}}
+        {% if booking.concert_created %}
+            Konsert laget
+        {% elseif !booking.considered %}
+            Venter godkjenning
+        {% elseif booking.approval %}
+            Godkjent
+        {% else %}
+            Avslått
+        {% endif %}
+    </p>
+{% endblock %}

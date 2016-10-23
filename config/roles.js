@@ -79,4 +79,9 @@ module.exports = function(roles){
       return true
     }
   })
+  roles.use('not manager', function (req) {
+    if (req.role !== 'manager') {
+      return true
+    }
+  })
 }

@@ -44,7 +44,7 @@ mongoose.connect(db.url);
 
 require('./config/passport.js')(passport);
 
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(cookieParser());
 
 // Setup for BodyParser
