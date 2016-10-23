@@ -162,6 +162,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 							let message = {
 								owner: req.user.local.username,
+								role: req.user.role,
 								time: new moment().format('D. MMMM YYYY HH:mm:ss'),
 								text: req.body.message_input
 							}
