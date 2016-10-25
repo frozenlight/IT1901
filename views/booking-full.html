@@ -2,7 +2,8 @@
 {% extends "booking.html" %}
 
 {% block info %}
-<form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
+<form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
+    <input type="hidden" name="contains_message" value="false"/>
     <h2 class="formHeader">{{booking.band.name}}</h2>
     <div class="form-group">
             <label class="control-label col-xs-2" for="date">Dato: </label>

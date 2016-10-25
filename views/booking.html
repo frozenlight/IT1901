@@ -7,7 +7,8 @@
 {% block info %}
 {% endblock %}
 
-<form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
+<form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
+    <input type="hidden" name="contains_message" value="true"/>
     <div class="form-group">
         <label class="control-label col-xs-2" for="text">Melding: </label>
         <div class="col-xs-10">
