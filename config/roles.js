@@ -80,7 +80,12 @@ module.exports = function(roles){
     }
   })
   roles.use('not manager', function (req) {
-    if (req.role !== 'manager') {
+    if (req.user.role !== 'manager') {
+      return true
+    }
+  })
+  roles.use('bookingsjef', function (req) {
+    if (req.user.role === 'bookingsjef') {
       return true
     }
   })
