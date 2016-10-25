@@ -1,61 +1,37 @@
 {% extends "index.html" %}
 
-{% block content %}
+{% block head %}
+{% endblock %}
 
+{% block content %}
+{% block info %}
+{% endblock %}
 
 <form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
-    <h2 class="formHeader">{{booking.band.name}}</h2>
     <div class="form-group">
-            <label class="control-label col-xs-2" for="date">Dato: </label>
-            <div class="col-xs-3">
-                <input type="date" class="form-control" id="date" name="date" value="{{booking.date}}">
-            </div>
+        <label class="control-label col-xs-2" for="text">Melding: </label>
+        <div class="col-xs-10">
+            <textarea class="form-control" rows="4" id="text" name="message_input">Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}</textarea>
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <input type="submit" value="Send">
+    </div>
+</form>
 
-            <label class="control-label col-xs-1" for="price">Pris: </label>
-            <div class="col-xs-2">
-                <input type="number" class="form-control" id="price" name="price" value="{{booking.price}}">
-            </div>
+
+
+{% for message in booking.messages %}
+
+    <div class="panel panel-default bootcards-richtext">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{message.owner}} ({{message.role}}) :: {{message.time}}</h3>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="email">Epost: </label>
-            <div class="col-xs-10">
-                <input type="email" class="form-control" id="email" name="email" value="{{booking.email}}">
-            </div>
+        <div class="panel-body">
+            <p class="lead">{{message.text}}</p>
         </div>
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="text">Melding: </label>
-            <div class="col-xs-10">
-                <textarea class="form-control" rows="4" id="text" name="text">{{booking.text}}</textarea>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-3">
-                <button id="mailto-button" type="submit" formaction="/booking/{{booking.name}}"><a href="mailto:{{ booking.email }}?Subject=Booking%20av%20{{booking.band_name}}&body={{booking.text}}" target="_top">SEND MAIL</a></button>
-            </div>
-            <div class="col-xs-3">
-                <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if booking.sent %} checked {% endif %}>Mail sendt
-            </div>
-        </div>
-        <div class="form-group">
-            {% if userIs('bookingsjef') %}
-            <div class="col-xs-3">
-                <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if booking.concidered and !booking.approval %} checked {%  endif %}>Avslå
-            </div>
-            {% endif %}
-            <div class="col-xs-3">
-                <input type="submit" value="Lagre">
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-3">
-                <p>Lag en konsert <a href="/concerts/create">her</a></p>
-            </div>
-        </div>
-</form>
-<form method="POST" action="/booking/{{ booking.url }}">
-    <input type="hidden" name="_method" value="DELETE"/>
-    <input type="submit" class="btn btn-danger" value="Slett"/><br>
-</form>
+    </div>
+{% endfor %}
 
 
 {% endblock %}

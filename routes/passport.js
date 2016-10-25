@@ -105,14 +105,16 @@ module.exports = function(app,router,isLoggedIn,user){
 
 	router.route('/users')
 		.get(isLoggedIn, user.is('admin'), function (req, res) {
-			User.find(function (err, users) {
-				res.render('user-table',{users:users})
-			})
+			User.find()
+				.populate('connected_band')
+				.exec(function (err, users) {
+					res.render('user-table',{users:users})
+				})
 		})
 
 	router.route('/user/:user_id')
 		.get(isLoggedIn, user.is('admin'), function (req, res) {
-			User.findById(req.params.user_id, function (err, _user) {
+			User.findById(req.params.user_id).populate('connected_band').exec(function (err, _user) {
 				res.json(_user)
 			})
 		})

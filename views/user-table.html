@@ -19,7 +19,9 @@
 				<tr>
 					<th class="col-xs-2" data-field="Username" data-sortable="true">Brukernavn</th>
 					<th class="col-xs-1" data-field="Role" data-sortable="true">Rolle</th>
+					<th class="col-xs-1" data-field="Connected band" data-sortable="true"></th>
 					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
+
 				</tr>
 				<!--<tr class="warning no-result">
       				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
@@ -29,14 +31,18 @@
 			<tbody>
 				{% for user in users %}
 				<tr>
-					<td>{{ user.local.username }}</td>
+					<td><a href="/user/{{ user.id }}">{{user.local.username}}</a></td>
 					<td>{{ user.role }}</td>
-					<td>
+					{% if user.connected_band.id %}
+					<td><a href="/band/{{ user.connected_band.name }}"></a>{{ user.connected_band.name }}</td>
+					{% else %}
+					<td>None</td>
+					{% endif %}					<td>
 						<form method="POST" action="/user/{{ user.id }}">
-        					<input type="hidden" name="_method" value="DELETE"/>
-        					<input type="submit" class="btn btn-danger" value="Slett"/><br>
-    					</form>
-    				</td>
+	    					<input type="hidden" name="_method" value="DELETE"/>
+	    					<input type="submit" class="btn btn-danger" value="Slett"/><br>
+						</form>
+					</td>
 				</tr>
 				{% endfor %}
 			</tbody>

@@ -13,14 +13,14 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="name">Navn: </label>
 				<div class="col-xs-10">
-					<input type="text" class="form-control" id="name" name="name" placeholder="Skriv navn på konserten">
+					<input type="text" class="form-control" id="name" name="name" placeholder="Skriv navn på konserten" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="bands">Band: </label>
 				<div class="col-xs-10">
-					<select data-placeholder="Velg band" class="form-control chosen-select" multiple name="booking" id="bands">
+					<select data-placeholder="Velg band" class="form-control chosen-select" multiple name="booking" id="bands" required>
 						{% for date,bookings in bookings %}
 							<optgroup label="{{ date }}">
 								{% for booking in bookings %}
@@ -37,14 +37,14 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="genre">Sjanger: </label>
 				<div class="col-xs-10">
-					<input type="text" class="form-control" id="genre" name="genre" placeholder="Skriv inn sjangere">
+					<input type="text" class="form-control" id="genre" name="genre" placeholder="Skriv inn sjangere" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="sel1">Scene: </label>
 				<div class="col-xs-10">
-					<select class="form-control" name="stage" id="sel1">
+					<select class="form-control" name="stage" id="sel1" required>
 						{% for stage in stages %}
 							<option value="{{stage.id}}">{{stage.name}}</option>
 						{% endfor %}
@@ -55,19 +55,19 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="tickets">Publikumsantall: </label>
 				<div class="col-xs-10">
-					<input type="text" class="form-control" id="tickets" name="audSize" placeholder="Skriv antall publikummere">
+					<input type="text" class="form-control" id="tickets" name="audSize" placeholder="Skriv antall publikummere" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="date">Dato: </label>
 				<div class="col-xs-3">
-					<input type="date" class="form-control" id="date" name="date">
+					<input type="date" class="form-control" id="date" name="date" required>
 				</div>
 
 				<label class="control-label col-xs-1" for="time">Tid: </label>
 				<div class="col-xs-2">
-					<input type="time" class="form-control" id="time" name="time">
+					<input type="time" class="form-control" id="time" name="time" required>
 				</div>
 			</div>
 
