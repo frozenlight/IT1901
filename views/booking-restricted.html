@@ -3,19 +3,26 @@
 
 {% block info %}
     <h3> Booking for band: {{booking.band.name}}</h3>
-    <p>
-        Dato: {{booking.date}}
-        Pris: {{booking.price}}
-        Epost: {{booking.email}}
-        Melding: {{booking.text}}
-        {% if booking.concert_created %}
-            Konsert laget
-        {% elseif !booking.considered %}
-            Venter godkjenning
-        {% elseif booking.approval %}
-            Godkjent
-        {% else %}
-            Avslått
-        {% endif %}
+        <div class="control-label col-xs-2" for="date">
+            Dato: {{booking.date}}
+        </div>
+        <div class="control-label col-xs-1" for="price">
+            Pris: {{booking.price}}
+        </div>
+        <label class="control-label col-xs-2" for="email">
+            Epost: {{booking.email}}
+        </label>
+        <textarea class="form-control" rows="4" id="text" name="text">
+            Melding: {{booking.text}}
+            {% if booking.concert_created %}
+                Konsert laget
+            {% elseif !booking.considered %}
+                Venter godkjenning
+            {% elseif booking.approval %}
+                Godkjent
+            {% else %}
+                Avslått
+            {% endif %}
+        </textarea>
     </p>
 {% endblock %}

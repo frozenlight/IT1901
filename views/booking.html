@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block content %}
+
 {% block info %}
 {% endblock %}
 
@@ -11,13 +12,15 @@
     <div class="form-group">
         <label class="control-label col-xs-2" for="text">Melding: </label>
         <div class="col-xs-10">
-            <textarea class="form-control" rows="4" id="text" name="message_input">Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}</textarea>
+            <textarea class="form-control" rows="4" id="text" name="message_input" placeholder=" Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}"></textarea>
         </div>
     </div>
+    <div class="col-xs-2"></div>
     <div class="col-xs-3">
-        <input type="submit" value="Send">
+        <input class="btn btn-success" type="submit" value="Send">
     </div>
 </form>
+
 
 
 
@@ -30,7 +33,7 @@
         <div class="panel-body">
             <p class="lead">{{message.text}}</p>
         </div>
-    </div>
+    </div>  
 {% endfor %}
 
 
