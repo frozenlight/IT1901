@@ -39,16 +39,13 @@
 					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
 					<th class="col-xs-2" data-field="Scene" data-sortable="true">Scene</th>
 					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
-                    
 					<th class="col-xs-1" data-field="Concert" data-sortable="false"></th>
-					
 					{% if userCan('edit concert') %}
 					<th class="col-xs-1" data-field="Edit" data-sortable="false"></th>
 					{% endif %}
 					{% if userCan('delete concert') %}
 					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
 					{% endif %}
-                    
 				</tr>
 			</thead>
 
