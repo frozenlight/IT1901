@@ -15,6 +15,7 @@ var BookingSchema = new mongoose.Schema({
 	date: String,
 	url:String,
 	concert_created: Boolean,
+	messages: Array,
 });
 
 module.exports = mongoose.model('Booking', BookingSchema);
