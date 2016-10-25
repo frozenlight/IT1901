@@ -36,12 +36,16 @@
 					<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
 					<th class="col-xs-2" data-field="Scene" data-sortable="true">Scene</th>
 					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
+                    
+					<th class="col-xs-1" data-field="Concert" data-sortable="false"></th>
+					
 					{% if userCan('edit concert') %}
 					<th class="col-xs-1" data-field="Edit" data-sortable="false"></th>
 					{% endif %}
 					{% if userCan('delete concert') %}
 					<th class="col-xs-1" data-field="Delete" data-sortable="false"></th>
 					{% endif %}
+                    
 				</tr>
 			</thead>
 
@@ -59,13 +63,14 @@
 							{% for band in concert.bands %}
 							<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
 							{% endfor %}
-							<li><a href="/concert/{{concert.name}}">Konsert</a></li>
+							
 						</ul>
 						{% endif %}
 					</td>
 					<td>{{concert.genre}}</td>
 					<td>{{concert.stage.name}}</td>
 					<td>{{concert.audSize}}</td>
+                    <td><a class="btn btn-default" href='/concert/{{ concert.name }}'>Se Konsert</a></td>
 					{% if userCan('edit concert') %}
 					<td><a class="btn btn-default" href='/concert/{{ concert.name }}/edit'>Endre</a></td>
 					{% endif %}
