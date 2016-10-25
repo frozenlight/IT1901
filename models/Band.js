@@ -2,6 +2,9 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
 var User = require('./user.js');
+var Booking = require('./Booking.js')
+var Concert = require('./Concert.js')
+var Stage = require('./Stage.js')
 
 var BandSchema = new mongoose.Schema({
 	name:String,
@@ -12,6 +15,9 @@ var BandSchema = new mongoose.Schema({
 	bookings:[{type: mongoose.Schema.ObjectId, ref: 'Booking'}],
 	concerts:[{type: mongoose.Schema.ObjectId, ref: 'Concert'}],
 	stages:[{type: mongoose.Schema.ObjectId, ref: 'Band'}],
+
+	connected_user: {type:mongoose.Schema.ObjectId,ref:'User'},
+	connected_manager: {type:mongoose.Schema.ObjectId,ref:'User'},
 
 	spotify_id:String,
 	spotify_followers:String,

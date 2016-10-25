@@ -1,29 +1,24 @@
-{% extends "index.html" %}
 
-{% block head %}
-{% endblock %}
+{% extends "booking.html" %}
 
-{% block content %}
 {% block info %}
-{% endblock %}
-
 <form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
+    <h2 class="formHeader">{{booking.band.name}}</h2>
     <div class="form-group">
-<<<<<<< HEAD
             <label class="control-label col-xs-2" for="date">Dato: </label>
             <div class="col-xs-3">
-                <input type="date" class="form-control" id="date" name="date" value="{{booking.date}}" required>
+                <input type="date" class="form-control" id="date" name="date" value="{{booking.date}}">
             </div>
 
             <label class="control-label col-xs-1" for="price">Pris: </label>
             <div class="col-xs-2">
-                <input type="number" class="form-control" id="price" name="price" value="{{booking.price}}" required>
+                <input type="number" class="form-control" id="price" name="price" value="{{booking.price}}">
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-xs-2" for="email">Epost: </label>
             <div class="col-xs-10">
-                <input type="email" class="form-control" id="email" name="email" value="{{booking.email}}" required>
+                <input type="email" class="form-control" id="email" name="email" value="{{booking.email}}">
             </div>
         </div>
         <div class="form-group">
@@ -39,34 +34,25 @@
             <div class="col-xs-3">
                 <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if booking.sent %} checked {% endif %}>Mail sendt
             </div>
-=======
-        <label class="control-label col-xs-2" for="text">Melding: </label>
-        <div class="col-xs-10">
-            <textarea class="form-control" rows="4" id="text" name="message_input">Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}</textarea>
->>>>>>> 36b32150ec2e268b98f41375fce27f6246e2b3cf
         </div>
-    </div>
-    <div class="col-xs-3">
-        <input type="submit" value="Send">
-    </div>
+        <div class="form-group">
+            {% if userIs('bookingsjef') %}
+            <div class="col-xs-3">
+                <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if booking.concidered and !booking.approval %} checked {% endif %}>Avslå
+            </div>
+            {% endif %}
+            <div class="col-xs-3">
+                <input type="submit" value="Lagre">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-3">
+                <p>Lag en konsert <a href="/concerts/create">her</a></p>
+            </div>
+        </div>
 </form>
-
-
-
-{% for message in booking.messages %}
-
-    <div class="panel panel-default bootcards-richtext">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{message.owner}} ({{message.role}}) :: {{message.time}}</h3>
-        </div>
-        <div class="panel-body">
-            <p class="lead">{{message.text}}</p>
-        </div>
-    </div>
-{% endfor %}
-
-
-{% endblock %}
-{% block scripts %}
-    <!--<script type="text/javascript" src="/script/mailto.js"></script>-->
+<form method="POST" action="/booking/{{ booking.url }}">
+    <input type="hidden" name="_method" value="DELETE"/>
+    <input type="submit" class="btn btn-danger" value="Slett"/><br>
+</form>
 {% endblock %}

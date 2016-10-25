@@ -73,4 +73,15 @@ module.exports = function(roles){
       return true
     }
   })
+
+  roles.use('see bookings', function (req) {
+    if (['bookingsjef', 'bookingansvarlig', 'manager', 'band'].indexOf(req.user.role) >= 0) {
+      return true
+    }
+  })
+  roles.use('not manager', function (req) {
+    if (req.role !== 'manager') {
+      return true
+    }
+  })
 }

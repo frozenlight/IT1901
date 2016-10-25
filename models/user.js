@@ -9,7 +9,8 @@ var userSchema = mongoose.Schema({
 		username: String,
 		password: String
 	},
-	role:String
+	role:String,
+	connected_band: {type:mongoose.Schema.ObjectId,ref:'Band'},
 });
 
 // methods ======================
