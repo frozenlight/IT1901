@@ -104,7 +104,7 @@ select.form-control + .chosen-container-multi .chosen-choices {
 
 select.form-control + .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
     height:auto;
-    padding: 0 5px;
+    padding: 5px 0;
 }
 
 select.form-control + .chosen-container-multi .chosen-choices li.search-choice {
