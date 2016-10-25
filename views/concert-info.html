@@ -4,28 +4,41 @@
 	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block content %}
-
+    
+    <!--<div class="col-xs-3">
+    <div class="thumbnail">
+                        {% for stage in concert.stage %}
+						<img src="{{stage.image}}"/>
+                        {% endfor %}
+					</div>
+</div>
+    <div class="col-xs-3">
+    <div class="thumbnail">
+                        {% for band in concert.bands %}
+						<img src="{{band.spotify_image}}"/>
+                        {% endfor %}
+</div>
+</div>
+-->
 	<div class="container text-left">
 
-		<a class="btn btn-success" href='/band/{{ concert.name }}/edit'>Endre band</a>
-
-			<form method="POST" action="/concert/{{ concert.name }}">
-
-				<input type="hidden" name="_method" value="DELETE"/>
-				<input type="submit" class="btn btn-danger" value="Slett"/><br>
-			</form> 
+		
 
 		<div class="col-xs-8">
-			<h2>{{concert.name}}</h2>
+			<h2 style="color: #a03033">{{concert.name}}</h2>
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Info</h3>
 				</div>
 				<div class="panel-body">
-					Dato og tid: {{concert.date}}, {{concert.time}} <br>
-					Scene: {{concert.stage.name}} <br>
-					Band:
+					<p>Dato og tid: &nbsp;&nbsp;&nbsp;&nbsp; 
+                        {{concert.date}}, {{concert.time}} </p>
+					<p>Scene: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp; 
+                        <a href="/stage/{{concert.stage.name}}">{{concert.stage.name}}</a> </p>
+					
+                    Band: 
 					<ul id="concert_band_list">
+                        &nbsp; &nbsp; 
 						{% for band in concert.bands %}
 							<li><a href="/band/{{ band.name }}">{{band.name}}</a></li>
 						{% endfor %}
@@ -162,13 +175,24 @@
 			</table>
 			{% endif %}
 
+            <a class="btn btn-success" href='/band/{{ concert.name }}/edit'>Endre band</a>
+
+			<form method="POST" action="/concert/{{ concert.name }}">
+
+				<input type="hidden" name="_method" value="DELETE"/>
+				<input type="submit" class="btn btn-danger" value="Slett"/><br>
+			</form> 
+            
 		</div>
 
 		<div class="col-xs-4">
-			<h2>&nbsp</h2>
+
+            
 			<div class="panel panel-default">
+                {% for band in concert.bands %}
+						
 				<div class="panel-heading">
-					<h3 class="panel-title">Spotifyinformasjon</h3>
+					<h3 class="panel-title">Statistikk</h3>
 				</div>
 				<div class="panel-body">
 					<div class="thumbnail">
@@ -184,10 +208,38 @@
 								<td>Spotify-følgere:</td>
 								<td>&nbsp {{band.spotify_followers}}</td>
 							</tr>
+							<tr>
+								<td>Avspillingsantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_playcount}}</td>
+							</tr>
+							<tr>
+								<td>Lytterantall (Lastfm):</td>
+								<td>&nbsp {{band.lastfm_listeners}}</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
+                
+                        {% endfor %}
 			</div>
+            
+
+<!--
+            <div class="panel panel-default">
+                {% if stage in concert.stage %}
+						
+				<div class="panel-heading">
+					<h3 class="panel-title">{{stage.name}}</h3>
+				</div>
+				<div class="panel-body">
+					<div class="thumbnail">
+						<img src="{{stage.image}}"/>
+					</div>
+                </div>
+                {% endif %}
+            </div>
+            -->
+            
 			{% if band.spotify_albums %}
 			<div class="panel panel-default">
 				<div class="panel-heading">

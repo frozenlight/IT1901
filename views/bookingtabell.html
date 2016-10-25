@@ -34,6 +34,7 @@
 					<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
 					<th class="col-xs-4" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
+                    <th class="col-xs-1" data-field="Concert" data-sortable="false"></th>
 					<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
 				</tr>
 			</thead>
@@ -43,8 +44,9 @@
 			{% for booking in bookings %}
 				<tr>
 					<td>{{ booking.date }}</td>
-					<td><a href="/booking/{{ booking.url }}">{{ booking.band.name }}</a></td>
+					<td><a href="/band/{{ booking.band.name }}">{{ booking.band.name }}</a></td>
 					<td>{{ booking.price }}</td>
+                    <td><a class="btn btn-default" href='/booking/{{ booking.url }}'>Se Booking</a></td>
 					<td>
 						{% if booking.concert_created %}
 							Konsert laget
