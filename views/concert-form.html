@@ -44,7 +44,7 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="sel1">Scene: </label>
 				<div class="col-xs-10">
-					<select class="form-control" name="stage" id="sel1" required>
+					<select class="form-control chosen-select" name="stage" id="sel1" required>
 						{% for stage in stages %}
 							<option value="{{stage.id}}">{{stage.name}}</option>
 						{% endfor %}

@@ -17,8 +17,8 @@ $(document).ready(function() {
 		Search(searchSplit);
 	});
 
-	if ($('.results tbody tr[visible="true"]').length == 0){
-		$('.no-result').show();
+	if ($('tbody tr[visible="true"]').length == 0) || ($('.results tbody tr[visible="true"]').length){
+		$('.empty-table').show();
 	}
 });
 
@@ -28,20 +28,21 @@ let Search = function(searchSplit){
 			}
 		});
 
-		$(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
-			$(this).attr('visible', 'false');
-		});
+	$(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function(e){
+		$(this).attr('visible', 'false');
+	});
 
-		$(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
-			$(this).attr('visible','true');
-		});
+	$(".results tbody tr:containsi('" + searchSplit + "')").each(function(e){
+		$(this).attr('visible','true');
+	});
 
-		let jobCount = $('.results tbody tr[visible="true"]').length;
-		//$('.counter').text(jobCount + ' item');
+	let jobCount = $('.results tbody tr[visible="true"]').length;
 
-		if(jobCount == 0){
-			$('.no-result').show();
-		}else{
-			$('.no-result').hide();
-		}
+	if(jobCount == 0){
+		$('.no-result').show();
+		$('.empty-table').hide();
+	}else{
+		$('.no-result').hide();
+	}
+	
 }

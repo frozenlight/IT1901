@@ -35,12 +35,22 @@ th{
 }
 
 .results tr[visible='false'],
-.no-result{
+.no-result, 
+.empty-table{
   display:none;
 }
 
 .results tr[visible='true']{
   display:table-row;
+}
+
+
+#concert_create{
+	margin-left: 1rem;
+}
+
+#concert_search{
+	margin-right: 0;
 }
 
 /*Forms*/

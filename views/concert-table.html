@@ -7,8 +7,8 @@
 	<div class="container text-center">
 		<h2 class="tableHeader">Konsertoversikt</h2>
 
-		<div class="col-xs-6">
-			<div class="dropdown" id="tabledrop">
+		<div class="col-xs-1 text-left">
+			<div class="dropdown" id="scene_drop">
 				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg scene<span class="caret"></span></button>
 				<ul class="dropdown-menu">
 					{% for stage in stages %}
@@ -16,10 +16,13 @@
 					{% endfor %}
 				</ul>
 			</div>
+		</div>
+
+		<div id="concert_create" class="col-xs-2 text-left">
 			<a class="btn btn-primary createButton" href="/concerts/create">Opprett ny konsert</a>
 		</div>
 
-		<div id="concertSearch" class="form-group pull-right">
+		<div id="concert_search" class="col-xs-6 form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
@@ -53,18 +56,18 @@
 				<tr class="no-result">
 					<td colspan="8">Finner ikke noe som stemmer med søket</td>
 				</tr>
+				<tr class="empty-table">
+					<td colspan="8">Det finnes ingen konserter</td>
+				</tr>
 				{% for concert in concerts %}
 				<tr>
 					<td>{{ concert.date }}</td>
 					<td>{{ concert.time }}</td>
 					<td>
 						{% if concert.bands %}
-						<ul>
 							{% for band in concert.bands %}
-							<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
+							<a href="/band/{{ band.name }}">{{ band.name }}</a><br/>
 							{% endfor %}
-							
-						</ul>
 						{% endif %}
 					</td>
 					<td>{{concert.genre}}</td>
