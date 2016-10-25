@@ -214,7 +214,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				date:req.body.date,
 				time:req.body.time,
 				ticketPrice: req.body.ticketPrice,
-				expense: req.body.expense,
+				expenses: req.body.expenses,
 				revenue: 0,
 
 
