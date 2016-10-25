@@ -1,26 +1,45 @@
 
-console.log("HEIII, fant den")
 
-function ticketCalc(bookings,stages){
-	console.log("WTF")
-	
+function ticketCalc(bookings,stages,chooseBands,chooseStage){
+	console.log("HEIUHEUGEHKG")
+	console.log(getSelectValues(chooseBands))
+	console.log(getSelectValues(chooseStage))
+}
+
+function getSelectValues(select) {
+  var result = [];
+  var options = select && select.options;
+  var opt;
+
+  for (var i=0, iLen=options.length; i<iLen; i++) {
+    opt = options[i];
+
+    if (opt.selected) {
+      result.push(opt.value || opt.text);
+    }
+  }
+  return result;
 }
 
 document.addEventListener("DOMContentLoaded",function(e){
-	console.log("HEIII, gjorde noe")
 	let bookings = $.get('/api/bookings')
 	let stages = $.get('/api/stages')
 	$.when(bookings,stages).done(function(){
 		bookings = JSON.parse(bookings.responseText)
 		stages = JSON.parse(stages.responseText)
-		console.log(bookings)
+		console.log("HEIUHEUGEHKG 2")
 		
-		document.getElementById('sel2').addEventListener('onChange',function(e){
-			console.log("FORANDRING FRYDER")
-			ticketCalc(bookings,stages)
-		})
-		document.getElementById('sel1').addEventListener('onChange',function(e){
-			ticketCalc(bookings,stages)
-		})
+		let chooseBands = document.getElementById('bands')
+		let chooseStage = document.getElementById('stages')
+
+		$('#bands').on('change', function(e) {
+			ticketCalc(bookings,stages,chooseBands,chooseStage)
+ 		 });
+
+		$('#stages').on('change', function(e) {
+			ticketCalc(bookings,stages,chooseBands,chooseStage)
+ 		 });
+
+		
 	})
 })

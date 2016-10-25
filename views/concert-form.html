@@ -42,9 +42,9 @@
 			</div>
 
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="sel1">Scene: </label>
+				<label class="control-label col-xs-2" for="stages">Scene: </label>
 				<div class="col-xs-10">
-					<select class="form-control" name="stage" id="sel1">
+					<select class="form-control" name="stage" id="stages">
 						{% for stage in stages %}
 							<option value="{{stage.id}}">{{stage.name}}</option>
 						{% endfor %}
