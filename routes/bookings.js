@@ -157,7 +157,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					} else {
 						console.log('Body: ' + JSON.stringify(req.body))
 						console.log('Checking if message')
-						if (req.body.message_input != '') {
+						console.log(req.body)
+						if (req.body.contains_message === "true") {
 							console.log('construcing message')
 
 							let message = {

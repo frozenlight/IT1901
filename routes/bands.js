@@ -263,6 +263,10 @@ module.exports = function(router,passport,isLoggedIn,user){
 						}
 					});
 
+					if (!band.members.length) {
+						band.members.length = [req.body.name]
+					}
+
 					//band.save()
 					
 					var bandUser = new User();
