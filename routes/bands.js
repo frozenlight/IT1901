@@ -264,7 +264,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 					});
 
 					if (!band.members.length) {
-						band.members.length = [req.body.name]
+						band.members.length.push(req.body.name)
 					}
 
 					//band.save()
