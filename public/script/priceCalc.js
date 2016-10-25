@@ -1,7 +1,6 @@
 
 
 function ticketCalc(bookings,stages,chooseBands,chooseStage){
-	console.log("HEIUHEUGEHKG")
 	console.log(getSelectValues(chooseBands))
 	console.log(getSelectValues(chooseStage))
 }
@@ -27,7 +26,6 @@ document.addEventListener("DOMContentLoaded",function(e){
 	$.when(bookings,stages).done(function(){
 		bookings = JSON.parse(bookings.responseText)
 		stages = JSON.parse(stages.responseText)
-		console.log("HEIUHEUGEHKG 2")
 		
 		let chooseBands = document.getElementById('bands')
 		let chooseStage = document.getElementById('stages')
