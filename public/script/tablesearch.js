@@ -17,7 +17,7 @@ $(document).ready(function() {
 		Search(searchSplit);
 	});
 
-	if ($('tbody tr[visible="true"]').length == 0) || ($('.results tbody tr[visible="true"]').length){
+	if (($('tbody tr[visible="true"]').length == 0) || ($('.results tbody tr[visible="true"]').length == 0)){
 		$('.empty-table').show();
 	}
 });
