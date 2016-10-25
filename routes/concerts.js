@@ -134,7 +134,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 			nimble.parallel ([
 				function (callback) {
-					Concert.findOne({'name':req.params.name}, function(err, concert) {
+					Concert.findOne({'name':req.params.name}).populate("bands").exec(function(err, concert) {
 						if (err) {
 							res.send(err)
 						}
