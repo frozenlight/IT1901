@@ -26,7 +26,17 @@ module.exports = function (router) {
 				if (err) {
 						res.send(err)
 					}
-					res.json(concerts)
+					if (['band','manager'].indexOf(req.user.role) > -1) {
+
+						for (var i = 0; i<concerts.length; i++) {
+							concerts[i].bands = concerts[i].bands.map((b) => b.id)
+						}
+						concerts = concerts.filter((a) => a.bands.indexOf(req.user.connected_band) > -1)
+						res.json(concerts)
+
+					} else {
+						res.json(concerts)
+					}
 				})
 		})
 
@@ -77,7 +87,18 @@ module.exports = function (router) {
 					if (err) {
 						res.send(err)
 					}
-					res.json(bookings)
+					if (['band','manager'].indexOf(req.user.role) > -1) {
+
+
+						bookings = bookings.filter((a) => a.band.id == req.user.connected_band)
+
+						console.log(bookings)
+
+						res.json(bookings)
+						
+					} else {
+						res.json(bookings)
+					}
 				})
 		})
 
