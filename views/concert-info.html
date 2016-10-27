@@ -56,6 +56,14 @@
 					{{band.description}}
 				</div>
 			</div>
+            <div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Publikum</h3>
+				</div>
+				<div class="panel-body">
+					{{concert.audSize}}
+				</div>
+			</div>
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
@@ -175,7 +183,7 @@
 			</table>
 			{% endif %}
 
-            <a class="btn btn-success" href='/band/{{ concert.name }}/edit'>Endre band</a>
+            <a class="btn btn-success" href='/concert/{{ concert.name }}/edit'>Endre konsert</a>
 
 			<form method="POST" action="/concert/{{ concert.name }}">
 
