@@ -53,6 +53,7 @@
 					<th class="col-xs-1" data-field="Time" data-sortable="true">Tid</th>
 					<th class="col-xs-3" data-field="Band" data-sortable="true">Band</th>
 					<th class="col-xs-1" data-field="Tickets" data-sortable="true">Publikum</th>
+                    <th class="col-xs-1" data-field="Concert" data-sortable="false"></th>
 					
 				</tr>
 				<!--<tr class="warning no-result">
@@ -72,13 +73,13 @@
 							{% for band in concert.bands %}
        						<li><a href="/band/{{ band.name }}">{{ band.name }}</a></li>
 					        {% endfor %}
-					        <li><a href="/concert/{{concert.name}}">Konsert</a></li>
+					        
 						</ul>
 						{% endif %}
 					</td>
 
 					<td>{{concert.audSize}}</td>
-					
+					<td><a class="btn btn-default" href='/concert/{{ concert.name }}'>Se Konsert</a></td>
     				
 				</tr>
                 {% endif %}
