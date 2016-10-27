@@ -8,7 +8,7 @@
 	<div class="container text-center">
 	<h2 class="tableHeader">Bookingoversikt</h2>
 
-		<div class="col-xs-6">
+		<div class="col-xs-1 text-left">
 			<div class="dropdown" id="tabledrop">
 				<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Velg status<span class="caret"></span></button>
 				<ul class="dropdown-menu">
@@ -17,10 +17,13 @@
 					<li><a href="#">Venter godkjenning</a></li>
 				</ul>
 			</div>
+		</div>
+		
+		<div id="booking_create" class="col-xs-2 text-left">
 			<a class="btn btn-primary createButton" href="/bookings/create">Opprett nytt tilbud</a>
 		</div>
 
-		<div class="form-group pull-right">
+		<div class="col-xs-6 form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
