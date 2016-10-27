@@ -12,4 +12,10 @@ module.exports = function (router) {
 			res.status(404)
 			res.render('not-found')
 		})
+		
+	router.route('/405')
+		.get(function (req, res) {
+			res.status(405)
+			res.render('password-fail')
+		})
 }
