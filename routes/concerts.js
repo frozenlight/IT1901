@@ -215,6 +215,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				audSize: req.body.audSize,
 				date:req.body.date,
 				time:req.body.time,
+				practice_time:req.body.practice_time
 
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),

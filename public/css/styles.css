@@ -59,3 +59,10 @@ input.change_password {
   width: 150px;
 }
 
+.align-buttons {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+

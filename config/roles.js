@@ -63,8 +63,8 @@ module.exports = function(roles){
     }
   })
 
-  roles.use('bands user',function (req) {
-    if (req.user.role === 'band' && req.user.connected_id === req.params.band_id) {
+  roles.use('band',function (req) {
+    if (req.user.role === 'band') {
       return true
     }
   })
