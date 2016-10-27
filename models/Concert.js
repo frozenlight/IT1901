@@ -5,6 +5,7 @@ var shortid = require('shortid')
 var Stage = require('./Stage.js')
 var Band = require('./Band.js')
 var Booking = require('./Booking.js')
+var User = require('./user.js')
 
 var ConcertSchema = new mongoose.Schema({
 	name: String,
@@ -15,7 +16,11 @@ var ConcertSchema = new mongoose.Schema({
 	audSize: Number,
  	date: String,
 	time: String,
+	practice_time: String,
+	technicals: String,
+	host: {type: mongoose.Schema.ObjectId, ref: 'User'},
 
+	crew: Array,
 	bandIDs: Array, //Will contain the database ID's for the bands, if they exist
 });
 

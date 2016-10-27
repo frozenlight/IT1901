@@ -25,7 +25,7 @@
 							<optgroup label="{{ date }}">
 								{% for booking in bookings %}
 									{% if booking.approval and !booking.concert_created %}
-										<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.band.name}}</option>
+										<option id="{{booking.band.id}}" value="{{booking.id}},{{booking.band.id}}">{{booking.stage.name}} : {{booking.band.name}}</option>
 									{%  endif %}
 								{% endfor %}
 							</optgroup>
