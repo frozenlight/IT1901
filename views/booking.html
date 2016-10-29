@@ -4,38 +4,42 @@
 {% endblock %}
 
 {% block content %}
+<div class="container text-left">
+    {% block info %}
+    {% endblock %}
 
-{% block info %}
-{% endblock %}
+    <hr>
+    <br>
 
-<form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
-    <input type="hidden" name="contains_message" value="true"/>
-    <div class="form-group">
-        <label class="control-label col-xs-2" for="text">Melding: </label>
-        <div class="col-xs-10">
-            <textarea class="form-control" rows="4" id="text" name="message_input" placeholder=" Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}"></textarea>
+    <form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
+        <input type="hidden" name="contains_message" value="true"/>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Melding: </label>
+            <div class="col-xs-8">
+                <textarea class="form-control" rows="4" id="text" name="message_input" placeholder=" Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}"></textarea>
+            </div>
+            <input class="btn btn-success" type="submit" value="Send">
         </div>
-    </div>
-    <div class="col-xs-2"></div>
-    <div class="col-xs-3">
-        <input class="btn btn-success" type="submit" value="Send">
-    </div>
-</form>
+        <!--div class="col-xs-2"></div>
+        <div class="col-xs-3">
+            <input class="btn btn-success" type="submit" value="Send">
+        </div-->
 
+        <br>
+        <br>
 
-
-
-{% for message in booking.messages %}
-
-    <div class="panel panel-default bootcards-richtext">
-        <div class="panel-heading">
-            <h3 class="panel-title">{{message.owner}} ({{message.role}}) :: {{message.time}}</h3>
+        {% for message in booking.messages %}
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">{{message.owner}} ({{message.role}})<br>{{message.time}}</label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{{message.text}}</p>
+                </div>
+            </div>
         </div>
-        <div class="panel-body">
-            <p>{{message.text}}</p>
-        </div>
-    </div>  
-{% endfor %}
+        {% endfor %}
+    </form>
+</div>
 
 
 {% endblock %}

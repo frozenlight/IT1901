@@ -6,22 +6,10 @@
     <link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 {% block info %}
-
-<div class="container text-left">
-    <table><tr><td>
-        <h2 class="formHeader">{{booking.band.name}}</h2></td>
-        <td style="width: 73%"></td>
-        <td>
-        <div class="col-xs-1 text-right">
-            <form method="POST" action="/booking/{{ booking.url }}">
-                <input type="hidden" name="_method" value="DELETE"/>
-                <input type="submit" class="btn btn-danger" value="Slett booking"/><br>
-            </form>
-        </div></td>
-    </table></tr>
-
     <form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
         <input type="hidden" name="contains_message" value="false"/>
+        <h2 class="formHeader">{{booking.band.name}}</h2>
+        <br>
         <div class="form-group">
 
             <label class="control-label col-xs-2" for="date">Dato: </label>
@@ -50,8 +38,8 @@
             </div>
         </div>
 
-        <div class="form-group">
-        <div class="col-xs-2"></div>
+        <!--div class="form-group">
+            <div class="col-xs-2"></div>
             <div class="col-xs-3">
                 <a href="mailto:{{ booking.email }}?Subject=Booking%20av%20{{booking.band_name}}&body={{booking.text}}" target="_top" style="color: black">
                     <button id="mailto-button" type="submit" formaction="/booking/{{booking.name}}" class="btn btn-success">Send mail 
@@ -61,25 +49,47 @@
             <div class="col-xs-3">
                 <input id="sent-yes" type="checkbox" name="sent" value="yes" {% if booking.sent %} checked {% endif %}>Mail sendt
             </div>
-        </div>
+        </div-->
+
         <div class="form-group">
         <div class="col-xs-2"></div>
             {% if userIs('bookingsjef') %}
-            <div class="col-xs-3">
-                <input type="radio" name="confirm" value="accept" {% if booking.approval %} checked {%  endif %}>Godkjenn <input type="radio" name="confirm" value="deny" {% if booking.concidered and !booking.approval %} checked {% endif %}>Avslå
+            <div class="btn-group col-xs-4" data-toggle="buttons">
+                <label class="btn btn-success {% if booking.approval %}active{%  endif %}">
+                    <input type="radio" name="confirm" id="radio-godkjenn" value="accept" autocomplete="off" {% if booking.approval %} checked {%  endif %} > Godkjenn
+                </label>
+                <label class="btn btn-info">
+                    <input type="radio" name="confirm" id="radio-venter" value="unknown" autocomplete="off"> Ubestemt
+                </label>
+                <label class="btn btn-danger {% if booking.concidered and !booking.approval %}active{% endif %}">
+                    <input type="radio" name="confirm" id="radio-avslå" value="deny" autocomplete="off" {% if booking.concidered and !booking.approval %} checked {% endif %}> Avslå
+                </label>
             </div>
             {% endif %}
-            <div class="col-xs-3">
-                <input type="submit" value="Lagre">
-            </div>
-        </div>
-        <div class="form-group">
-        <div class="col-xs-2"></div>
-            <div class="col-xs-3">
-                <p>Lag en konsert <a href="/concerts/create">her</a></p>
+            <div class="col-xs-6"></div>
+            <div class="col-xs-2">
+                <input type="submit" class="btn btn-success" value="Lagre"/>
             </div>
         </div>
     </form>
+    <br>
+    <hr>
+    <form class="form-horizontal" method="POST" action="/booking/{{ booking.url }}">
+        <div class="form-group">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-8">
+                <div class="col-xs-2">
+                    <a href="/concerts/create" class="btn btn-success">Opprett ny konsert</a>
+                </div>
+                <div class="col-xs-8"></div>
+                <div class="col-xs-2">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <input type="submit" class="btn btn-danger" value="Slett booking"/>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
+        </div>
+    </form>
 
-</div>
+
 {% endblock %}
