@@ -2,31 +2,54 @@
 {% extends "booking.html" %}
 
 {% block info %}
-    <h3> Booking for band: {{booking.band.name}}</h3>
-        <div class="control-label col-xs-2" for="date">
-            Dato: {{booking.date}}
+    <form class="form-horizontal">
+        <h2 class="formHeader">{{booking.band.name}}</h2>
+        <br>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Dato:</label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{{booking.date}}</p>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
         </div>
-        <div class="control-label col-xs-1" for="price">
-            Pris: {{booking.price}}
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Pris:</label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{{booking.price}}</p>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
         </div>
-        <label class="control-label col-xs-2" for="email">
-            Epost: {{booking.email}}
-        </label>
-        <div class="control-label col-xs-2">
-            Status:
-            {% if booking.concert_created %}
-                Konsert laget
-            {% elseif !booking.considered %}
-                Venter godkjenning
-            {% elseif booking.approval %}
-                Godkjent
-            {% else %}
-                Avslått
-            {% endif %}
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Email:</label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{{booking.email}}</p>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
         </div>
-        <textarea class="form-control" rows="4" id="text" name="text">
-            Melding: {{booking.text}}
-        </textarea>
-
-    </p>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Status: </label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{% if booking.concert_created %}Konsert laget{% elseif !booking.considered %}Venter godkjenning{% elseif booking.approval %}Godkjent{% else %}Avslått{% endif %}</p>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="text">Detaljer: </label>
+            <div class="panel panel-default bootcards-richtext col-xs-8">
+                <div class="panel-body">
+                    <p class="booking-messages">{{booking.text}}</p>
+                </div>
+            </div>
+            <div class="col-xs-2"></div>
+        </div>
+    </form>
+    
 {% endblock %}

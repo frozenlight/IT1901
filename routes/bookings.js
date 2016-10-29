@@ -248,8 +248,13 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 						var template
 
-						if (req.user.role == 'manager' && booking.band.connected_manager == req.user.id) {
-							template = 'booking-restricted'
+						if (['band','manager','crew','guest'].indexOf(req.user.role) > -1) {
+							if (booking.band.connected_manager == req.user.id || booking.band.connected_user == req.user.id) {
+								template = 'booking-restricted'
+							} else {
+								res.status(403)
+								template = 'access-denied'
+							}
 						} else {
 							template = 'booking-full'
 						}

@@ -1,10 +1,6 @@
 
 {% extends "booking.html" %}
 
-{% block head %}
-    {% parent %}
-    <link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-{% endblock %}
 {% block info %}
     <form class="form-horizontal" method="post" action="/booking/{{booking.url}}"> 
         <input type="hidden" name="contains_message" value="false"/>
@@ -66,8 +62,8 @@
                 </label>
             </div>
             {% endif %}
-            <div class="col-xs-6"></div>
-            <div class="col-xs-2">
+            <div class="col-xs-4"></div>
+            <div class="col-xs-6">
                 <input type="submit" class="btn btn-success" value="Lagre"/>
             </div>
         </div>
