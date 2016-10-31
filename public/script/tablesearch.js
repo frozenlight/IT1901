@@ -17,9 +17,11 @@ $(document).ready(function() {
 		Search(searchSplit);
 	});
 
-	if (($('tbody tr[visible="true"]').length == 0) || ($('.results tbody tr[visible="true"]').length == 0)){
-		$('.empty-table').show();
-	}
+	// if ($('.results tbody tr[visible="true"]').length == 0){
+	// 	if($('tbody tr[visible="true"]').length == 0){
+	// 		$('.empty-table').show();
+	// 	}
+	// }
 });
 
 let Search = function(searchSplit){
@@ -40,7 +42,7 @@ let Search = function(searchSplit){
 
 	if(jobCount == 0){
 		$('.no-result').show();
-		$('.empty-table').hide();
+		// $('.empty-table').hide();
 	}else{
 		$('.no-result').hide();
 	}
