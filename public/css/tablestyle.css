@@ -6,13 +6,6 @@ th{
 	text-align: center;
 }
 
-/*"Lag ny X"-knapp*/
-.createButton{
-    /*position: absolute;*/
-    /*display: none;*/
-    /*left: 0;*/
-}
-
 /*Generelt*/
 .container{
 	position: relative;
@@ -22,10 +15,14 @@ th{
 
 /*Tabeller*/
 .tableHeader{
+	margin-top: 0;
+	margin-bottom: 2rem;
 	color: #a03033;
 }
 
 .formHeader{
+	margin-top: 0;
+	margin-bottom: 2rem;
 	text-align: center;
 	color: #a03033;
 }
@@ -54,10 +51,10 @@ th{
 }
 
 /*Forms*/
-#spotify_search_button{
+/*#spotify_search_button{
 	margin-left: 7px;
 	margin-bottom: 16px;
-}
+}*/
 
 #artist_image{
 	margin-top: 15px;

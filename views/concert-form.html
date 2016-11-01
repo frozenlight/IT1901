@@ -1,13 +1,12 @@
 {% extends "index.html" %}
 {% block head %}
 	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 	<link rel="stylesheet" type="text/css" href="/css/chosen.bootstrap.css" />
 	<!--link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css"-->
 {% endblock %}
 {% block content %}
 	<div class="container text-left">
-		<h2 class="formHeader">Opprett konsert</h2>
+		<h1 class="formHeader">Opprett konsert</h1>
 
 		<form class="form-horizontal" method="post" action="/concerts/create">
 			<div class="form-group">
@@ -62,12 +61,12 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="date">Dato: </label>
 				<div class="col-xs-3">
-					<input type="date" class="form-control" id="date" name="date" required>
+					<input type="date" class="form-control" id="date" name="date" value="2016-11-01" required>
 				</div>
 
 				<label class="control-label col-xs-1" for="time">Tid: </label>
 				<div class="col-xs-2">
-					<input type="time" class="form-control" id="time" name="time" required>
+					<input type="time" class="form-control" id="time" name="time" value="00:00" required>
 				</div>
 			</div>
 

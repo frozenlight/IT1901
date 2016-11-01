@@ -1,11 +1,8 @@
 {% extends "index.html" %}
-{% block head %}
-	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css">
-{% endblock %}
+
 {% block content %}
 	<div class="container text-center">
-		<h2 class="tableHeader">Konsertoversikt</h2>
+		<h1 class="tableHeader">Konsertoversikt</h1>
 
 		<div class="col-xs-1 text-left">
 			<div class="dropdown" id="tabledrop">
@@ -19,10 +16,10 @@
 		</div>
 
 		<div id="concert_create" class="col-xs-2 text-left">
-			<a class="btn btn-primary createButton" href="/concerts/create">Opprett ny konsert</a>
+			<a class="btn btn-primary" href="/concerts/create">Opprett ny konsert</a>
 		</div>
 
-		<div id="concert_search" class="col-xs-6 form-group pull-right">
+		<div id="concert_search" class="col-xs-5 form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
