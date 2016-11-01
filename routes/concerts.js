@@ -220,6 +220,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				expenses: req.body.expenses,
 				revenue: 0,
 
+
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})

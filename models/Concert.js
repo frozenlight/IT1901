@@ -21,6 +21,11 @@ var ConcertSchema = new mongoose.Schema({
 	host: {type: mongoose.Schema.ObjectId, ref: 'User'},
 
 	crew: Array,
+
+	ticketPrice: Number,
+	expenses: Number,
+	revenue: Number,
+
 	bandIDs: Array, //Will contain the database ID's for the bands, if they exist
 });
 
