@@ -37,6 +37,18 @@
         </div>
 
         <div class="form-group">
+                <label class="control-label col-xs-2" for="band">Scene: </label>
+                <div class="col-xs-10">
+                    <select data-placeholder="Velg scene" class="form-control chosen-select" name="scene" id="scene" required>
+                        <option value=""></option>
+                        {% for stage in stages %}
+                            <option value="{{stage.name}}">{{stage.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+        <div class="form-group">
             <label class="control-label col-xs-2" for="email">Epost: </label>
             <div class="col-xs-8">
                 <input type="email" class="form-control" id="email" name="email" value="{{booking.email}}">
