@@ -20,16 +20,13 @@ th{
 	color: #a03033;
 }
 
-.formHeader{
-	margin-top: 0;
-	margin-bottom: 2rem;
-	text-align: center;
-	color: #a03033;
-}
-
 .dropdown .dropdown-menu{
 	margin-top: -2px;
 }
+
+.table > tbody > tr > td{
+	vertical-align: middle;
+} 
 
 .results tr[visible='false'],
 .no-result, 
@@ -50,11 +47,48 @@ th{
 	margin-right: 0;
 }
 
+/*Bandinfo*/
+.panel-title{
+	color: #a03033;
+}
+
+#band_header{
+	display: inline-block;
+	margin-top: 0;
+	color: #a03033;
+}
+
+#band_edit, #band_delete{
+	display: inline-block;
+	margin-left: 1rem;
+	float: right;
+}
+
+#band_image{
+	margin-bottom: 0;
+	border-bottom: none;
+}
+#band_stats{
+	margin-bottom: 0;
+}
+
+#band_stats_data tr td{
+	padding-left: 4px;
+}
+
+#band_albums .panel-body,
+#band_tracks .panel-body,
+#band_concerts .panel-body{
+	padding: 0;
+}
+
 /*Forms*/
-/*#spotify_search_button{
-	margin-left: 7px;
-	margin-bottom: 16px;
-}*/
+.formHeader{
+	margin-top: 0;
+	margin-bottom: 2rem;
+	text-align: center;
+	color: #a03033;
+}
 
 #artist_image{
 	margin-top: 15px;
@@ -88,62 +122,6 @@ th{
 
 #concert_band_list li:last-child:after {
   content: "";
-}
-
-.row {
-	margin: 0;
-}
-
-.articles {
-	width: 100%;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.article {
-	color: #222;
-	background: rgba(255,255,255,.9);
-	border-spacing: 2px;
-	border-color: gray;
-	font-family: arial,sans-serif;
-	border-bottom: 1px #e5e5e5 solid;
-}
-
-.current .item {
-	background: rgba(206,220,206,.9);
-}
-
-.item {
-	cursor: pointer;
-	padding-top: 7px;
-	padding-bottom: 7px;
-}
-
-.item .date {
-	margin-left: 20px;
-}
-
-.item .title {
-	font-weight: bold;
-}
-
-.item .pubdate {
-	margin-right: 20px;
-}
-
-.item .pubdate {
-	text-align: right;  
-}
-
-.description {
-	display: none;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-.description h1 {
-	margin-top: 0px;
-	font-size: 23px;
 }
 
 /*
