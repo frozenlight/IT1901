@@ -3,8 +3,13 @@
     background-color: #292c2f;
     height: 10vw;
     width: 100%;
-    margin-top: 10vw;
+    margin-top: 20vw;
     position: relative;
+    z-index: 1;
+    display: block;
+    bottom: 0px;
+    
+    
 }
 
 #copyright{
