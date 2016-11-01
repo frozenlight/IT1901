@@ -59,3 +59,9 @@ input.change_password {
   width: 150px;
 }
 
+.booking-messages {
+  display: inline-block;
+  white-space: pre-wrap;
+  word-break: keep-all;
+  word-wrap: all;
+}
