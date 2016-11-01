@@ -216,6 +216,9 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				date:req.body.date,
 				time:req.body.time,
 				practice_time:req.body.practice_time
+				ticketPrice: req.body.ticketPrice,
+				expenses: req.body.expenses,
+				revenue: 0,
 
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),

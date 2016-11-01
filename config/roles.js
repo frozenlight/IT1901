@@ -62,14 +62,19 @@ module.exports = function(roles){
       return true
     }
   })
-
-  roles.use('band',function (req) {
-    if (req.user.role === 'band') {
+  roles.use('bands user',function (req) {
+    if (req.user.role === 'band' && req.user.connected_id === req.params.band_id) {
       return true
     }
   })
   roles.use('bands manager',function (req) {
     if (req.user.role === 'manager' && req.user.connected_id === req.params.band_id) {
+      return true
+    }
+  })
+
+  roles.use('band',function (req) {
+    if (req.user.role === 'band') {
       return true
     }
   })
