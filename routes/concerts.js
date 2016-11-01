@@ -10,6 +10,8 @@ var mongoose = require('mongoose')
 
 var moment = require('moment')
 
+var User = require('../models/user.js')
+
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.split(search).join(replacement)
@@ -224,43 +226,23 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
-			console.log('CONCERT1 : '+concert)
-			//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-			/*concert.bands.forEach(function(bandName){
-				Band.findOne({'name':bandName},'_id name',function(err,band){
-					if (err) {res.send(err)}
-					if(band){
-						var band_and_id = {name:band.name,id:band._id};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-					if(band == undefined){
-						var band_and_id = {name:bandName,id:""};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-				})
-			})*/
-
-			// Add model other variables for created Concert model
-			// ......
-
-			// Send redirect to concert object that was just created
-			//res.redirect('/concert/' + concert._id)
+			
+			
 
 			//There is no dedicated concert page, therefore redirecting to the table
+			
+			User.findOne({'local.username': req.body.host}, function(err, user) {
+				if (err) {
+					console.log(err);
+				} else if (user) {
+					concert.host = user._id;
+					console.log(user._id);
+					console.log(concert.host);
+					console.log(req.body.host);
+				} else {
+					console.log("No user found!");
+				}
+			})
 
 			Booking.find({'_id': { $in: concert.bookings }}, function (err, bookings) {
 				for (var i = 0; i<bookings.length; i++) {
