@@ -1,12 +1,8 @@
 {% extends "index.html" %}
-{% block head %}
-	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-	<title>Booking</title>
-{% endblock %}
+
 {% block content %}
 	<div class="container text-center">
-	<h2 class="tableHeader">Bookingoversikt</h2>
+		<h1 class="tableHeader">Bookingoversikt</h1>
 
 		<div class="col-xs-1 text-left">
 			<div class="dropdown" id="tabledrop">
@@ -17,17 +13,16 @@
 					<li><a href="#">Venter godkjenning</a></li>
 				</ul>
 			</div>
-		</div>
-		
-		<div id="booking_create" class="col-xs-2 text-left">
-			<a class="btn btn-primary createButton" href="/bookings/create">Opprett nytt tilbud</a>
+
+		<div id="booking_create" class="col-xs-2">
+			<a class="btn btn-primary" href="/bookings/create">Opprett nytt tilbud</a>
 		</div>
 
-		<div class="col-xs-6 form-group pull-right">
+		<div id="booking_search" class="col-xs-5 form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
-		<table id="tabell" data-toggle="table" 
+		<table data-toggle="table" 
 		data-classes="table table-hover results"
 		data-striped="true"
 		data-sort-name="Date"
@@ -36,13 +31,16 @@
 				<tr>
 					<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
 					<th class="col-xs-4" data-field="Band" data-sortable="true">Band</th>
-					<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
+					<th class="col-xs-2" data-field="Price" data-sortable="true">Pris</th>
                     <th class="col-xs-1" data-field="Concert" data-sortable="false"></th>
 					<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
 				</tr>
 			</thead>
 
 			<tbody>
+				<tr class="no-result">
+					<td colspan="8">Finner ikke noe som stemmer med søket</td>
+				</tr>
 			{% if bookings %}
 			{% for booking in bookings %}
 				<tr>

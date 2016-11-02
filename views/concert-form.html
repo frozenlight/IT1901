@@ -1,25 +1,24 @@
 {% extends "index.html" %}
 {% block head %}
 	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 	<link rel="stylesheet" type="text/css" href="/css/chosen.bootstrap.css" />
 	<!--link rel="stylesheet" type="text/css" href="/bootstrap/css/chosen-bootstrap.css"-->
 {% endblock %}
 {% block content %}
 	<div class="container text-left">
-		<h2 class="formHeader">Opprett konsert</h2>
+		<h1 class="formHeader">Opprett konsert</h1>
 
 		<form class="form-horizontal" method="post" action="/concerts/create">
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="name">Navn: </label>
-				<div class="col-xs-10">
+				<div class="col-xs-8">
 					<input type="text" class="form-control" id="name" name="name" placeholder="Konsert med {{ booking.band }}" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="bands">Band: </label>
-				<div class="col-xs-10">
+				<div class="col-xs-8">
 					<select data-placeholder="Velg band" class="form-control chosen-select" multiple name="booking" id="bands" required>
 						{% for date,bookings in bookings %}
 							<optgroup label="{{ date }}">
@@ -36,14 +35,14 @@
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="genre">Sjanger: </label>
-				<div class="col-xs-10">
+				<div class="col-xs-8">
 					<input type="text" class="form-control" id="genre" name="genre" placeholder="Skriv inn sjangere" required>
 				</div>
 			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="stages">Scene: </label>
-				<div class="col-xs-10">
+				<div class="col-xs-8">
 					<select class="form-control chosen-select" name="stage" id="stages" required>
 						{% for stage in stages %}
 							<option value="{{stage.id}}">{{stage.name}}</option>
@@ -54,7 +53,7 @@
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="tickets">Publikumsantall: </label>
-				<div class="col-xs-10">
+				<div class="col-xs-8">
 					<input type="text" class="form-control" id="tickets" name="audSize" placeholder="Skriv antall publikummere" required>
 				</div>
 			</div>
@@ -62,12 +61,12 @@
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="date">Dato: </label>
 				<div class="col-xs-3">
-					<input type="date" class="form-control" id="date" name="date" required>
+					<input type="date" class="form-control" id="date" name="date" value="Date.now" required>
 				</div>
 
 				<label class="control-label col-xs-1" for="time">Tid: </label>
 				<div class="col-xs-2">
-					<input type="time" class="form-control" id="time" name="time" required>
+					<input type="time" class="form-control" id="time" name="time" value="00:00" required>
 				</div>
 
 				<label class="control-label col-xs-1" for="time">Tid Lydprøve: </label>
