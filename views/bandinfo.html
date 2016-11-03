@@ -1,30 +1,27 @@
 {% extends "index.html" %}
-{% block head %}
-	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-{% endblock %}
+
 {% block content %}
-
 	<div class="container text-left">
-
-		<a class="btn btn-success" href='/band/{{ band.name }}/edit'>Endre band</a>
-
-			<form method="POST" action="/band/{{ band.name }}">
-
-				<input type="hidden" name="_method" value="DELETE"/>
-				<input type="submit" class="btn btn-danger" value="Slett"/><br>
-			</form> 
-
 		<div class="col-xs-8">
-			<h2>{{band.name}}</h2>
+			<h1 id="band_header">{{band.name}}</h1>
+
+			<div id="band_delete" class="">
+				<form method="POST" action="/band/{{ band.name }}">
+					<input type="hidden" name="_method" value="DELETE"/>
+					<input type="submit" class="btn btn-danger" value="Slett"/><br>
+				</form> 
+			</div>
+
+			<div id="band_edit" class="">
+				<a class="btn btn-success" href='/band/{{ band.name }}/edit'>Endre band</a>
+			</div>
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Sjangere</h3>
+					<h3 class="panel-title">Bio</h3>
 				</div>
 				<div class="panel-body">
-					{% for genre in band.spotify_genres %}
-						{{genre}},
-					{% endfor %}
+					{{band.description}}
 				</div>
 			</div>
 
@@ -44,10 +41,12 @@
 
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Info</h3>
+					<h3 class="panel-title">Sjangere</h3>
 				</div>
 				<div class="panel-body">
-					{{band.description}}
+					{% for genre in band.spotify_genres %}
+						{{genre}},
+					{% endfor %}
 				</div>
 			</div>
 
@@ -64,140 +63,149 @@
 				</div>
 			</div>
 			{% if band.spotify_top_tracks %}
-			<h2 class="tableHeader">Top 10 songs on Spotify</h2>
+			<div id="band_tracks" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Topp 10 sanger på Spotify</h3>
+				</div>
+				<div class="panel-body">
+					<table class="text-center"
+					data-toggle="table" 
+					data-classes="table table-hover results"
+					data-striped="true"
+					data-sort-name="Popularity"
+					data-sort-order="desc">
+						<thead>
+							<tr>
+								<th class="col-xs-2" data-field="Name" data-sortable="true">Navn</th>
+								<th class="col-xs-2" data-field="Album" data-sortable="true">Album</th>
+								<th class="col-xs-1" data-field="Popularity" data-sortable="true">Popularitet</th>
+								<th class="col-xs-3" data-field="Preview" data-sortable="false">Smakebit</th>
+							</tr>
+						</thead>
 
-			<!--<form method="POST" action="/band/{{ band.name }}">-->
-
-			<table data-toggle="table" 
-			data-classes="table table-hover results"
-			data-striped="true"
-			data-sort-name="Name"
-			data-sort-order="asc">
-				<thead>
-					<tr>
-						<th class="col-xs-2" data-field="Name" data-sortable="true">Navn</th>
-						<th class="col-xs-2" data-field="Album" data-sortable="true">Album</th>
-						<th class="col-xs-1" data-field="Popularity" data-sortable="true">Popularitet</th>
-						<th class="col-xs-1" data-field="Preview" data-sortable="false">Smakebit</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{% for track in band.spotify_top_tracks %}
-					<tr>
-						<td>{{ track.name }}</td>
-						<td>{{ track.album }}</td>
-						<td>{{ track.popularity }}</td>
-						<td><audio controls><source src="{{track.preview_url}}" type="audio/mpeg">Not supported</source></td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						<tbody>
+							{% for track in band.spotify_top_tracks %}
+							<tr>
+								<td>{{ track.name }}</td>
+								<td>{{ track.album }}</td>
+								<td>{{ track.popularity }}</td>
+								<td><audio controls><source src="{{track.preview_url}}" type="audio/mpeg">Not supported</source></td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 			{% endif %}
 
 			{% if band.concerts %}
+			<div id="band_concerts" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Tidligere konserter på Samfundet</h3>
+				</div>
+				<div class="panel-body">
+					<table class="text-center"
+					data-toggle="table" 
+					data-classes="table table-hover results"
+					data-striped="true"
+					data-sort-name="Date"
+					data-sort-order="asc">
+						<thead>
+							<tr>
+								<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+								<th class="col-xs-3" data-field="Name" data-sortable="false">Navn</th>
+								<th class="col-xs-2" data-field="Genre" data-sortable="true">Sjanger</th>
+								<th class="col-xs-1" data-field="AudSize" data-sortable="true">Deltakere</th>
+								<th class="col-xs-1" data-field="Stage" data-sortable="true">Scene</th>
+							</tr>
+						</thead>
 
-			<h2 class="tableHeader">Tidligere konserter på Samfundet</h2>
-
-			<!--<form method="POST" action="/band/{{ band.name }}">-->
-
-			<table data-toggle="table" 
-			data-classes="table table-hover results"
-			data-striped="true"
-			data-sort-name="Date"
-			data-sort-order="asc">
-				<thead>
-					<tr>
-						<th class="col-xs-2" data-field="Date" data-sortable="true">Dato</th>
-						<th class="col-xs-1" data-field="Name" data-sortable="false">Navn</th>
-						<th class="col-xs-1" data-field="Genres" data-sortable="true">Sjangre</th>
-						<th class="col-xs-1" data-field="AudSize" data-sortable="false">Deltakere</th>
-						<th class="col-xs-1" data-field="Stage" data-sortable="true">Scene</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{% for concert in band.concerts %}
-					<tr>
-						<td>{{ concert.date }}</td>
-						<td>{{ concert.name }}</td>
-						<td>{% for genre in concert.genres %}{{ genres }}, {% endfor %}</td>
-						<td>{{ concert.audSize }}</td>
-						<td>{{ concert.stage.name }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						<tbody>
+							{% for concert in band.concerts %}
+							<tr>
+								<td>{{ concert.date }}</td>
+								<td>{{ concert.name }}</td>
+								<td>{% for genre in concert.genres %}{{ genres }}, {% endfor %}</td>
+								<td>{{ concert.audSize }}</td>
+								<td>{{ concert.stage.name }}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 			{% endif %}
 
 			{% if band.bookings %}
+			<div id="band_concerts" class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Bookings på Samfundet</h3>
+				</div>
+				<div class="panel-body">
+					<table class="text-center"
+					data-toggle="table" 
+					data-classes="table table-hover results"
+					data-striped="true"
+					data-sort-name="Date"
+					data-sort-order="asc">
+						<thead>
+							<tr>
+								<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
+								<th class="col-xs-1" data-field="Pris" data-sortable="true">Pris</th>
+								<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
+							</tr>
+						</thead>
 
-			<h2 class="tableHeader">Bookings på Samfundet</h2>
-
-			<!--<form method="POST" action="/band/{{ band.name }}">-->
-
-			<table data-toggle="table" 
-			data-classes="table table-hover results"
-			data-striped="true"
-			data-sort-name="Date"
-			data-sort-order="asc">
-				<thead>
-					<tr>
-						<th class="col-xs-1" data-field="Date" data-sortable="true">Dato</th>
-						<th class="col-xs-2" data-field="Pris" data-sortable="true">Pris</th>
-						<th class="col-xs-2" data-field="Status" data-sortable="true">Status</th>
-					</tr>
-				</thead>
-
-				<tbody>
-					{% for booking in band.bookings %}
-					<tr>
-						<td>{{ booking.date }}</td>
-						<td>{{ booking.price }}</td>
-						<td>
-							{% if !booking.considered %}
-								Venter godkjenning
-							{% elseif booking.approval %}
-								Godkjent
-							{% else %}
-								Avslått
-							{% endif %}
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+						<tbody>
+							{% for booking in band.bookings %}
+							<tr>
+								<td>{{ booking.date }}</td>
+								<td>{{ booking.price }}</td>
+								<td>
+									{% if !booking.considered %}
+										Venter godkjenning
+									{% elseif booking.approval %}
+										Godkjent
+									{% else %}
+										Avslått
+									{% endif %}
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 			{% endif %}
-
 		</div>
 
 		<div class="col-xs-4">
-			<h2>&nbsp</h2>
+
 			<div class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Statistikk</h3>
 				</div>
 				<div class="panel-body">
-					<div class="thumbnail">
+					<div id="band_image" class="thumbnail">
 						<img src="{{band.spotify_image}}"/>
 					</div>
-					<table>
-						<tbody>
+					<table id="band_stats" class="table table-bordered table-striped">
+						<tbody id="band_stats_data">
 							<tr>
-								<td>Popularitetsrate:</td>
-								<td>&nbsp {{band.spotify_popularity}}</td>
+								<td><b>Popularitetsrate:</b></td>
+								<td>{{band.spotify_popularity}}</td>
+							</tr>	
+							<tr>
+								<td><b>Spotify-følgere:</b></td>
+								<td>{{band.spotify_followers}}</td>
 							</tr>
 							<tr>
-								<td>Spotify-følgere:</td>
-								<td>&nbsp {{band.spotify_followers}}</td>
+								<td><b>Avspillingsantall (Lastfm):</b></td>
+								<td>{{band.lastfm_playcount}}</td>
 							</tr>
 							<tr>
-								<td>Avspillingsantall (Lastfm):</td>
-								<td>&nbsp {{band.lastfm_playcount}}</td>
-							</tr>
-							<tr>
-								<td>Lytterantall (Lastfm):</td>
-								<td>&nbsp {{band.lastfm_listeners}}</td>
+								<td><b>Lytterantall (Lastfm):</b></td>
+								<td>{{band.lastfm_listeners}}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -218,18 +226,12 @@
 			{% endif %}
 
 			{% if band.spotify_albums %}
-			<div class="panel panel-default">
+			<div id="band_albums" class="panel panel-default">
 				<div class="panel-heading">
 					<h3 class="panel-title">Albumer</h3>
 				</div>
 				<div class="panel-body">
-					
-					<table data-toggle="table" 
-					data-classes="table table-hover results"
-					data-striped="true"
-					data-sort-name="Name"
-					data-sort-order="asc">
-
+					<table class="table table-bordered table-striped">
 						<tbody>
 							{% for album in band.spotify_albums %}
 							<tr>
