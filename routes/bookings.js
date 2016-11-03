@@ -1,6 +1,7 @@
 
 var Booking = require('../models/Booking.js')
 var Band = require('../models/Band.js')
+var Stage = require('../models/Stage.js')
 //require('../config/passport.js')(passport);
 
 var nimble = require('nimble')
@@ -89,6 +90,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			})
 			//booking.url = booking.date+'-'+booking.id.slice(0,5)
 			booking.band = req.body.band
+			booking.stage = req.body.stage
 
 			console.log('BOOKING BAND: '+booking.band)
 			Band.findOne(booking.band, function (err, band) {
@@ -115,15 +117,43 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			})*/
 		})
 
+	
 		.get(isLoggedIn, function (req, res) {
-			Band.find()
-				.populate('band')
-				.exec(function (err, bands) {
-					if (err) {
-						res.send(err)
+			nimble.parallel ([
+
+				function (callback) {
+					Band.find()
+						.populate('band')
+						.exec(function (err, bands) {
+							if (err) {
+								res.send(err)
+							}
+							callback(err, bands)
+						})
+				},
+
+				function (callback) {
+					Stage.find()
+						.populate('Stage')
+						.exec(function (err, stages) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, stages)
+					})
+				}],
+
+				function (err, results) {
+					info = {
+						bands:results[0],
+						stages:results[1]
 					}
-					res.render('booking-form',{bands:bands})
-				})
+					res.render('booking-form', info)
+				}
+
+
+			)
+
 		})
 
 	//Route for spesific booking
@@ -167,11 +197,11 @@ module.exports = function (router, passport, isLoggedIn, user) {
 								time: new moment().format('D. MMMM YYYY HH:mm:ss'),
 								text: req.body.message_input
 							}
-							console.log(message)
+
 
 							booking.messages.push(message)
-							console.log(booking)
 
+							booking.stage = req.body.stage
 							booking.save(function (err) {
 								if (err) {
 									res.send(err)
@@ -180,8 +210,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 								}
 							})
 							Booking.findOne({'url':req.params.url}, function (err, new_booking) {
-								console.log(booking)
-								console.log(new_booking)
+
 							})
 
 
@@ -221,7 +250,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 								req.flash({message:'Du har ikke tilgang til å endre Godkjent/ikke-godkjent feltet!'})
 							}
 
-							console.log(booking)
+
 						
 							booking.save(function (err) {
 								if (err) {
@@ -230,7 +259,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 									res.redirect('/booking/'+req.params.url)
 								}
 							})
-							console.log(booking)
+
 						}
 					}
 				}
@@ -238,33 +267,69 @@ module.exports = function (router, passport, isLoggedIn, user) {
 		})
 
 		.get(isLoggedIn, function (req, res) {
-			Booking.findOne({'url':req.params.url})
-				.populate('band')
-				.exec(function (err, booking) {
-					if (err) {
-						res.send(err)
-					}
-					if (booking) {
+			nimble.parallel ([
 
-						var template
-
-						if (['band','manager','crew','guest'].indexOf(req.user.role) > -1) {
-							if (booking.band.connected_manager == req.user.id || booking.band.connected_user == req.user.id) {
-								template = 'booking-restricted'
-							} else {
-								res.status(403)
-								template = 'access-denied'
+				function (callback) {
+					Booking.findOne({'url':req.params.url})
+						.populate('band')
+						.populate('stage')
+						.exec(function (err, booking) {
+							if (err) {
+								res.send(err)
 							}
-						} else {
-							template = 'booking-full'
+							if (booking) {
+
+								var template
+
+
+								if (['band','manager','crew','guest'].indexOf(req.user.role) > -1) {
+									if (booking.band.connected_manager == req.user.id || booking.band.connected_user == req.user.id) {
+										template = 'booking-restricted'
+									} else {
+										res.status(403)
+										template = 'access-denied'
+									}
+								} else {
+									template = 'booking-full'
+								}
+
+								
+								booking.messages = booking.messages.sort((a,b) => new Date(a.time) - new Date(b.time)).reverse()
+								callback(err, {booking:booking, template:template})
+							} 
+							else {
+								console.log("Umm, can't find the booking")
+							}
+						})
+				},
+
+				function (callback) {
+					Stage.find()
+						.exec(function (err, stages) {
+						if (err) {
+							res.send(err)
+
 						}
-						booking.messages = booking.messages.sort((a,b) => new Date(a.time) - new Date(b.time)).reverse()
-						res.render(template, {booking:booking})
-					} else {
-						console.log("Umm, can't find the booking")
+						callback(err, stages)
+					})
+				}],
+
+				function (err, results) {
+					info = {
+						booking:results[0].booking,
+						stages:results[1]
+
 					}
-				})
+
+					res.render(results[0].template, info)
+				}
+
+
+			)
+
 		})
+
+			
 		.delete(isLoggedIn, user.can('delete booking'), function(req, res) {
 			Booking.findOneAndRemove({'url' : req.params.url}, function (err, booking) {
         		res.redirect('/bookings')

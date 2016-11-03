@@ -307,7 +307,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			nimble.parallel ([
 
 				function (callback) {
-					Booking.find().populate('band').populate('stage').exec(function(err, bookings) {
+
+					Booking.find()
+					.populate('band')
+					.populate('stage')
+					.exec(function(err, bookings) {
+						
 						if (err) {
 							res.send(err)
 						}

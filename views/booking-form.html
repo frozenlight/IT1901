@@ -43,6 +43,17 @@
 			</div>
 
 			<div class="form-group">
+				<label class="control-label col-xs-2" for="band">Scene: </label>
+				<div class="col-xs-10">
+					<select data-placeholder="Velg scene" class="form-control chosen-select" name="stage" id="stage" required>
+						{% for stage in stages %}
+							<option value="{{stage.id}}">{{stage.name}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group">
 				<label class="control-label col-xs-2" for="text">Melding: </label>
 				<div class="col-xs-10">
 					<textarea class="form-control" rows="4" id="text" name="text" placeholder="Skriv melding til mottaker" required></textarea>
