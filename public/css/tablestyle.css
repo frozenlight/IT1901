@@ -95,16 +95,20 @@ th{
 	border-radius: 5px;
 }
 
-#concert_submit{
-	margin-left: 6px;
+#concert_time{
+	width: 4.333%;
 }
 
-#band_submit{
-	margin-left: 7px;
+#concert_practicetime{
+	width: 12.333%;
 }
 
-#booking_submit{
-	margin-left: 6px;
+#concert_expenses{
+	margin-top: 49px;
+}
+
+#concert_expenses_sum{
+	padding-left: 0;	
 }
 
 #concert_band_list {

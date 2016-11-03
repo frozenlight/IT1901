@@ -9,7 +9,7 @@
 			<div class="form-group">
 				<label class="control-label col-xs-3" for="spotify_search_field">Navn: </label>
 				<div class="col-xs-4">
-					<input type="text" class="form-control" id="spotify_search_field" name="name" placeholder="Skriv navn på bandet" required>
+					<input type="text" class="form-control" id="spotify_search_field" name="name" placeholder="Søk etter band/skriv navn på bandet" required>
 				</div>
 				<div class="col-xs-2">	
 					<button id="spotify_search_button" type="button" class="btn btn-primary">Søk</button>
@@ -59,9 +59,13 @@
 			<input id="lastfm_listeners" type="hidden" name="lastfm_listeners">
 			<input id="external_urls" type="hidden" name="external_urls">
 			
-			<div class="col-xs-3"></div>
-			<button id="band_submit" type="submit" class="btn btn-success">Send inn</button>
-			<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
+			<div class="form-group">
+				<div class="col-xs-3"></div>
+				<div class="col-xs-4">
+					<button id="band_submit" type="submit" class="btn btn-success">Send inn</button>
+					<button id="band_reset" type="reset" class="btn btn-danger">Reset</button>
+				</div>
+			</div>
 		</form>
 	</div>
 {% endblock %}
