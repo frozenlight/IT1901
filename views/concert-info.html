@@ -67,6 +67,10 @@
 					<p>Tid:		{{concert.practice_time}}</p>
 					<h4>Kontaktperson</h4>
 					<p>{{concert.host.local.username}}</p>
+					<h4>Crew</h4>
+					{% for crew in concert.crew %}
+						<li>{{crew.local.username}}</li>
+					{% endfor %}
 				</div>
 			</div>
 			{% endif %}

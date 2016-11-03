@@ -36,6 +36,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						.populate('stage')
 						.populate('bands')
 						.populate('host')
+						.populate('crew')
 						.exec(function(err, concerts){
 							if (err) {
 								res.send(err)
@@ -73,6 +74,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				.populate('stage')
 				.populate('bands')
 				.populate('host')
+				.populate('crew')
 				.exec(function (err, concert) {
 					if (err) {
 						res.send(err)
@@ -194,6 +196,9 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			// On POST-recieve, create a Concert Object with body params from form
 			var reqbands = []
 			var reqbookings = []
+			var reqcrew = []
+			console.log('host is: ' + req.body.host);
+			console.log('creq is: ' + req.body.crew);
 
 			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
 
@@ -209,8 +214,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					reqbands.push(booking_band[1])
 				}
 			}
+			
+			for (var i = 0; i < req.body.crew; i++) {
+				var crew = req.body.crew.split(',')
+				reqcrew.push(crew[i])
+			}
 
-			console.log(booking_band)
 			var concert = new Concert({
 				name:req.body.name,
 				bookings: reqbookings,
@@ -224,7 +233,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				ticketPrice: req.body.ticketPrice,
 				expenses: req.body.expenses,
 				revenue: 0,
-				host:''
+				host: req.body.host,
+				crew: req.body.crew
 
 
 				//bandIDs:[],
@@ -234,20 +244,6 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			
 
 			//There is no dedicated concert page, therefore redirecting to the table
-			
-			User.findOne({'local.username': req.body.host}, function(err, user) {
-				if (err) {
-					console.log(err);
-				} else if (user) {
-					concert.host = user._id;
-					console.log(user._id);
-					console.log(concert.host);
-					console.log(req.body.host);
-					concert.save()
-				} else {
-					console.log("No user found!");
-				}
-			})
 
 			Booking.find({'_id': { $in: concert.bookings }}, function (err, bookings) {
 				for (var i = 0; i<bookings.length; i++) {
@@ -335,6 +331,23 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, users)
 					})
+				},
+				function (callback) {
+					User.find().populate('crew').exec(function (err, crews) {
+						if (err) {
+							res.send(err)
+						}
+						
+						let selected_crew = {}
+						
+						for (let i = 0; i < crews.length; i++) {
+							let crew = crews[i]
+							if (crew.role == 'crew') {
+								selected_crew.push(crew)
+							}
+						}
+						callback(err, selected_crew)
+					})
 				}],
 
 
@@ -346,6 +359,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					}
 					res.render('concert-form', info)
 				}
+				
 			)
 		})
 }
