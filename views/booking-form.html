@@ -42,13 +42,12 @@
 				</div>
 			</div>
 
-				<div class="form-group">
+			<div class="form-group">
 				<label class="control-label col-xs-2" for="band">Scene: </label>
 				<div class="col-xs-10">
-					<select data-placeholder="Velg scene" class="form-control chosen-select" name="scene" id="scene" required>
-						<option value=""></option>
+					<select data-placeholder="Velg scene" class="form-control chosen-select" name="stage" id="stage" required>
 						{% for stage in stages %}
-							<option value="{{stage.name}}">{{stage.name}}</option>
+							<option value="{{stage.id}}">{{stage.name}}</option>
 						{% endfor %}
 					</select>
 				</div>

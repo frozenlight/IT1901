@@ -90,6 +90,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			})
 			//booking.url = booking.date+'-'+booking.id.slice(0,5)
 			booking.band = req.body.band
+			booking.stage = req.body.stage
 
 			console.log('BOOKING BAND: '+booking.band)
 			Band.findOne(booking.band, function (err, band) {
@@ -200,7 +201,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 							booking.messages.push(message)
 							console.log(booking)
-
+							booking.stage = req.body.stage
 							booking.save(function (err) {
 								if (err) {
 									res.send(err)
@@ -272,6 +273,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				function (callback) {
 					Booking.findOne({'url':req.params.url})
 						.populate('band')
+						.populate('stage')
 						.exec(function (err, booking) {
 							if (err) {
 								res.send(err)
@@ -296,7 +298,6 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 				function (callback) {
 					Stage.find()
-						.populate('Stage')
 						.exec(function (err, stages) {
 						if (err) {
 							res.send(err)
