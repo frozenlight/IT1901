@@ -35,6 +35,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					Concert.find()
 						.populate('stage')
 						.populate('bands')
+						.populate('host')
 						.exec(function(err, concerts){
 							if (err) {
 								res.send(err)
@@ -71,12 +72,14 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			Concert.findOne({'name':req.params.name})
 				.populate('stage')
 				.populate('bands')
+				.populate('host')
 				.exec(function (err, concert) {
 					if (err) {
 						res.send(err)
 					}
 					if (concert) {
 						res.render('concert-info', {concert:concert});
+						console.log('shit u want to see: ' + concert.host);
 					} else {
 						res.render('not-found')
 					}
@@ -221,6 +224,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				ticketPrice: req.body.ticketPrice,
 				expenses: req.body.expenses,
 				revenue: 0,
+				host:''
 
 
 				//bandIDs:[],
@@ -239,6 +243,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					console.log(user._id);
 					console.log(concert.host);
 					console.log(req.body.host);
+					concert.save()
 				} else {
 					console.log("No user found!");
 				}
@@ -320,13 +325,24 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, stages)
 					})
+				},
+				
+				
+				function (callback) {
+					User.find().populate('host').exec(function (err, users) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, users)
+					})
 				}],
 
 
 				function (err, results) {
 					info = {
 						bookings:results[0],
-						stages:results[1]
+						stages:results[1],
+						users:results[2]
 					}
 					res.render('concert-form', info)
 				}
