@@ -1,12 +1,9 @@
 {% extends "index.html" %}
-{% block head %}
-    {% parent %}
-    <link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-{% endblock %}
+
 {% block content %}
 
     <div class="container text-left">
-        <h2 class="formHeader">Endre konsert</h2>
+        <h1 class="formHeader">Endre konsert</h1>
 
         <form class="form-horizontal" method="post" action="/concert/{{ concert.name }}/edit">
             <div class="form-group">

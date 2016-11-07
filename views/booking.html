@@ -1,50 +1,50 @@
 {% extends "index.html" %}
 
 {% block head %}
-    {% parent %}
-    <link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
+	{% parent %}
+	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
 {% endblock %}
 
 {% block content %}
 <div class="container text-left">
-    {% block info %}
-    {% endblock %}
+	{% block info %}
+	{% endblock %}
 
-    <hr>
-    <br>
+	<hr>
 
-    <form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
-        <input type="hidden" name="contains_message" value="true"/>
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="text">Melding: </label>
-            <div class="col-xs-8">
-                <textarea class="form-control" rows="4" id="text" name="message_input" placeholder=" Skriv en melding til {% if userIs('not manager') %} bookingansvarlige {% else %} bandets manager {% endif %}"></textarea>
-            </div>
-            <input class="btn btn-success" type="submit" value="Send">
-        </div>
-        <!--div class="col-xs-2"></div>
-        <div class="col-xs-3">
-            <input class="btn btn-success" type="submit" value="Send">
-        </div-->
+	<form class="form-horizontal" method="post" action="/booking/{{booking.url}}">
+		<input type="hidden" name="contains_message" value="true"/>
 
-        <br>
-        <br>
+		<div class="form-group">
+			<div class="col-xs-3"></div>
+			<div class="col-xs-2">
+				<h4 id="booking_messages">Kommunikasjon</h4>
+			</div>
+		</div>
 
-        {% for message in booking.messages %}
-        <div class="form-group">
-            <label class="control-label col-xs-2" for="text">{{message.owner}} ({{message.role}})<br>{{message.time}}</label>
-            <div class="panel panel-default bootcards-richtext col-xs-8">
-                <div class="panel-body">
-                    <p class="booking-messages">{{message.text}}</p>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    </form>
+		<div class="form-group">
+			<label class="control-label col-xs-3" for="text">Melding: </label>
+			<div class="col-xs-6">
+				<textarea class="form-control" rows="3" id="text" name="message_input" placeholder="Skriv en melding til {% if userIs('not manager') %}bookingansvarlige{% else %} bandets manager {% endif %}"></textarea>
+			</div>
+			<input class="btn btn-success col-xs-1" type="submit" value="Send">
+		</div>
+
+		{% for message in booking.messages %}
+		<div class="form-group">
+			<label class="control-label col-xs-3" for="text">{{message.owner}} ({{message.role}})<br>{{message.time}}</label>
+			<div class="panel panel-default msgs col-xs-7">
+				<div class="panel-body">
+					<p class="booking-messages">{{message.text}}</p>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</form>
 </div>
 
 
 {% endblock %}
 {% block scripts %}
-    <!--<script type="text/javascript" src="/script/mailto.js"></script>-->
+	<!--<script type="text/javascript" src="/script/mailto.js"></script>-->
 {% endblock %}
