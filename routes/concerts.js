@@ -10,6 +10,8 @@ var mongoose = require('mongoose')
 
 var moment = require('moment')
 
+var User = require('../models/user.js')
+
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.split(search).join(replacement)
@@ -27,17 +29,24 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 			// Nimble lets you run several functions asyncronously and return the results in an array
 			// It takes the functions as an array and resturns the result arranged at the same indexes
-			// Nimble takes two parameters, the array of functions, and the function to handle the results 	
+			// Nimble takes two parameters, the array of functions, and the function to handle the results
 			nimble.parallel ([
 				function (callback) {
 					Concert.find()
 						.populate('stage')
 						.populate('bands')
+						.populate('host')
+						.populate('crew')
 						.exec(function(err, concerts){
 							if (err) {
 								res.send(err)
 							}
-							callback(err,concerts)
+              if (req.user.role == 'crew') {
+
+                concerts = concerts.filter(concert => req.user.concerts.indexOf(concert.id) > -1)
+              }
+							callback(err, concerts)
+
 						})
 				},
 
@@ -69,12 +78,15 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			Concert.findOne({'name':req.params.name})
 				.populate('stage')
 				.populate('bands')
+				.populate('host')
+				.populate('crew')
 				.exec(function (err, concert) {
 					if (err) {
 						res.send(err)
 					}
 					if (concert) {
 						res.render('concert-info', {concert:concert});
+						console.log('shit u want to see: ' + concert.host);
 					} else {
 						res.render('not-found')
 					}
@@ -88,10 +100,10 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 	//Routing function for editing concert
 	router.route('/concert/:name/edit')
-		
+
 		// POST function for this route, on recieve edited object via form
 		.post(isLoggedIn, function (req, res) {
-			
+
 			Concert.findOne({'name':req.params.name}, function (err, concert) {
 				if (err) {
 					res.send(err)
@@ -157,12 +169,31 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, bands)
 					})
+				},
+				function (callback) {
+					User.find().populate('host').exec(function (err, users) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, users)
+					})
+				},
+				function (callback) {
+					User.find(function (err, crews) {
+						if (err) {
+							res.send(err)
+						}
+						console.log(crews);
+						let selected_crew = crews.filter(a => a.role === 'crew')
+						console.log(selected_crew)
+						callback(err, selected_crew)
+					})
 				}],
 
 				// after the array of functions is finished, this function is run with the results of them
 				function (err, results) {
 
-					res.render('concert-edit', {concert:results[0],stages:results[1],bands:results[2]})
+					res.render('concert-edit', {concert:results[0],stages:results[1],bands:results[2], users:results[3], crews:results[4]})
 				}
 			)
 
@@ -185,10 +216,15 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			//console.log('BODY: ' + JSON.stringify(req.body))
 
 			//console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
-			
+
 			// On POST-recieve, create a Concert Object with body params from form
 			var reqbands = []
 			var reqbookings = []
+			var reqcrew = []
+			console.log('host is: ' + req.body.host);
+			console.log('crew is: ' + req.body.crew);
+			console.log('crew length is ' + req.body.crew.length);
+			console.log(req.body)
 
 			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
 
@@ -205,7 +241,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				}
 			}
 
-			console.log(booking_band)
+
 			var concert = new Concert({
 				name:req.body.name,
 				bookings: reqbookings,
@@ -215,45 +251,19 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				audSize: req.body.audSize,
 				date:req.body.date,
 				time:req.body.time,
+				practice_time:req.body.practice_time,
+				ticketPrice: req.body.ticketPrice,
+				expenses: req.body.expenses,
+				revenue: 0,
+				host: req.body.host,
+				crew: req.body.crew
+
 
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
-			console.log('CONCERT1 : '+concert)
-			//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-			/*concert.bands.forEach(function(bandName){
-				Band.findOne({'name':bandName},'_id name',function(err,band){
-					if (err) {res.send(err)}
-					if(band){
-						var band_and_id = {name:band.name,id:band._id};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-					if(band == undefined){
-						var band_and_id = {name:bandName,id:""};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-				})
-			})*/
 
-			// Add model other variables for created Concert model
-			// ......
 
-			// Send redirect to concert object that was just created
-			//res.redirect('/concert/' + concert._id)
 
 			//There is no dedicated concert page, therefore redirecting to the table
 
@@ -273,6 +283,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					bands[i].concerts.push(concert._id)
 					bands[i].save(function (err) {
 						console.error(err)
+					})
+				}
+			})
+
+			User.find({'_id': {$in: concert.crew}}, function (err, crew) {
+				for (var i = 0; i<crew.length; i++) {
+					console.log('ITERERER CREW')
+					crew[i].concerts.push(concert._id)
+					crew[i].save(function (err) {
+						console.log(err);
 					})
 				}
 			})
@@ -302,7 +322,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			nimble.parallel ([
 
 				function (callback) {
-					Booking.find().populate('band').exec(function(err, bookings) {
+
+					Booking.find()
+					.populate('band')
+					.populate('stage')
+					.exec(function(err, bookings) {
+
 						if (err) {
 							res.send(err)
 						}
@@ -321,7 +346,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 								bookings_by_date[booking.date].push(booking)
 							}
 						}
-						
+
 						callback(err,bookings_by_date)
 					})
 				},
@@ -333,16 +358,40 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, stages)
 					})
+				},
+
+
+				function (callback) {
+					User.find().populate('host').exec(function (err, users) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, users)
+					})
+				},
+				function (callback) {
+					User.find(function (err, crews) {
+						if (err) {
+							res.send(err)
+						}
+						console.log(crews);
+						let selected_crew = crews.filter(a => a.role === 'crew')
+						console.log(selected_crew)
+						callback(err, selected_crew)
+					})
 				}],
 
 
 				function (err, results) {
 					info = {
 						bookings:results[0],
-						stages:results[1]
+						stages:results[1],
+						users:results[2],
+						crews:results[3]
 					}
 					res.render('concert-form', info)
 				}
+
 			)
 		})
 }

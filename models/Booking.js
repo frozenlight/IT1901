@@ -1,8 +1,9 @@
 
 var mongoose = require('mongoose');
 var shortid = require('shortid');
-
+var Stage = require('./Stage.js')
 var Band = require('./Band.js')
+var Stage = require('./Stage.js')
 
 var BookingSchema = new mongoose.Schema({
 	band: {type: mongoose.Schema.ObjectId, ref: 'Band'},
@@ -13,9 +14,12 @@ var BookingSchema = new mongoose.Schema({
 	sent: Boolean,
 	price: Number,
 	date: String,
-	url:String,
+	url: String,
 	concert_created: Boolean,
 	messages: Array,
+
+	stage: {type: mongoose.Schema.ObjectId, ref: 'Stage'},
+
 });
 
 module.exports = mongoose.model('Booking', BookingSchema);

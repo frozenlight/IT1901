@@ -55,6 +55,7 @@ module.exports = function(app,router,isLoggedIn,user){
 		var newUser = new User();
 		newUser.local.username = req.body.username
 		newUser.local.password = newUser.generateHash(req.body.password)
+		newUser.fullname = req.body.fullname
 		newUser.role = req.body.role
 		newUser.save()
 		res.redirect('/users')
@@ -89,9 +90,6 @@ module.exports = function(app,router,isLoggedIn,user){
 					data.save()
 					res.redirect('/')
 				}
-				console.log(req.body.new_password);
-				req.user.password = req.user.generateHash(req.body.new_password)
-				req.user.save()
 			})
 		})
 		.get(isLoggedIn,function(req,res){
@@ -123,4 +121,19 @@ module.exports = function(app,router,isLoggedIn,user){
 				res.redirect('/users')
 			})
 		})
+		
+		router.route('/changepass')
+		.post(isLoggedIn, function (req, res) {
+			User.findById(req.user._id, function (err, data) {
+				if (err) { res.send(err); }
+				
+				if (req.body.password_new !== req.body.password_new_confirm) {
+						res.redirect('/405')
+					} else {
+						data.local.password = data.generateHash(req.body.password_new)
+						data.save()
+						res.redirect('/')
+					}
+				})
+			})
 }

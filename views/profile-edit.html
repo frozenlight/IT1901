@@ -22,20 +22,22 @@
                 <label class="change_password">Ny Rolle: </label>
                 <input type="text" class="change_password" name="role">
                 <button class="btn btn-default change_password_button" type="submit">Lagre </button>
-            </form>
-            </div>
-            <hr>
+                <hr>
                 {% endif %}
-            <div id="cahnge_password" class="userinfo">
-                <p class="text-center">Endre Passord</p>
-                <label class="change_password">Gammelt Passord: </label>
-                <input type="password" class="change_password" name="password_old">
-                <br>
-
-                <label class="change_password">Nytt Passord: </label>
-                <input type="password" class="change_password_old">
-                <button class="btn btn-default change_password_button" type="submit" name="password_new">Lagre </button>
             </div>
+            </form>
+            <form action="/changepass" method="post">
+                <div id="cahnge_password" class="userinfo">
+                    <p class="text-center">Endre Passord</p>
+                    <label class="change_password">Nytt Passord: </label>
+                    <input type="password" class="change_password" name="password_new">
+                    <br>
+
+                    <label class="change_password">Bekreft Passord: </label>
+                    <input type="password" class="change_password_old" name="password_new_confirm">
+                    <button class="btn btn-default change_password_button" type="submit">Lagre </button>
+                </div>
+            </form>
         </div>
     </div>
     <script src="/js/jquery.min.js"></script>

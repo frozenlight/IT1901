@@ -11,6 +11,8 @@ var userSchema = mongoose.Schema({
 	},
 	role:String,
 	connected_band: {type:mongoose.Schema.ObjectId,ref:'Band'},
+	concerts: [{type:mongoose.Schema.ObjectId, ref:'Concert'}],
+	fullname: String
 });
 
 // methods ======================
