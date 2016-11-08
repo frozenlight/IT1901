@@ -20,7 +20,7 @@ function ticketCalc(bookings,stages){
 	//Amount of students in Trondheim. Target audience and the base of the calculation
 	let studentMass = 36000
 	//popularity-member in the band-model is a number between 0 and 100
-	//This function treats it as a percentage. Setting it temporarily as 1/3 to keep expected audience realistic
+	//This function treats it as a percentage. Setting it temporarily as 1/5 to keep expected audience realistic
 	let popularity = 1/5
 	//Followers-member is just a number of people following a certain band
 	let followers = 0
