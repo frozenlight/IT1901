@@ -4,7 +4,6 @@
 	width: 800px;
 }
 
-
 #heading a{
 	text-align: center;
 	text-decoration: none;
@@ -171,6 +170,4 @@ button.btn.btn-default.change_password_button {
   content: "";
 }
 
-
 /* fargenotater: riktig rød: #a03033,    grå: #eeeeee  */
-

@@ -81,15 +81,15 @@ document.addEventListener("DOMContentLoaded",function(e){
 		bookings = JSON.parse(bookings.responseText)
 		stages = JSON.parse(stages.responseText)
 
-		$('#bands').on('change', function(e) {
+		$('#bands').on('keyup', function(e) {
 			ticketCalc(bookings,stages)
  		 });
 
-		$('#stages').on('change', function(e) {
+		$('#stages').on('keyup', function(e) {
 			ticketCalc(bookings,stages)
  		 });
 
-		$('#extraExpenses').on('change', function(e) {
+		$('#extraExpenses').on('keyup', function(e) {
 			ticketCalc(bookings,stages)
  		 });
 
