@@ -142,22 +142,19 @@ th{
 
 .msgs{
 	padding-left: 0;
+	padding-right: 0;
 	margin-left: 15px;
+	/*margin: auto 15px 0 15px;*/
 	margin-bottom: 0;
 }
 
 .msgs .panel-body{
-	padding: 10px 15px 10px 15px;
+	padding: 8px 12px 8px 12px;
 }
 
 #artist_image{
 	margin-top: 15px;
 	border-radius: 5px;
-}
-
-#booking_buttons{
-	width: 21.2%;
-	padding-right: 0;
 }
 
 #booking_messages{

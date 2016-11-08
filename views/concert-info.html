@@ -58,15 +58,15 @@
 								<td>{{concert.audSize}}</td>
 							</tr>
 							{% if userIs('band') %}
-							<tr  class="info">
+							<tr  class="warning">
 								<td><b>Lydprøve:</b></td>
 								<td>{{concert.date}} {{concert.practice_time}}</td>
 							</tr>
-							<tr>
+							<tr class="warning">
 								<td><b>Kontaktperson:</b></td>
 								<td>{{concert.host.fullname}}</td>
 							</tr>
-							<tr>
+							<tr class="warning">
 								<td><b>Crew</b></td>
 								<td>{% for crew in concert.crew %}
 									{{crew.fullname}} <br>

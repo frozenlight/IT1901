@@ -30,7 +30,7 @@
 		{% for message in booking.messages %}
 		<div class="form-group">
 			<label class="control-label col-xs-3" for="text">{{message.owner}} ({{message.role}})<br>{{message.time}}</label>
-			<div class="panel panel-default msgs col-xs-7">
+			<div class="panel panel-default msgs col-xs-6">
 				<div class="panel-body">
 					<p class="booking-messages">{{message.text}}</p>
 				</div>
