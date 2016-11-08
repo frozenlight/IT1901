@@ -126,7 +126,8 @@
 							<tr>
 								<td>{{ concert.date }}</td>
 								<td>{{ concert.name }}</td>
-								<td>{% for genre in concert.genres %}{{ genres }}, {% endfor %}</td>
+								<!-- <td>{% for genre in concert.genres %}{{ genres }}, {% endfor %}</td> -->
+								<td>{{concert.genre}}</td>
 								<td>{{ concert.audSize }}</td>
 								<td>{{ concert.stage.name }}</td>
 							</tr>
