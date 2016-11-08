@@ -29,7 +29,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 			// Nimble lets you run several functions asyncronously and return the results in an array
 			// It takes the functions as an array and resturns the result arranged at the same indexes
-			// Nimble takes two parameters, the array of functions, and the function to handle the results 	
+			// Nimble takes two parameters, the array of functions, and the function to handle the results
 			nimble.parallel ([
 				function (callback) {
 					Concert.find()
@@ -41,7 +41,12 @@ module.exports = function (router, passport, isLoggedIn, user) {
 							if (err) {
 								res.send(err)
 							}
-							callback(err,concerts)
+              if (req.user.role == 'crew') {
+
+                concerts = concerts.filter(concert => req.user.concerts.indexOf(concert.id) > -1)
+              }
+							callback(err, concerts)
+
 						})
 				},
 
@@ -95,10 +100,10 @@ module.exports = function (router, passport, isLoggedIn, user) {
 
 	//Routing function for editing concert
 	router.route('/concert/:name/edit')
-		
+
 		// POST function for this route, on recieve edited object via form
 		.post(isLoggedIn, function (req, res) {
-			
+
 			Concert.findOne({'name':req.params.name}, function (err, concert) {
 				if (err) {
 					res.send(err)
@@ -211,7 +216,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			//console.log('BODY: ' + JSON.stringify(req.body))
 
 			//console.log('SHORTID: ' + req.body.stage + '  ||  ISVALID: ' + mongoose.Types.ObjectId.isValid(req.body.stage))
-			
+
 			// On POST-recieve, create a Concert Object with body params from form
 			var reqbands = []
 			var reqbookings = []
@@ -235,7 +240,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					reqbands.push(booking_band[1])
 				}
 			}
-			
+
 
 			var concert = new Concert({
 				name:req.body.name,
@@ -257,8 +262,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
-			
-			
+
+
 
 			//There is no dedicated concert page, therefore redirecting to the table
 
@@ -281,7 +286,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					})
 				}
 			})
-			
+
 			User.find({'_id': {$in: concert.crew}}, function (err, crew) {
 				for (var i = 0; i<crew.length; i++) {
 					console.log('ITERERER CREW')
@@ -322,7 +327,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					.populate('band')
 					.populate('stage')
 					.exec(function(err, bookings) {
-						
+
 						if (err) {
 							res.send(err)
 						}
@@ -341,7 +346,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 								bookings_by_date[booking.date].push(booking)
 							}
 						}
-						
+
 						callback(err,bookings_by_date)
 					})
 				},
@@ -354,8 +359,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						callback(err, stages)
 					})
 				},
-				
-				
+
+
 				function (callback) {
 					User.find().populate('host').exec(function (err, users) {
 						if (err) {
@@ -386,7 +391,7 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					}
 					res.render('concert-form', info)
 				}
-				
+
 			)
 		})
 }
