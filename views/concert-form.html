@@ -10,7 +10,7 @@
 
 		<form class="form-horizontal" method="post" action="/concerts/create">
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="name">Navn: </label>
+				<label class="control-label col-xs-2" for="name">Konsertavn: </label>
 				<div class="col-xs-8">
 					<input type="text" class="form-control" id="name" name="name" placeholder="Konsert med {{ booking.band }}" required>
 				</div>
@@ -60,20 +60,19 @@
 			
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="host">Ansvarlig: </label>
-				<div class="col-xs-10">
-					<select class="form-control chosen-select" name="host" id="hosts" required>
+				<div class="col-xs-8">
+					<select data-placeholder="Velg ansvarlig person" class="form-control chosen-select" name="host" id="host" required>
 						{% for user in users %}
 							<option value="{{user.id}}">{{user.fullname}}</option>
 						{% endfor %}						
-
 					</select>
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label class="control-label col-xs-2" for="crews">Crew: </label>
-				<div class="col-xs-10">
-					<select data-placeholder="Velg crew" class="form-control chosen-select" multiple name="crew" id="crews" required>
+				<label class="control-label col-xs-2" for="crew">Crew: </label>
+				<div class="col-xs-8">
+					<select data-placeholder="Velg crew" class="form-control chosen-select" multiple name="crew" id="crew" required>
 						{% for crew in crews %}
 							<option value="{{crew.id}}">{{crew.fullname}}</option>
 						{% endfor %}
@@ -110,7 +109,7 @@
 				<div class="col-xs-2">
 					<input type="number" class="form-control" id="extraExpenses" name="extraExpenses">
 				</div>
-				<label id="concert_expenses_sum"class="control-label col-xs-1" for="expenses">Sum utgifter: </label>
+				<label id="concert_expenses_sum" class="control-label col-xs-1" for="expenses">Sum utgifter: </label>
 				<div  class="col-xs-2">
 					<input type="number" class="form-control" id="expenses" name="expenses">
 				</div>

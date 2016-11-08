@@ -183,6 +183,14 @@ th{
 	padding-left: 0;	
 }
 
+#concert_edit_bands{
+	margin-bottom: 0;
+}
+
+#concert_edit_bands .panel-body{
+	padding: 8px 12px 8px 12px;
+}
+
 #concert_band_list {
   display: inline;
   list-style: none;
