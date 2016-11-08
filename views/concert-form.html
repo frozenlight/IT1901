@@ -57,6 +57,29 @@
 					<input type="text" class="form-control" id="tickets" name="audSize" placeholder="Skriv antall publikummere" required>
 				</div>
 			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-2" for="host">Ansvarlig: </label>
+				<div class="col-xs-10">
+					<select class="form-control chosen-select" name="host" id="hosts" required>
+						{% for user in users %}
+							<option value="{{user.id}}">{{user.fullname}}</option>
+						{% endfor %}						
+
+					</select>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label class="control-label col-xs-2" for="crews">Crew: </label>
+				<div class="col-xs-10">
+					<select data-placeholder="Velg crew" class="form-control chosen-select" multiple name="crew" id="crews" required>
+						{% for user in users %}
+									<option value="{{user.id}}">{{user.fullname}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			</div>
 
 			<div class="form-group">
 				<label class="control-label col-xs-2" for="date">Dato: </label>

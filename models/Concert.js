@@ -20,7 +20,7 @@ var ConcertSchema = new mongoose.Schema({
 	technicals: String,
 	host: {type: mongoose.Schema.ObjectId, ref: 'User'},
 
-	crew: Array,
+	crew: [{type: mongoose.Schema.ObjectId, ref: 'User'}],
 
 	ticketPrice: Number,
 	expenses: Number,

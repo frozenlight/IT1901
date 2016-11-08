@@ -45,6 +45,8 @@ module.exports = function (router) {
 			Concert.findOne({'name':req.params.name})
 				.populate('stage')
 				.populate('bands')
+				.populate('host')
+				.populate('crew')
 				.exec(function (err, concert) {
 					if (err) {
 						res.send(err)

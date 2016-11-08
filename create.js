@@ -26,6 +26,7 @@ User.find({}, function (err, users) {
 		var user = new User();
 		user.local.username = 'admin'
 		user.local.password = user.generateHash('admin')
+		user.fullname = 'System Administrator'
 		user.role = 'admin'
 		user.save()
 		console.log('admin created');

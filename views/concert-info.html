@@ -59,11 +59,18 @@
 			{% if userIs('band') %}
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Lydprøve</h3>
+					<h3 class="panel-title">Info for Band</h3>
 				</div>
 				<div class="panel-body">
+					<h4>Lydprøve</h4>
 					<p>Dato:	{{concert.date}}</p>
 					<p>Tid:		{{concert.practice_time}}</p>
+					<h4>Kontaktperson</h4>
+					<p>{{concert.host.fullname}}</p>
+					<h4>Crew</h4>
+					{% for crew in concert.crew %}
+						<li>{{crew.fullname}}</li>
+					{% endfor %}
 				</div>
 			</div>
 			{% endif %}

@@ -10,6 +10,8 @@ var mongoose = require('mongoose')
 
 var moment = require('moment')
 
+var User = require('../models/user.js')
+
 String.prototype.replaceAll = function (search, replacement) {
     var target = this;
     return target.split(search).join(replacement)
@@ -33,6 +35,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					Concert.find()
 						.populate('stage')
 						.populate('bands')
+						.populate('host')
+						.populate('crew')
 						.exec(function(err, concerts){
 							if (err) {
 								res.send(err)
@@ -69,12 +73,15 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			Concert.findOne({'name':req.params.name})
 				.populate('stage')
 				.populate('bands')
+				.populate('host')
+				.populate('crew')
 				.exec(function (err, concert) {
 					if (err) {
 						res.send(err)
 					}
 					if (concert) {
 						res.render('concert-info', {concert:concert});
+						console.log('shit u want to see: ' + concert.host);
 					} else {
 						res.render('not-found')
 					}
@@ -189,6 +196,11 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			// On POST-recieve, create a Concert Object with body params from form
 			var reqbands = []
 			var reqbookings = []
+			var reqcrew = []
+			console.log('host is: ' + req.body.host);
+			console.log('crew is: ' + req.body.crew);
+			console.log('crew length is ' + req.body.crew.length);
+			console.log(req.body)
 
 			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
 
@@ -204,8 +216,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					reqbands.push(booking_band[1])
 				}
 			}
+			
 
-			console.log(booking_band)
 			var concert = new Concert({
 				name:req.body.name,
 				bookings: reqbookings,
@@ -219,46 +231,15 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				ticketPrice: req.body.ticketPrice,
 				expenses: req.body.expenses,
 				revenue: 0,
+				host: req.body.host,
+				crew: req.body.crew
 
 
 				//bandIDs:[],
 				//genres:req.body.genres.replaceAll(' ','').split(','),
 			})
-			console.log('CONCERT1 : '+concert)
-			//Skal prøve å søke opp band-navnene oppgitt i databasen, for å lage en link mellom konsert og band
-			/*concert.bands.forEach(function(bandName){
-				Band.findOne({'name':bandName},'_id name',function(err,band){
-					if (err) {res.send(err)}
-					if(band){
-						var band_and_id = {name:band.name,id:band._id};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-					if(band == undefined){
-						var band_and_id = {name:bandName,id:""};
-						concert.bandIDs.push(band_and_id);
-						concert.save(function (err) {
-							if (err) {
-								console.error(err)
-							} else {
-								console.log('Concert saved!')
-							}
-						})
-					}
-				})
-			})*/
-
-			// Add model other variables for created Concert model
-			// ......
-
-			// Send redirect to concert object that was just created
-			//res.redirect('/concert/' + concert._id)
+			
+			
 
 			//There is no dedicated concert page, therefore redirecting to the table
 
@@ -278,6 +259,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					bands[i].concerts.push(concert._id)
 					bands[i].save(function (err) {
 						console.error(err)
+					})
+				}
+			})
+			
+			User.find({'_id': {$in: concert.crew}}, function (err, crew) {
+				for (var i = 0; i<crew.length; i++) {
+					console.log('ITERERER CREW')
+					crew[i].concerts.push(concert._id)
+					crew[i].save(function (err) {
+						console.log(err);
 					})
 				}
 			})
@@ -343,16 +334,45 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, stages)
 					})
+				},
+				
+				
+				function (callback) {
+					User.find().populate('host').exec(function (err, users) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, users)
+					})
+				},
+				function (callback) {
+					User.find().populate('crew').exec(function (err, crews) {
+						if (err) {
+							res.send(err)
+						}
+						
+						let selected_crew = {}
+						
+						for (let i = 0; i < crews.length; i++) {
+							let crew = crews[i]
+							if (crew.role == 'crew') {
+								selected_crew.push(crew)
+							}
+						}
+						callback(err, selected_crew)
+					})
 				}],
 
 
 				function (err, results) {
 					info = {
 						bookings:results[0],
-						stages:results[1]
+						stages:results[1],
+						users:results[2]
 					}
 					res.render('concert-form', info)
 				}
+				
 			)
 		})
 }
