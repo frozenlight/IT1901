@@ -346,19 +346,13 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					})
 				},
 				function (callback) {
-					User.find().populate('crew').exec(function (err, crews) {
+					User.find(function (err, crews) {
 						if (err) {
 							res.send(err)
 						}
-						
-						let selected_crew = {}
-						
-						for (let i = 0; i < crews.length; i++) {
-							let crew = crews[i]
-							if (crew.role == 'crew') {
-								selected_crew.push(crew)
-							}
-						}
+						console.log(crews);
+						let selected_crew = crews.filter(a => a.role === 'crew')
+						console.log(selected_crew)
 						callback(err, selected_crew)
 					})
 				}],
@@ -368,7 +362,8 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					info = {
 						bookings:results[0],
 						stages:results[1],
-						users:results[2]
+						users:results[2],
+						crews:results[3]
 					}
 					res.render('concert-form', info)
 				}

@@ -74,8 +74,8 @@
 				<label class="control-label col-xs-2" for="crews">Crew: </label>
 				<div class="col-xs-10">
 					<select data-placeholder="Velg crew" class="form-control chosen-select" multiple name="crew" id="crews" required>
-						{% for user in users %}
-									<option value="{{user.id}}">{{user.fullname}}</option>
+						{% for crew in crews %}
+							<option value="{{crew.id}}">{{crew.fullname}}</option>
 						{% endfor %}
 					</select>
 				</div>

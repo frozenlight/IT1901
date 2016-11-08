@@ -102,4 +102,9 @@ module.exports = function(roles){
 			return true
 		}
 	})
+	roles.use('crew', function (req) {
+		if (req.user.role == 'crew') {
+			return true
+		}
+	})
 }
