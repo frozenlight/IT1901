@@ -8,7 +8,7 @@
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
-		<table data-toggle="table" 
+		<table data-toggle="table"
 		data-classes="table table-hover results"
 		data-striped="true"
 		data-sort-name="Username"
@@ -34,7 +34,7 @@
 					<td><a href="/band/{{ user.connected_band.name }}"></a>{{ user.connected_band.name }}</td>
 					{% else %}
 					<td>None</td>
-					{% endif %}					
+					{% endif %}
 					<td>
 						<form method="POST" action="/user/{{ user.id }}">
 	    					<input type="hidden" name="_method" value="DELETE"/>
@@ -63,7 +63,14 @@
 				</div>
 				<div class="form-group">
 					<label>Rolle</label>
-					<input type="text" class="form-control" name="role" placeholder="Rolle">
+					<select class="form-control" name="role">
+						<option value="admin">Admin</option>
+						<option value="bookingsjef">Bookingsjef</option>
+						<option value="bookingansvarlig">Bookingansvarlig</option>
+						<option value="crew">Crew</option>
+						<option value="band">Band</option>
+						<option value="manager">Manager</option>
+					</select>
 				</div>
 
 				<button type="submit" class="btn btn-success" >Legg til Bruker</button>
@@ -72,7 +79,7 @@
 		</div>
 
 		</div>
-		
+
 	</div>
 
 {% endblock %}
