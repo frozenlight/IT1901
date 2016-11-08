@@ -112,7 +112,7 @@ $(document).ready(function(){
                 title:bookings[i].band.name + ' : ' + approval,
                 start:bookings[i].date + 'T' +'00:00:00',
                 // The URL represents what page you get pushed to when you click the event in the calendar, redirects to event page
-                url: '/booking/' + bookings[i].name
+                url: '/booking/' + bookings[i].url
             }
             // For each event, push to events array which is piped into the calendar
             if (!bookings[i].concert_created) {
