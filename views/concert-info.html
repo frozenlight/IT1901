@@ -73,6 +73,13 @@
 									{% endfor %}</td>
 							</tr>
 							{% endif %}
+                            {% if userIs('bookingsjef') %}
+                            <tr>
+								<td><b>Inntekt:</b></td>
+								<td>{{concert.revenue}} </td>
+							</tr>
+                                
+                            {% endif %}
 						</tbody>
 					</table>
 				</div>
