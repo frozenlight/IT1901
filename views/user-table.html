@@ -1,16 +1,10 @@
 {% extends "index.html" %}
 
-{% block head %}
-	{% parent %}
-	<link rel="stylesheet" type="text/css" href="/css/tablestyle.css" />
-{% endblock %}
-
 {% block content %}
+	<div class="container text-center">
+		<h1 class="tableHeader">List of users</h1>
 
-<div class="container text-center">
-		<h2 class="tableHeader">List of users</h2>
-
-		<div id="concertSearch" class="form-group pull-right">
+		<div id="user_search" class="col-xs-5 form-group pull-right">
 			<input type="text" class="search form-control" placeholder="Søk">
 		</div>
 
@@ -19,21 +13,19 @@
 		data-striped="true"
 		data-sort-name="Username"
 		data-sort-order="asc">
-			
 			<thead>
 				<tr>
 					<th class="col-xs-3" data-field="Username" data-sortable="true">Brukernavn</th>
 					<th class="col-xs-3" data-field="Role" data-sortable="true">Rolle</th>
 					<th class="col-xs-3" data-field="Connected band" data-sortable="true">Tilknyttet</th>
 					<th class="col-xs-3" data-field="Delete" data-sortable="false"></th>
-
 				</tr>
-				<!--<tr class="warning no-result">
-      				<td colspan="4"><i class="fa fa-warning"></i> No result</td>
-  				</tr>-->
 			</thead>
 
 			<tbody>
+				<tr class="no-result">
+					<td colspan="8">Finner ikke noe som stemmer med søket</td>
+				</tr>
 				{% for user in users %}
 				<tr>
 					<td><a href="/user/{{ user.id }}">{{user.local.username}}</a></td>
@@ -42,7 +34,8 @@
 					<td><a href="/band/{{ user.connected_band.name }}"></a>{{ user.connected_band.name }}</td>
 					{% else %}
 					<td>None</td>
-					{% endif %}					<td>
+					{% endif %}					
+					<td>
 						<form method="POST" action="/user/{{ user.id }}">
 	    					<input type="hidden" name="_method" value="DELETE"/>
 	    					<input type="submit" class="btn btn-danger" value="Slett"/><br>
