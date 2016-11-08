@@ -24,6 +24,10 @@ th{
 	margin-top: -2px;
 }
 
+.table{
+	font-size: 1.5rem;
+}
+
 .table > tbody > tr > td{
 	vertical-align: middle;
 } 
@@ -38,6 +42,13 @@ th{
   display:table-row;
 }
 
+#booking_dropdown{
+	width: 9.333%
+}
+
+#concert_dropdown{
+	width: 9.333%
+}
 
 #concert_create{
 	margin-left: 1rem;
@@ -47,18 +58,26 @@ th{
 	margin-right: 0;
 }
 
-/*Bandinfo*/
-.panel-title{
+/*Infosider*/
+.scene_title{
+	font-size: 2rem;
+}
+
+.panel-title,
+.panel-body h5{
+	margin-top: 0;
 	color: #a03033;
 }
 
-#band_header{
+#band_header,
+#concert_header{
 	display: inline-block;
 	margin-top: 0;
 	color: #a03033;
 }
 
-#band_edit, #band_delete{
+#band_edit, #band_delete,
+#concert_edit, #concert_delete{
 	display: inline-block;
 	margin-left: 1rem;
 	float: right;
@@ -68,11 +87,18 @@ th{
 	margin-bottom: 0;
 	border-bottom: none;
 }
-#band_stats{
+
+#band_links{
+	word-wrap: break-word;
+}
+
+#band_stats,
+#concert_bandstats{
 	margin-bottom: 0;
 }
 
-#band_stats_data tr td{
+#band_stats_data tr td,
+#concert_bandstats_data tr td{
 	padding-left: 4px;
 }
 
@@ -82,7 +108,31 @@ th{
 	padding: 0;
 }
 
+#concert_info{
+	padding: 0;
+}
+
+#concert_info table{
+	margin: 0;
+}
+
+#concert_info table tr td{
+	padding-left: 15px;
+}
+
+#concert_bandinfo .panel-body p{
+	padding-left: 1rem;
+}
+
+#scenes_image{
+	width: 100%;
+}
+
 /*Forms*/
+.control-label{
+	font-size: 1.5rem;
+}
+
 .formHeader{
 	margin-top: 0;
 	margin-bottom: 2rem;
@@ -90,21 +140,46 @@ th{
 	color: #a03033;
 }
 
+.msgs{
+	padding-left: 0;
+	margin-left: 15px;
+	margin-bottom: 0;
+}
+
+.msgs .panel-body{
+	padding: 10px 15px 10px 15px;
+}
+
 #artist_image{
 	margin-top: 15px;
 	border-radius: 5px;
 }
 
-#concert_submit{
-	margin-left: 6px;
+#booking_buttons{
+	width: 21.2%;
+	padding-right: 0;
 }
 
-#band_submit{
-	margin-left: 7px;
+#booking_messages{
+	margin: 0;
+	color: #a03033;
 }
 
-#booking_submit{
-	margin-left: 6px;
+#concert_time{
+	width: 4.333%;
+}
+
+#concert_practicetime{
+	width: 12.333%;
+}
+
+#concert_price{
+	margin: 0;
+	color: #a03033;
+}
+
+#concert_expenses_sum{
+	padding-left: 0;	
 }
 
 #concert_band_list {
@@ -189,35 +264,6 @@ fieldset[disabled] .btn-drop:hover{
 	background-color:#91282b;
 	border-color:#a42e2e;
 }
-
-/*
-Dette gir ikke-flate knapper
-.btn-drop{
-	text-shadow:0 -1px 0 rgba(0,0,0,.2);
-	-webkit-box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
-	box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 1px 1px rgba(0,0,0,.075);
-}
-.btn-drop.active,.btn-drop:active{
-	-webkit-box-shadow:inset 0 3px 5px rgba(0,0,0,.125);
-	box-shadow:inset 0 3px 5px rgba(0,0,0,.125);
-}
-.btn-drop.disabled,
-.btn-drop[disabled],
-fieldset[disabled] .btn-drop{
-	-webkit-box-shadow:none;
-	box-shadow:none;
-}
-
-.btn-drop{
-    background-image: -webkit-linear-gradient(top, #a03033 0, #91282b 100%);
-    background-image: -o-linear-gradient(top, #a03033 0, #91282b 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#A03033), to(#742020));
-    background-image: linear-gradient(to bottom, #a03033 0, #91282b 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#ff337ab7', endColorstr='#ff265a88', GradientType=0);
-    filter: progid: DXImageTransform.Microsoft.gradient(enabled=false);
-    background-repeat: repeat-x;
-    border-color: #802424
-}*/
 
 .btn-drop:focus,
 .btn-drop:hover {
