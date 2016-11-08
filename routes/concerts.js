@@ -198,7 +198,9 @@ module.exports = function (router, passport, isLoggedIn, user) {
 			var reqbookings = []
 			var reqcrew = []
 			console.log('host is: ' + req.body.host);
-			console.log('creq is: ' + req.body.crew);
+			console.log('crew is: ' + req.body.crew);
+			console.log('crew length is ' + req.body.crew.length);
+			console.log(req.body)
 
 			//console.log('RE BOOKING CONSTRUCTOR: ' + Array.isArray(req.body.booking))
 
@@ -215,10 +217,6 @@ module.exports = function (router, passport, isLoggedIn, user) {
 				}
 			}
 			
-			for (var i = 0; i < req.body.crew; i++) {
-				var crew = req.body.crew.split(',')
-				reqcrew.push(crew[i])
-			}
 
 			var concert = new Concert({
 				name:req.body.name,
@@ -261,6 +259,16 @@ module.exports = function (router, passport, isLoggedIn, user) {
 					bands[i].concerts.push(concert._id)
 					bands[i].save(function (err) {
 						console.error(err)
+					})
+				}
+			})
+			
+			User.find({'_id': {$in: concert.crew}}, function (err, crew) {
+				for (var i = 0; i<crew.length; i++) {
+					console.log('ITERERER CREW')
+					crew[i].concerts.push(concert._id)
+					crew[i].save(function (err) {
+						console.log(err);
 					})
 				}
 			})
