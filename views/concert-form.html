@@ -64,7 +64,7 @@
 				<div class="col-xs-10">
 					<select class="form-control chosen-select" name="host" id="hosts" required>
 						{% for user in users %}
-							<option value="{{user.id}}">{{user.local.username}}</option>
+							<option value="{{user.id}}">{{user.fullname}}</option>
 						{% endfor %}						
 
 					</select>
@@ -76,7 +76,7 @@
 				<div class="col-xs-10">
 					<select data-placeholder="Velg crew" class="form-control chosen-select" multiple name="crew" id="crews" required>
 						{% for user in users %}
-									<option value="{{user.id}}">{{user.local.username}}</option>
+									<option value="{{user.id}}">{{user.fullname}}</option>
 						{% endfor %}
 					</select>
 				</div>

@@ -55,6 +55,7 @@ module.exports = function(app,router,isLoggedIn,user){
 		var newUser = new User();
 		newUser.local.username = req.body.username
 		newUser.local.password = newUser.generateHash(req.body.password)
+		newUser.fullname = req.body.fullname
 		newUser.role = req.body.role
 		newUser.save()
 		res.redirect('/users')
