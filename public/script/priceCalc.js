@@ -67,7 +67,7 @@ function ticketCalc(bookings,stages){
 		expectedSales = capacity
 	}
 	//Calculating the ticket price based on expected sales, aiming for 50% profit
-	ticketPrice.value = (Number(expenses.value*1.5))/expectedSales
+	ticketPrice.value = Math.ceil((Number(expenses.value*1.5))/(expectedSales*10))*10
 
 	console.log("ticketPrice.value =",expenses.value,"* 1.5 /",expectedSales)
 }
@@ -96,11 +96,11 @@ document.addEventListener("DOMContentLoaded",function(e){
 		bookings = JSON.parse(bookings.responseText)
 		stages = JSON.parse(stages.responseText)
 
-		$('#bands').on('keyup', function(e) {
+		$('#bands').on('change', function(e) {
 			ticketCalc(bookings,stages)
  		 });
 
-		$('#stages').on('keyup', function(e) {
+		$('#stages').on('change', function(e) {
 			ticketCalc(bookings,stages)
  		 });
 
