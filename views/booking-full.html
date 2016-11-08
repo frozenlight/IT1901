@@ -19,6 +19,17 @@
 			</div>
 		</div>
 
+		 <div class="form-group">
+			<label class="control-label col-xs-3" for="band">Scene: </label>
+			<div class="col-xs-7">
+				<select data-placeholder="Velg scene" class="form-control chosen-select" name="stage" id="stage" required>
+					{% for stage in stages %}
+						<option value="{{stage.id}}" {% if stage.id == booking.stage.id %} selected="selected" {% endif %}>{{stage.name}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+
 		<div class="form-group">
 			<label class="control-label col-xs-3" for="email">Epost: </label>
 			<div class="col-xs-7">
