@@ -164,12 +164,31 @@ module.exports = function (router, passport, isLoggedIn, user) {
 						}
 						callback(err, bands)
 					})
+				},
+				function (callback) {
+					User.find().populate('host').exec(function (err, users) {
+						if (err) {
+							res.send(err)
+						}
+						callback(err, users)
+					})
+				},
+				function (callback) {
+					User.find(function (err, crews) {
+						if (err) {
+							res.send(err)
+						}
+						console.log(crews);
+						let selected_crew = crews.filter(a => a.role === 'crew')
+						console.log(selected_crew)
+						callback(err, selected_crew)
+					})
 				}],
 
 				// after the array of functions is finished, this function is run with the results of them
 				function (err, results) {
 
-					res.render('concert-edit', {concert:results[0],stages:results[1],bands:results[2]})
+					res.render('concert-edit', {concert:results[0],stages:results[1],bands:results[2], users:results[3], crews:results[4]})
 				}
 			)
 
