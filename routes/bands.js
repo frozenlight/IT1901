@@ -23,7 +23,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 			Band.find(function(err, bands){
 				if (err){ res.send(err); }
 
-				// Render found objects with swig and send to client 
+				// Render found objects with swig and send to client
 				res.render('bandliste', {bands:bands,title:'List of bands'});
 			});
 		})
@@ -49,7 +49,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 					}
 				})
 		})
-		
+
 		.delete(isLoggedIn, user.can('delete band'), function(req, res) {
 			Band.findOneAndRemove({'name' : req.params.name}, function (err, band) {
         		res.redirect('/bands')
@@ -61,7 +61,7 @@ module.exports = function(router,passport,isLoggedIn,user){
 
 		// POST function for this route, on recieve edited object via form
 		.post(isLoggedIn, function(req,res) {
-			
+
 			Band.findOne({'name':req.params.name}, function(err,band) {
 				if (err) {
 					res.send(err)
@@ -268,29 +268,29 @@ module.exports = function(router,passport,isLoggedIn,user){
 					}
 
 					//band.save()
-					
+
 					var bandUser = new User();
 					bandUser.local.username = req.body.name;
 					bandUser.local.password = bandUser.generateHash(req.body.name);
 					bandUser.role = 'band';
 					bandUser.connected_band = band._id;
 					bandUser.save()
-					
+
 					var managerUser = new User();
 					managerUser.local.username = req.body.name + '_manager';
 					managerUser.local.password = managerUser.generateHash(req.body.name);
 					managerUser.role = 'manager';
 					managerUser.connected_band = band._id;
 					managerUser.save()
-					
+
 					band.connected_user = bandUser._id
 					band.connected_manager = managerUser._id
 
 					band.save()
 					// Redirect to band page after creation
 					res.redirect('/band/' + band.name)
-					
-					
+
+
 					// Vi må sette opp slik at når du laget et band, så opprettes det en band-bruker og en band-manager. Disse må lenkes med at band har et felt band_user og 					// manager_user av typen {type:mongoose.Schema.ObjectId,ref:'User'. Band-bruker og manager-bruker må begge ha et felt linked_band av typen									// {type:mongoose.Schema.ObjectId,ref:'Band'}. For at dette skal virke må models/Band.js ha inkludert models/user.js og vica versa.
 				}
 			})
