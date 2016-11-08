@@ -20,7 +20,7 @@
 		<div class="form-group">
 			<label class="control-label col-xs-3" for="text">Melding: </label>
 			<div class="col-xs-6">
-				<textarea class="form-control" rows="3" id="text" name="message_input" placeholder="Skriv en melding til {% if userIs('not manager') %}bookingansvarlige{% else %} bandets manager {% endif %}"></textarea>
+				<textarea class="form-control" rows="3" id="text" name="message_input" placeholder="Skriv en melding til {% if userIs('not manager') %}bandets manager{% else %} bookingansvarlige {% endif %}"></textarea>
 			</div>
 			<div class="col-xs-1">
 				<input id="booking_messages_send" class="btn btn-success" type="submit" value="Send">

@@ -62,6 +62,7 @@
 								<td><b>Lydprøve:</b></td>
 								<td>{{concert.date}} {{concert.practice_time}}</td>
 							</tr>
+                            {% endif %}
 							<tr class="warning">
 								<td><b>Kontaktperson:</b></td>
 								<td>{{concert.host.fullname}}</td>
@@ -72,11 +73,18 @@
 									{{crew.fullname}} <br>
 									{% endfor %}</td>
 							</tr>
-							{% endif %}
+							
                             {% if userIs('bookingsjef') %}
                             <tr>
 								<td><b>Inntekt:</b></td>
 								<td>{{concert.revenue}} </td>
+							</tr>
+                                
+                            {% endif %}
+                            {% if userIs('bookingsjef') %}
+                            <tr>
+								<td><b>Kostnader:</b></td>
+								<td>{{concert.expenses}} </td>
 							</tr>
                                 
                             {% endif %}
