@@ -1,6 +1,6 @@
 {
   "name": "samfundet-band-ordering-service",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Building a server for Project 1 (IT1901)",
   "main": "app.js",
   "scripts": {
